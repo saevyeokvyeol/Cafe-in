@@ -1,7 +1,7 @@
 package cafe.mvc.exception;
 
 /**
- * 검색했을때 찾고자하는 정보가 없는 경우 예외
+ * 검색 결과가 없을 때 발생하는 예외
  * */
 public class NotFoundException extends Exception {
 	public  NotFoundException() {
