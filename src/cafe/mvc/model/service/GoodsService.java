@@ -7,7 +7,7 @@ import cafe.mvc.exception.AddException;
 import cafe.mvc.exception.DuplicatedException;
 import cafe.mvc.exception.ModifyException;
 import cafe.mvc.exception.NotFoundException;
-import dto.Product;
+import cafe.mvc.model.dto.Product;
 
 public interface GoodsService {
 	/**

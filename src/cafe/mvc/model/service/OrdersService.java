@@ -6,8 +6,8 @@ import java.util.List;
 import cafe.mvc.exception.AddException;
 import cafe.mvc.exception.ModifyException;
 import cafe.mvc.exception.NotFoundException;
+import cafe.mvc.model.dto.Orders;
 import cafe.mvc.model.dto.Statistics;
-import dto.Orders;
 
 public interface OrdersService {
 	/**

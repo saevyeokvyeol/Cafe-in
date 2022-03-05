@@ -1,10 +1,10 @@
-package kosta.mvc.model.dao;
+package cafe.mvc.model.dao;
 
 import java.sql.SQLException;
 import java.util.List;
 
+import cafe.mvc.model.dto.Orders;
 import cafe.mvc.model.dto.Statistics;
-import dto.Orders;
 
 public interface OrderDAO {
 	/**

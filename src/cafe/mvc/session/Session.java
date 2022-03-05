@@ -4,7 +4,7 @@ package cafe.mvc.session;
  * 로그인된 사용자의 정보를 관리하는 객체
  * 싱글톤으로 생성할 것
  * */
-public interface Session {
+public class Session {
 	/**
 	 * 장바구니 추가
 	 * */
