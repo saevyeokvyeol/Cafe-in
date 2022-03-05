@@ -1,8 +1,10 @@
 package cafe.mvc.view;
 
+import cafe.mvc.view.MenuView;
+
 public class StartView {
 	public static void main(String[] args) {
-		//메뉴뷰로 이동
+		MenuView.menu();
 	}
 
 }
