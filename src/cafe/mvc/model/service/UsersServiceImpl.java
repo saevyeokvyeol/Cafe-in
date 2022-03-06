@@ -8,7 +8,7 @@ import cafe.mvc.exception.ModifyException;
 import cafe.mvc.exception.NotFoundException;
 import cafe.mvc.model.dto.Users;
 
-public class CustomerServiceImpl implements CustomerService{
+public class UsersServiceImpl implements UsersService{
 
 	/**
 	 * 회원가입: user 테이블 insert

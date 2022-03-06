@@ -4,7 +4,7 @@ import java.sql.SQLException;
 
 import cafe.mvc.model.dto.Users;
 // user
-public interface CustmerDAO {
+public interface UsersDAO {
 	/**
 	 * 회원가입: user 테이블 insert
 	 * */

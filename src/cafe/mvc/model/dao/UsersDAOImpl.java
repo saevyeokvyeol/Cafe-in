@@ -4,7 +4,7 @@ import java.sql.SQLException;
 
 import cafe.mvc.model.dto.Users;
 
-public class CustmerDAOImpl implements CustmerDAO{
+public class UsersDAOImpl implements UsersDAO{
 
 	/**
 	 * 회원가입: user 테이블 insert
