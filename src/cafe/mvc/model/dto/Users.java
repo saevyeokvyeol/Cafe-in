@@ -1,11 +1,11 @@
 package cafe.mvc.model.dto;
 
 public class Users{
-   private String userTel;
-   private String userName;
-   private int userPoint;
-   private String regDate;
-   private int userPwd;
+   private String userTel; //회원전화번호
+   private String userName; //이름
+   private int userPoint; //적립금
+   private String regDate; //가입일
+   private int userPwd; //비밀번호
    
    public Users() {}
 
