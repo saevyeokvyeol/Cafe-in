@@ -1,14 +1,14 @@
 package cafe.mvc.model.dto;
 
 public class Orders {
-	 private int orderNum;
-	 private String userTel;
-	 private int stateCode;
-	 private String payMethod;
-	 private int payPoint;
-	 private int totalPrice;
-	 private String orderDate;
-	 private int takeOut;
+	 private int orderNum; //주문번호
+	 private String userTel; //전화번호
+	 private int stateCode; //주문상태코드
+	 private String payMethod;// 결제방법
+	 private int payPoint; //적립금사용액수
+	 private int totalPrice; //총결제금액
+	 private String orderDate; //주문일자
+	 private int takeOut; //테이크아웃여부
 
 	 public Orders() {}
 	 public Orders(int orderNum, String userTel, int stateCode, String payMethod, int payPoint, int totalPrice, String orderDate, int takeOut) {
