@@ -6,7 +6,7 @@ import java.util.List;
 import cafe.mvc.model.dto.Orders;
 import cafe.mvc.model.dto.Statistics;
 
-public interface OrderDAO {
+public interface OrdersDAO {
 	/**
 	 * 주문하기
 	 * 1. session에 저장된 장바구니 map을 가져와 구매할 물건과 수량 파악

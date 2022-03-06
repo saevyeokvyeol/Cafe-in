@@ -6,7 +6,7 @@ import java.util.List;
 import cafe.mvc.model.dto.Orders;
 import cafe.mvc.model.dto.Statistics;
 
-public class OrderDAOImpl implements OrderDAO {
+public class OrdersDAOImpl implements OrdersDAO {
 
 	/**
 	 * 주문하기
