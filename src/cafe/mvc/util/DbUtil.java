@@ -9,7 +9,7 @@ import java.sql.Statement;
 import java.util.Properties;
 
 /**
- * DB연동을 위한 로드 연결 실행
+ * DB연동을 위한 로드 연결 닫기
  * */
 public class DbUtil {
 	// 모든 곳에서 같은 객체를 사용
@@ -23,6 +23,7 @@ public class DbUtil {
 			// 외부 ~.properties 파일 로딩
 			proFile.load(new FileInputStream("resources/dbInfo.properties"));
 //			proFile.load(new FileInputStream("resources/cafeinQuery.properties"));
+			// cafeinQuery는 쿼리 생겼을 때 주석 풀어주세요
 			
 			Class.forName(proFile.getProperty("driverName"));
 		} catch (Exception e) {
