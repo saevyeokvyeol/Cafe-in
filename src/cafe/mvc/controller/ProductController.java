@@ -1,5 +1,5 @@
 package cafe.mvc.controller;
 
-public class GoodsController {
+public class ProductController {
 
 }

@@ -9,7 +9,7 @@ import cafe.mvc.exception.ModifyException;
 import cafe.mvc.exception.NotFoundException;
 import cafe.mvc.model.dto.Product;
 
-public class GoodsServiceImpl implements GoodsService {
+public class ProductServiceImpl implements ProductService {
 
 	/**
 	 * 음료 등록: product 테이블 레코드 insert

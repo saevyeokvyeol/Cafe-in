@@ -1,5 +1,5 @@
 package cafe.mvc.controller;
 
-public class UserController {
+public class UsersController {
 	//·Î±×ÀÎ
 }

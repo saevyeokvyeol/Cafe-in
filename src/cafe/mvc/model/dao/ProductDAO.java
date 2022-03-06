@@ -5,7 +5,7 @@ import java.util.List;
 
 import cafe.mvc.model.dto.Product;
 
-public interface GoodsDAO {
+public interface ProductDAO {
 	/**
 	 * 음료 등록: product 테이블 레코드 insert
 	 * */
