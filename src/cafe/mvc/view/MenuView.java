@@ -3,6 +3,9 @@ package cafe.mvc.view;
 
 import java.util.Scanner;
 
+import cafe.mvc.controller.UsersController;
+import cafe.mvc.model.dto.Users;
+
 public class MenuView {
 	private static Scanner sc = new Scanner(System.in);
 	
@@ -16,6 +19,7 @@ public class MenuView {
 			switch(menu) {
 			case 1 :
 				// 가입
+				MenuView.register();
 				break;
 			case 2 :
 				// 로그인
@@ -26,6 +30,19 @@ public class MenuView {
 			}
 		}
 
+	}
+	public static void register() {
+		System.out.print("전화번호 ex)010-1111-1111 : ");
+		String userTel = sc.nextLine();
+		
+		System.out.print("이름 : ");
+		String userName = sc.nextLine();
+		 
+		System.out.print("비밀번호 : ");
+		int userPwd = Integer.parseInt(sc.nextLine());	
+		
+		Users users = new Users(userTel, userName, userPwd);
+		UsersController.registor(users);
 	}
 	
 	

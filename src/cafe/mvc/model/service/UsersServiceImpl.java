@@ -1,22 +1,32 @@
 package cafe.mvc.model.service;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
 
 import cafe.mvc.exception.AddException;
 import cafe.mvc.exception.DuplicatedException;
 import cafe.mvc.exception.ModifyException;
 import cafe.mvc.exception.NotFoundException;
+import cafe.mvc.model.dao.UsersDAO;
+import cafe.mvc.model.dao.UsersDAOImpl;
 import cafe.mvc.model.dto.Users;
+import cafe.mvc.util.DbUtil;
 
 public class UsersServiceImpl implements UsersService{
+	private UsersDAO usersDAO = new UsersDAOImpl();
 
 	/**
 	 * 회원가입: user 테이블 insert
 	 * */
 	@Override
 	public void userInsert(Users users) throws SQLException, AddException, DuplicatedException {
-		// TODO Auto-generated method stub
-		
+		int result = usersDAO.userInsert(users);
+		if(result==0)throw new SQLException("등록되지않았습니다.^^");
 	}
 
 	/**
