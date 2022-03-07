@@ -4,6 +4,7 @@ import cafe.mvc.model.dto.Users;
 import cafe.mvc.model.service.UsersService;
 import cafe.mvc.model.service.UsersServiceImpl;
 import cafe.mvc.view.FailView;
+import cafe.mvc.view.MenuView;
 import cafe.mvc.view.SuccessView;
 
 
@@ -20,8 +21,8 @@ public class UsersController {
 		} catch (Exception e) {
 			FailView.errorMessage(e.getMessage());
 
-
-
+		}
+	}
 	
 	/**
 	 * 회원가입
