@@ -1,5 +1,7 @@
 package cafe.mvc.model.dto;
 
+import java.util.List;
+
 public class Orders {
 	 private int orderNum; //주문번호
 	 private String userTel; //전화번호
@@ -9,6 +11,8 @@ public class Orders {
 	 private int totalPrice; //총결제금액
 	 private String orderDate; //주문일자
 	 private int takeOut; //테이크아웃여부
+	 
+	 private List<OrderLine> ordelLineList;
 
 	 public Orders() {}
 	 public Orders(int orderNum, String userTel, int stateCode, String payMethod, int payPoint, int totalPrice, String orderDate, int takeOut) {
@@ -70,6 +74,12 @@ public class Orders {
         public void setTakeOut(int takeOut) {
         	this.takeOut = takeOut;
         }
+		public List<OrderLine> getOrdelLineList() {
+			return ordelLineList;
+		}
+		public void setOrdelLineList(List<OrderLine> ordelLineList) {
+			this.ordelLineList = ordelLineList;
+		}
 
 	  
 }

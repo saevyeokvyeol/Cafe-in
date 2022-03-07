@@ -3,12 +3,12 @@ package cafe.mvc.model.dto;
 public class OrderLine {
 		   private int orderLineCode;
 		   private int orderNum;
-		   private int prodCode;
+		   private String prodCode;
 		   private int qty;
 		   private int priceQty;
 
 		public OrderLine() {}
-		  public OrderLine(int orderLineCode, int orderNum, int prodCode, int qty, int priceQty) {
+		  public OrderLine(int orderLineCode, int orderNum, String prodCode, int qty, int priceQty) {
 		   this.orderLineCode= orderLineCode;
 		   this.orderNum= orderNum;
 		   this.prodCode= prodCode;
@@ -28,10 +28,10 @@ public class OrderLine {
 		public void setOrderNum(int orderNum) {
 			this.orderNum = orderNum;
 		}
-		public int getProdCode() {
+		public String getProdCode() {
 			return prodCode;
 		}
-		public void setProdCode(int prodCode) {
+		public void setProdCode(String prodCode) {
 			this.prodCode = prodCode;
 		}
 		public int getQty() {

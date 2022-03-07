@@ -7,6 +7,9 @@ public class Product {
 	   private int prodPrice;
 	   private String prodDetail;
 	   private int soldOut;
+	   
+	   // 재고가 있는 디저트의 경우 1:1의 관계로 stock을 가지고 있음
+	   private Stock stock;
 
 	public Product() {}
 	  public Product(String prodCode, String prodGroup, String prodName, int prodPrice, String prodDetail, int soldOut) {
@@ -53,5 +56,12 @@ public class Product {
 	public void setSoldOut(int soldOut) {
 		this.soldOut = soldOut;
 	}
+	public Stock getStock() {
+		return stock;
+	}
+	public void setStock(Stock stock) {
+		this.stock = stock;
+	}
+	
 	  
 }
