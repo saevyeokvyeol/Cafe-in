@@ -6,14 +6,14 @@ import java.util.List;
 import cafe.mvc.exception.AddException;
 import cafe.mvc.exception.ModifyException;
 import cafe.mvc.exception.NotFoundException;
-import cafe.mvc.model.dao.OrdersDAO;
-import cafe.mvc.model.dao.OrdersDAOImpl;
+import cafe.mvc.model.dao.OrderDAO;
+import cafe.mvc.model.dao.OrderDAOImpl;
 import cafe.mvc.model.dto.Orders;
 import cafe.mvc.model.dto.Statistics;
 
 public class OrdersServiceImpl implements OrdersService {
 
-	OrdersDAO orderDao = new OrdersDAOImpl();	
+	OrderDAO orderDao = new OrderDAOImpl();	
 	
 	/**
 	 * 주문하기
