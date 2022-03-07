@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import cafe.mvc.controller.OrdersController;
 import cafe.mvc.controller.UsersController;
+import cafe.mvc.model.dto.Users;
 import cafe.mvc.session.SessionSet;
 
 public class MenuView {
@@ -21,7 +22,7 @@ public class MenuView {
 			int menu = Integer.parseInt(sc.nextLine());
 			switch(menu) {
 			case 1 :
-				// 가입
+				MenuView.register();
 				break;
 			case 2 :
 
@@ -41,6 +42,20 @@ public class MenuView {
 	public static void printMenu() {
 		System.out.println("=== Cafe-in 카페에 오신걸 환영합니다 ==="); //멘트 이쁜걸로...?
 		System.out.println("1. 회원가입   |   2. 회원주문   |  3. 비회원주문  |  4. 관리자설정  |  9. 종료");
+	}
+	
+	public static void register() {
+		System.out.print("전화번호 ex)010-1111-1111 : ");
+		String userTel = sc.nextLine();
+		
+		System.out.print("이름 : ");
+		String userName = sc.nextLine();
+		 
+		System.out.print("비밀번호 : ");
+		int userPwd = Integer.parseInt(sc.nextLine());	
+		
+		Users users = new Users(userTel, userName, userPwd);
+		UsersController.registor(users);
 	}
 	
 	//회원으로 로그인해야보이는 화면
