@@ -33,18 +33,50 @@ public class SuccessView {
 		}
 		System.out.println("총 가격 : " + totalPrice);
 	}
-
-	public static void printSelectByUserTel(List<Orders> list) {
-		System.out.println();
+	/**
+	 * 회원의 지난 주문 내역 조회
+	 * */
+	public static void printSelectByUserTel(List<Orders> list, String userTel) {
+		System.out.println("******"+ userTel + "회원의 지난 주문 내역");
 		for(Orders orders : list) {
-			System.out.println(orders);
+			//전화번호,이름,주문수량,상품명,판매가격,가격*주문수량
+			//String userTel = orders.getUserTel();
+			String userName = orders.getUserName();
+			int qty = orders.getQty();
+			String prodName = orders.getProdName();
+			int prodPrice = orders.getProdPrice();
+			int priceQty = orders.getPriceQty();
+			
+			
+			System.out.println(userTel + " | " + userName + " | " + qty + " | " + prodName + " | " + prodPrice + " | " + priceQty);
 		}
 		
+		
+	}
+
+	/**
+	 * 현재 진행 중인 주문 검색: 픽업 완료, 주문 취소 상태가 아닌 모든 주문 검색
+	 * */
+	public static void selectOngoingOrder(List<Orders> list) {
+		//전화번호,이름,주문수량,상품명,판매가격,가격*주문수량
+		for(Orders orders : list) {
+			
+			String userTel = orders.getUserTel();
+			String userName = orders.getUserName();
+			int qty = orders.getQty();
+			String prodName = orders.getProdName();
+			int prodPrice = orders.getProdPrice();
+			int priceQty = orders.getPriceQty();
+			
+			System.out.println(userTel + " | " + userName + " | " + qty + " | " + prodName + " | " + prodPrice + " | " +priceQty);
+		}
 		
 	}
 	
 	public static void printMessage(String message) {
 		System.out.println(message);
 	}
+	
+	
 
 }

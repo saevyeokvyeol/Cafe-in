@@ -31,7 +31,7 @@ public class OrdersController {
 		public static void selectOngoingOrder() {
 			try {
 			List<Orders> orderList=ordersService.selectOngoingOrder();
-			//SuccessView.(orderList);
+			SuccessView.selectOngoingOrder(orderList);
 			
 			}catch(Exception e) {
 				FailView.errorMessage(e.getMessage());
@@ -44,7 +44,7 @@ public class OrdersController {
 		public static void selectByUserTel(String userTel) {
 			try {
 			List<Orders> list =ordersService.selectByUserTel(userTel);
-			SuccessView.printSelectByUserTel(list);
+			SuccessView.printSelectByUserTel(list,userTel);
 			}catch(Exception e){
 				FailView.errorMessage(e.getMessage());
 			}
