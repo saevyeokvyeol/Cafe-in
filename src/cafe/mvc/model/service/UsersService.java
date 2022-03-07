@@ -11,6 +11,7 @@ import cafe.mvc.model.dto.Users;
 public interface UsersService {
 	/**
 	 * 회원가입: user 테이블 insert
+	 * @return 
 	 * */
 	void userInsert(Users users) throws SQLException, AddException, DuplicatedException;
 	

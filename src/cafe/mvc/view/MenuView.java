@@ -19,6 +19,8 @@ public class MenuView {
 				break;
 			case 2 :
 				// ·Î±×ÀÎ
+				MenuView.login();
+
 				break;
 
 			case 9 : 

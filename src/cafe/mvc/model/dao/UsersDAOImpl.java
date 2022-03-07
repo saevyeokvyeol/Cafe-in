@@ -10,7 +10,7 @@ import cafe.mvc.model.dto.Users;
 import cafe.mvc.util.DbUtil;
 
 public class UsersDAOImpl implements UsersDAO{
-	// DbUtil에서 proFile 가져오기
+
 	private Properties proFile = DbUtil.getProFile();
 
 	/**
@@ -18,8 +18,23 @@ public class UsersDAOImpl implements UsersDAO{
 	 * */
 	@Override
 	public int userInsert(Users users) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+		Connection con = null;
+		PreparedStatement ps = null;
+		int result = 0;
+		String sql = proFile.getProperty("users.insert");
+		try {
+			con = DbUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setString(1, users.getUserTel());
+			ps.setString(2, users.getUserName());
+			ps.setInt(3, users.getUserPwd());
+			
+			result = ps.executeUpdate();
+			
+		} finally {
+			DbUtil.close(con, ps);
+		}
+		return result;
 	}
 
 	/**
