@@ -35,7 +35,7 @@ public class MenuView {
 	}
 	
 	//회원으로 로그인해야보이는 화면
-	public static void printUserMenu(String userPhoneNo) {
+	public static void printUserMenu(String userPhoneNo, String name) {
 		while(true) {
 			//SessionSet ss = SessionSet.getInstance();
 			//System.out.println(ss.getSet());
