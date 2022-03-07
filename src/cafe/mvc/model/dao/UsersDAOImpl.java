@@ -43,8 +43,22 @@ public class UsersDAOImpl implements UsersDAO{
 
 	@Override
 	public int userUpdate(Users users) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+		Connection con = null;
+		PreparedStatement ps = null;
+		int result = 0;
+		String sql = proFile.getProperty("users.update");
+		try {
+			con = DbUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, users.getUserPwd());
+			ps.setString(2, users.getUserTel());
+			
+			result = ps.executeUpdate();
+			
+		} finally {
+			DbUtil.close(con, ps);
+		}
+		return result;
 	}
 
 	/**

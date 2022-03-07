@@ -38,7 +38,8 @@ public class UsersServiceImpl implements UsersService{
 	 * */
 	@Override
 	public void userUpdate(Users users) throws SQLException, ModifyException, NotFoundException {
-		// TODO Auto-generated method stub
+		int result = usersDAO.userUpdate(users);
+		if(result==0)throw new SQLException("등록되지않았습니다.^^");
 		
 	}
 

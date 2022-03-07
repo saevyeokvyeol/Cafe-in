@@ -30,6 +30,10 @@ public class Users{
 		this.userName = userName;
 		this.userPwd = userPwd;
 	}
+	
+	public Users(int userPwd) {
+		this.userPwd = userPwd;
+	}
 
 	public String getUserTel() {
 		return userTel;

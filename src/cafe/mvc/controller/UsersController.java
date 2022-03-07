@@ -29,7 +29,7 @@ public class UsersController {
 	 */
 	public static void registor(Users users) {
 		try {
-			usersService.userInsert(users);
+			usersService.userUpdate(users);
 			SuccessView.printMessage("가입완료");
 			//MenuView.menu();
 		}catch (Exception e) {
@@ -37,6 +37,20 @@ public class UsersController {
 			FailView.errorMessage(e.getMessage());
 			
 
+		}
+	}
+	
+	/**
+	 * 비밀번호변경
+	 */
+	public static void pwdUpdate(Users users) {
+		try {
+			usersService.userUpdate(users);
+			SuccessView.printMessage("변경완료");
+			//MenuView.menu();
+		}catch (Exception e) {
+			e.printStackTrace();
+			FailView.errorMessage(e.getMessage());
 		}
 	}
 }
