@@ -3,7 +3,6 @@ package cafe.mvc.view;
 import java.util.List;
 
 import cafe.mvc.model.dto.Orders;
-import kosta.mvc.model.dto.Goods;
 
 
 public class SuccessView {
