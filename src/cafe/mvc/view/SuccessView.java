@@ -37,7 +37,7 @@ public class SuccessView {
 	 * 회원의 지난 주문 내역 조회
 	 * */
 	public static void printSelectByUserTel(List<Orders> list, String userTel) {
-		System.out.println("******"+ userTel + "회원의 지난 주문 내역");
+		System.out.println("******"+ userTel + " 회원님의 지난 주문 내역");
 		for(Orders orders : list) {
 			//전화번호,이름,주문수량,상품명,판매가격,가격*주문수량
 			//String userTel = orders.getUserTel();
@@ -59,16 +59,17 @@ public class SuccessView {
 	 * */
 	public static void selectOngoingOrder(List<Orders> list) {
 		//전화번호,이름,주문수량,상품명,판매가격,가격*주문수량
+		System.out.println("0 : 접수대기 | 1 : 주문접수 | 2 : 상품준비중 | 3 : 상품준비완료");
 		for(Orders orders : list) {
 			
-			String userTel = orders.getUserTel();
+			//String userTel = orders.getUserTel();
 			String userName = orders.getUserName();
 			int qty = orders.getQty();
 			String prodName = orders.getProdName();
 			int prodPrice = orders.getProdPrice();
 			int priceQty = orders.getPriceQty();
 			
-			System.out.println(userTel + " | " + userName + " | " + qty + " | " + prodName + " | " + prodPrice + " | " +priceQty);
+			System.out.println( userName + " | " + qty + " | " + prodName + " | " + prodPrice + " | " +priceQty);
 		}
 		
 	}
