@@ -112,7 +112,7 @@ public class OrdersDAOImpl implements OrdersDAO {
 		Orders orders= null;
 
 		try {
-			con = DbUtil
+			con = DbUtil.getConnection();
 			con.setAutoCommit(false);
 			ps = con.prepareStatement(sql);
 			ps.setString(1, UserTel);
