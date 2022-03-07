@@ -1,11 +1,14 @@
 package cafe.mvc.view;
 
+import java.util.List;
 import java.util.Map;
 
+import cafe.mvc.model.dto.Orders;
 import cafe.mvc.model.dto.Product;
 import cafe.mvc.model.dto.Statistics;
 
 public class SuccessView {
+	
 	
 	public static void printStatistics(Statistics statistic) {
 		System.out.println("***** " + statistic.getDate() + " 일간 매출 *****");
@@ -31,6 +34,14 @@ public class SuccessView {
 		System.out.println("총 가격 : " + totalPrice);
 	}
 
+	public static void printSelectByUserTel(List<Orders> list) {
+		System.out.println();
+		for(Orders orders : list) {
+			System.out.println(orders);
+		}
+		
+	}
+	
 	public static void printMessage(String message) {
 		System.out.println(message);
 	}

@@ -41,7 +41,14 @@ public class OrdersController {
 		/**
 		 * 회원의 지난 주문 내역 조회
 		 * */
-		
+		public static void selectByUserTel(String userTel) {
+			try {
+			List<Orders> list =ordersService.selectByUserTel(userTel);
+			SuccessView.printSelectByUserTel(list);
+			}catch(Exception e){
+				FailView.errorMessage(e.getMessage());
+			}
+		}
 		
 	
 
