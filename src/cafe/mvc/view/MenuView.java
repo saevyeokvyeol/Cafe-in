@@ -3,9 +3,11 @@ package cafe.mvc.view;
 
 import java.util.Scanner;
 
+import cafe.mvc.controller.ProductController;
+
 public class MenuView {
 	private static Scanner sc = new Scanner(System.in);
-	
+	//
 	public static void menu() {
 		while(true) {
 			//session :전화번호로 로그인하면 이름보여주면 좋을듯..?
@@ -50,10 +52,10 @@ public class MenuView {
 					//마이페이지(적립금확인,지난주문내역)
 					break;
 				case 3 :
-					//메뉴보기
+					//
 					break;
 				case 4 :
-					//주문하기(1.커피 2.티 3.스무디 4.디저트 5.장바구니담기 6.결제하기 로 가게하면됨..또while문...?ㅠ)
+					//OrderStart();
 					break;
 				case 5 :
 					//주문취소(결제된거 취소)
@@ -71,10 +73,10 @@ public class MenuView {
 			int menu =Integer.parseInt( sc.nextLine());
 			switch(menu) {
 				case 1 :
-					//메뉴보기
+					//
 					break;
 				case 2 :
-					//주문하기(1.커피 2.티 3.스무디 4.디저트 5.장바구니담기 6.결제하기 로 가게하면됨..또while문...?ㅠ)
+					//OrderStart();
 					break;
 				case 3 :
 					//종료
@@ -108,36 +110,15 @@ public class MenuView {
 	public static void logout() {
 		
 	}
+	*/
 	
+	/*
 	//주문하기-장바구니에 자동으로 담아지게
-    public static void 주문하기메소드이름() {
-    	while(true) {
-			System.out.println("  1.커피 |  2.티  |  3.스무디  |  4.디저트  |  5.장바구니담기  |  6.결제하기  ");
-			int menu =Integer.parseInt( sc.nextLine());
-			switch(menu) {
-				case 1 :
-					//커피메뉴띄어주는....
-					break;
-				case 2 :
-					//티메뉴띄어주는....
-					break;
-				case 3 :
-					//스무디메뉴띄어주는....
-					break;
-				case 4 :
-					//디저트메뉴띄어주는....
-					break;
-				case 5 :
-					//장바구니담기
-					break;
-			    case 6 :
-					//결제하기
-					break;
-				}
-		}
-    }
+    public static void () {
+   
+    }*/
     
-
+/*
     //장바구니 보기
 	public static void viewCart() {
 	//여기에다가 장바구니 삭제 메뉴를 만들까용..아니면 바깥으로 빼기??
