@@ -80,16 +80,20 @@ public class OrdersDAOImpl implements OrdersDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		List<Orders> orderList = null;
-		String sql = "";
-		
+		List<Orders> orderList = new ArrayList<Orders>();
+		String sql = "select o.state_code, u.user_name, p.prod_name, p.prod_price, ol.price_qty, ol.price_qty from users u join orders o on u.user_tel = o.user_tel join order_line ol using(order_num) join product p on ol.prod_code = p.prod_code where state_code != 4 and state_code !=5";
+		//
 		try {
 			con = DbUtil.getConnection();
 			con.setAutoCommit(false);
 			
 			ps= con.prepareStatement(sql);
+			rs= ps.executeQuery();
 			
-			orderList = (List<Orders>) ps.executeQuery();
+			while(rs.next()) {
+				Orders orders = new Orders();
+				orderList.add(orders);
+			}
 			
 		}finally {
 			DbUtil.close(con, ps, rs);
