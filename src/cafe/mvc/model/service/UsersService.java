@@ -22,7 +22,7 @@ public interface UsersService {
 	/**
 	 * 로그인
 	 * */
-	Users login(String userTel, String userPwd) throws SQLException, NotFoundException;
+	Users login(String userTel, int userPwd) throws SQLException, NotFoundException;
 	
 	/**
 	 * 적립금 확인: user 테이블 select
