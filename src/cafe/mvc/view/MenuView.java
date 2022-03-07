@@ -87,10 +87,15 @@ public class MenuView {
 					break;
 				case 6 :
 					//적립금확인
+					MenuView.userPointCh(userTel);
 					break;
 				}
 		}
 		
+	}
+	public static void userPointCh(String userTel) {
+		Users users = new Users(userTel, null, 0);
+		UsersController.userPointCh(users);
 	}
 	public static void pwdUpdate(String userTel) {
 		System.out.print("변결할비밀번호 : ");

@@ -53,4 +53,18 @@ public class UsersController {
 			FailView.errorMessage(e.getMessage());
 		}
 	}
+	/**
+	 * 적립금확인
+	 */
+	public static void userPointCh(Users users) {
+		try {
+			usersService.userPointCh(users);
+			SuccessView.printMessage("적립금확인완료");
+			//MenuView.menu();
+		}catch (Exception e) {
+			e.printStackTrace();
+			FailView.errorMessage(e.getMessage());
+		}
+		
+	}
 }

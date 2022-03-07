@@ -60,6 +60,32 @@ public class UsersDAOImpl implements UsersDAO{
 		}
 		return result;
 	}
+	
+	/**
+	 * 적립금 확인: user 테이블 select
+	 * */
+	@Override
+	public int userPointCh(Users users) throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		int result = 0;
+		String sql = proFile.getProperty("users.check");
+		try {
+			con = DbUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setString(1, users.getUserTel());
+			
+			rs = ps.executeQuery();
+			rs.next();		
+			result = rs.getInt(1);
+			
+			
+		} finally {
+			DbUtil.close(con, ps);
+		}
+		return result;
+	}
 
 	/**
 	 * 로그인
@@ -91,13 +117,6 @@ public class UsersDAOImpl implements UsersDAO{
 		return users;
 	}
 
-	/**
-	 * 적립금 확인: user 테이블 select
-	 * */
-	@Override
-	public Users selectPointByUserTel(String userTel) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 }
