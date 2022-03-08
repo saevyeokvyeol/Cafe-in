@@ -34,7 +34,7 @@ public class ProductDAOImpl implements ProductDAO {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setString(1, product.getProdCode());
-			ps.setString(2, Integer.toString(product.getProdCode().charAt(0)));
+			ps.setString(2, product.getProdCode().substring(0, 1));
 			ps.setString(3, product.getProdName());
 			ps.setInt(4, product.getProdPrice());
 			ps.setString(5, product.getProdDetail());
