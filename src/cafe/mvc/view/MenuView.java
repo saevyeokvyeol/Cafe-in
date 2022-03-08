@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
+
 import cafe.mvc.controller.OrdersController;
 import cafe.mvc.controller.UsersController;
 import cafe.mvc.exception.NotFoundException;
@@ -14,6 +15,8 @@ import cafe.mvc.model.dto.Product;
 import cafe.mvc.model.service.ProductService;
 import cafe.mvc.model.service.ProductServiceImpl;
 import cafe.mvc.session.SessionSet;
+import cafe.mvc.controller.ProductController;
+
 
 public class MenuView {
 	
@@ -22,8 +25,9 @@ public class MenuView {
 	static ProductServiceImpl productService = new ProductServiceImpl();
 	
 	private static Scanner sc = new Scanner(System.in);
-	
-	public static void menu() throws Exception{
+
+	public static void menu() {
+
 		while(true) {
 			//session :전화번호로 로그인하면 이름보여주면 좋을듯..?
 			 
@@ -56,7 +60,7 @@ public class MenuView {
 	
 	//회원으로 로그인해야보이는 화면
 
-	public static void printUserMenu(String userTel, String userName) throws Exception {
+	public static void printUserMenu(String userTel, String userName) {
 
 		while(true) {
 			SessionSet ss = SessionSet.getInstance();
@@ -76,7 +80,7 @@ public class MenuView {
 					MenuView.category();
 					break;
 				case 4 :
-					//주문하기(1.커피 2.티 3.스무디 4.디저트 5.장바구니담기 6.결제하기 로 가게하면됨..또while문...?ㅠ)
+					//OrderStart();
 					break;
 				case 5 :
 					//주문취소(결제된거 취소)
@@ -87,7 +91,7 @@ public class MenuView {
 	}
 	
 	//비회원이 보는 화면
-	public static void printNotUserMenu() throws Exception {
+	public static void printNotUserMenu() {
 		while(true) {
 			System.out.println("어서오십시오."); //비회원한테 하는말..
 			System.out.println("  1.메뉴보기 |  2.주문하기  | 3. 모든 상품조회 |  9.종료  ");
@@ -98,7 +102,7 @@ public class MenuView {
 					MenuView.category();
 					break;
 				case 2 :
-					//주문하기(1.커피 2.티 3.스무디 4.디저트 5.장바구니담기 6.결제하기 로 가게하면됨..또while문...?ㅠ)
+					//OrderStart();
 					break;
 				case 3 : 
 					//전체상품 조회
@@ -153,6 +157,7 @@ public class MenuView {
 		 UsersController.login(userTel, userPwd);
 
 	}
+
 //	
 //	//로그아웃
 //	public static void logout() {
@@ -160,7 +165,7 @@ public class MenuView {
 //	}
 //	 
 //	//카테고리별 메뉴보기
-    public static void category() throws Exception {
+    public static void category() {
     	while(true) {
 			System.out.println("  1.커피 |  2.티  |  3.스무디  |  4.디저트 | 5. 뒤로 가기 ");
 			int menu =Integer.parseInt( sc.nextLine());
@@ -168,26 +173,26 @@ public class MenuView {
 				case 1 :
 					//커피메뉴띄어주는....
 					String coffeeGroup = "C";
-					List<Product> productListC =  productService.selectByGroup(coffeeGroup);
-					MenuView.getMenu(productListC);
+					//List<Product> productListC =  productService.selectByGroup(coffeeGroup);
+					//MenuView.getMenu(productListC);
 					break;
 				case 2 :
 					//티메뉴띄어주는....
 					String teaGroup = "T";
-					List<Product> productListT =  productService.selectByGroup(teaGroup);
-					MenuView.getMenu(productListT);
+					//List<Product> productListT =  productService.selectByGroup(teaGroup);
+					//MenuView.getMenu(productListT);
 					break;
 				case 3 :
 					//스무디메뉴띄어주는....
 					String SmoothieGroup = "S";
-					List<Product> productListS =  productService.selectByGroup(SmoothieGroup);
-					MenuView.getMenu(productListS);
+					//List<Product> productListS =  productService.selectByGroup(SmoothieGroup);
+					//MenuView.getMenu(productListS);
 					break;
 				case 4 :
 					//디저트메뉴띄어주는....
 					String dessertGroup = "D";
-					List<Product> productListD =  productService.selectByGroup(dessertGroup);
-					MenuView.getMenu(productListD);
+					//List<Product> productListD =  productService.selectByGroup(dessertGroup);
+					//MenuView.getMenu(productListD);
 					break;
 				case 5 :
 					//메뉴 다 봤으면 뒤로 가기!
@@ -206,10 +211,10 @@ public class MenuView {
 	}
     }
 //전체 상품조회
-    public static void productAll() throws Exception {
+    public static void productAll()  {
     	if(true) {
-    		List<Product> productList =  productService.selectAll(null);
-			MenuView.getMenu(productList);
+    		//List<Product> productList =  productService.selectAll(null);
+			//MenuView.getMenu(productList);
     	}
     }
  
@@ -221,3 +226,6 @@ public class MenuView {
 //	}
 //	
 }
+
+
+
