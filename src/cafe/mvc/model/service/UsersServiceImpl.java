@@ -38,7 +38,17 @@ public class UsersServiceImpl implements UsersService{
 	 * */
 	@Override
 	public void userUpdate(Users users) throws SQLException, ModifyException, NotFoundException {
-		// TODO Auto-generated method stub
+		int result = usersDAO.userUpdate(users);
+		if(result==0)throw new SQLException("등록되지않았습니다.^^");
+		
+	}
+	/**
+	 * 적립금 확인: user 테이블 select
+	 * */
+	@Override
+	public void userPointCh(Users users) throws SQLException, ModifyException, NotFoundException {
+		int result = usersDAO.userPointCh(users);
+		System.out.println("적립금 : " + result + "원");
 		
 	}
 
@@ -62,14 +72,7 @@ public class UsersServiceImpl implements UsersService{
 		
 		return users;
 	}
-	/**
-	 * 적립금 확인: user 테이블 select
-	 * */
-	@Override
-	public Users selectPointByUserTel(String userTel) throws SQLException, NotFoundException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 
 }

@@ -81,7 +81,7 @@ public class MenuView {
 			SessionSet ss = SessionSet.getInstance();
 			System.out.println(ss.getSet());
 			System.out.println("어서오십시오. " +userName+ " 님"); //전화번호쓰면 회원이름보이게 하고싶음..
-			System.out.println("  1.로그아웃 |  2.마이페이지  |  3.메뉴보기  |  4.주문하기  |  5.주문취소  ");
+			System.out.println("  1.로그아웃 |  2.마이페이지  |  3.메뉴보기  |  4.주문하기  |  5.주문취소  | 6.적립금 확인 ");
 			int menu =Integer.parseInt( sc.nextLine());
 			switch(menu) {
 				case 1 :
@@ -89,6 +89,7 @@ public class MenuView {
 					return;
 				case 2 :
 					//마이페이지(적립금확인,지난주문내역)
+					MenuView.pwdUpdate(userTel);
 					break;
 				case 3 : 
 					//메뉴보기(카테고리 형식)
@@ -100,9 +101,24 @@ public class MenuView {
 				case 5 :
 					//주문취소(결제된거 취소)
 					break;
+				case 6 :
+					//적립금확인
+					MenuView.userPointCh(userTel);
+					break;
 				}
 		}
 		
+	}
+	public static void userPointCh(String userTel) {
+		Users users = new Users(userTel, null, 0);
+		UsersController.userPointCh(users);
+	}
+	public static void pwdUpdate(String userTel) {
+		System.out.print("변결할비밀번호 : ");
+		int userPwd = Integer.parseInt(sc.nextLine());
+		
+		Users users = new Users(userTel, null, userPwd);
+		UsersController.pwdUpdate(users);
 	}
 	
 	//비회원이 보는 화면
