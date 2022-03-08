@@ -6,7 +6,7 @@ public class Product {
 	   private String prodName;
 	   private int prodPrice;
 	   private String prodDetail;
-	   private int soldOut;
+	   private int prodState; //soldOut에서 변경!
 	   
 	   // 재고가 있는 디저트의 경우 1:1의 관계로 stock을 가지고 있음
 	   private Stock stock;
@@ -18,7 +18,7 @@ public class Product {
 	   this.prodName= prodName;
 	   this.prodPrice= prodPrice;
 	   this.prodDetail= prodDetail;
-	   this.soldOut= soldOut;
+	   this.prodState= prodState;
 	}
 	public String getProdCode() {
 		return prodCode;
@@ -50,11 +50,11 @@ public class Product {
 	public void setProdDetail(String prodDetail) {
 		this.prodDetail = prodDetail;
 	}
-	public int getSoldOut() {
-		return soldOut;
+	public int getProdState() {
+		return prodState;
 	}
-	public void setSoldOut(int soldOut) {
-		this.soldOut = soldOut;
+	public void setProdState(int prodState) {
+		this.prodState = prodState;
 	}
 	public Stock getStock() {
 		return stock;
