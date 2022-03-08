@@ -12,7 +12,7 @@ public class Product {
 	   private Stock stock;
 
 	public Product() {}
-	  public Product(String prodCode, String prodGroup, String prodName, int prodPrice, String prodDetail, int soldOut) {
+	  public Product(String prodCode, String prodGroup, String prodName, int prodPrice, String prodDetail, int prodState) {
 	   this.prodCode= prodCode;
 	   this.prodGroup= prodGroup;
 	   this.prodName= prodName;
