@@ -75,7 +75,7 @@ public class CartController {
 	/**
 	 * 장바구니 부분 삭제
 	 * */
-	public static void cartDeleteByCode(String userTel, String prodCode) {
+	public static void deleteCartByCode(String userTel, String prodCode) {
 		//id(=전화번호)에 해당하는 세션찾기
 		SessionSet ss = SessionSet.getInstance();
 		Session session = ss.get(userTel);
@@ -97,7 +97,7 @@ public class CartController {
 	/**
 	 * 장바구니 전체 삭제
 	 * */
-	public static void cartDelete(String userTel) {
+	public static void deleteCartAll(String userTel) {
 		//id(=전화번호)에 해당하는 세션찾기
 		SessionSet ss = SessionSet.getInstance();
 		Session session = ss.get(userTel);
