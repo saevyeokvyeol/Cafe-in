@@ -1,43 +1,14 @@
 package cafe.mvc.controller;
 
-<<<<<<< HEAD
-import cafe.mvc.model.dto.Orders;
-import cafe.mvc.model.dto.Statistics;
-=======
 import java.util.List;
 
 import cafe.mvc.model.dto.Orders;
->>>>>>> cb754816728576241d284d7e5dfd7697404b6f4f
 import cafe.mvc.model.service.OrdersService;
 import cafe.mvc.model.service.OrdersServiceImpl;
 import cafe.mvc.view.FailView;
 import cafe.mvc.view.SuccessView;
 
 public class OrdersController {
-<<<<<<< HEAD
-	static OrdersService ordersService = new OrdersServiceImpl();
-
-
-	public static void orderInsert(Orders orders) {
-		try {
-			ordersService.orderInsert(orders);
-		} catch (Exception e) {
-			e.printStackTrace();
-			FailView.errorMessage(e.getMessage());
-		}
-	}
-	
-
-	public static void dailySalesStatistic(String date){
-		try {
-			Statistics statistic = ordersService.dailySalesStatistic(date);
-			SuccessView.printStatistics(statistic);
-		} catch (Exception e) {
-			e.printStackTrace();
-			FailView.errorMessage(e.getMessage());
-		}
-	}
-=======
 	//주문하기, 주문내역보기
 	
 		private static OrdersService ordersService = new OrdersServiceImpl();
@@ -71,8 +42,4 @@ public class OrdersController {
 		 * 회원의 지난 주문 내역 조회
 		 * */
 		
-		
-	
-
->>>>>>> cb754816728576241d284d7e5dfd7697404b6f4f
 }

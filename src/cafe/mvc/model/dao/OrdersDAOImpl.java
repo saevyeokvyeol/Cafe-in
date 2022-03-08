@@ -5,7 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+<<<<<<< HEAD
 import java.util.Properties;
+=======
+import java.util.Scanner;
+>>>>>>> cb754816728576241d284d7e5dfd7697404b6f4f
 
 import cafe.mvc.model.dto.OrderLine;
 import cafe.mvc.model.dto.Orders;
@@ -161,8 +165,35 @@ public class OrdersDAOImpl implements OrdersDAO {
 	 * */
 	@Override
 	public int orderStateUpdate(Orders orders) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+		Connection con = null;
+		PreparedStatement ps = null;
+		String sql = "update orders set state_code =? where order_num=?";
+		int result=0;
+		Scanner sc = new Scanner(System.in);
+		
+		try {
+			
+			con = DbUtil.getConnection();
+			con.setAutoCommit(false);
+			
+			ps=con.prepareStatement(sql);
+			System.out.println("변경할 상태코드는 ? \n 1.접수대기 | 2.주문 접수 |  3.상품 준비중 | 4. 상품 준비 완료 | 5. 픽업 완료 | 6. 주문 취소");
+			int a = sc.nextInt();
+			System.out.println("변경할 주문번호는 ?");
+			int b = sc.nextInt();
+			ps.setInt(1, a);
+			ps.setInt(2, b);
+			
+			result = ps.executeUpdate();
+			if(result==0) {
+				con.rollback();
+				throw new SQLException("주문상태코드변경 실패..");
+			}
+			
+		}finally {
+			DbUtil.close(con, ps);
+		}
+		return result;
 	}
 
 	/**
@@ -171,8 +202,25 @@ public class OrdersDAOImpl implements OrdersDAO {
 	 * */
 	@Override
 	public List<Orders> selectOnoingOrder() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Orders> orderList = null;
+		String sql = "";
+		
+		try {
+			con = DbUtil.getConnection();
+			con.setAutoCommit(false);
+			
+			ps= con.prepareStatement(sql);
+			
+			orderList = (List<Orders>) ps.executeQuery();
+			
+		}finally {
+			DbUtil.close(con, ps, rs);
+		}
+		
+		return orderList;
 	}
 
 	/**
@@ -182,8 +230,32 @@ public class OrdersDAOImpl implements OrdersDAO {
 	 * */
 	@Override
 	public List<Orders> selectByUserTel(String UserTel) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Orders> list = null;
+		String sql = "select u.user_tel,u.user_name, ol.qty, p.prod_name, p.prod_price,ol.price_qty from users u join orders o on u.user_tel = o.user_tel join order_line ol using(order_num)join product p on ol.prod_code = p.prod_code where u.user_tel=?;";
+		Orders orders= null;
+
+		try {
+			con = DbUtil.getConnection();
+			con.setAutoCommit(false);
+			ps = con.prepareStatement(sql);
+			ps.setString(1, UserTel);
+			rs = ps.executeQuery();
+			//List = new ArrayList<Orders>();
+			//전화번호,이름,주문수량,상품명,판매가격,가격*주문수량
+			while(rs.next()) {
+				orders = new Orders( rs.getString(1),rs.getString(2),rs.getInt(3),rs.getString(4),rs.getInt(5),rs.getInt(6) );
+				list.add(orders);
+			}
+		
+			
+		}finally {
+			DbUtil.close(con, ps, rs);
+		}
+		
+		return list;
 	}
 
 
