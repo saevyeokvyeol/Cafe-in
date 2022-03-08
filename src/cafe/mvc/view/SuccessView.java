@@ -3,6 +3,7 @@ package cafe.mvc.view;
 import java.util.List;
 import java.util.Map;
 
+import cafe.mvc.model.dto.OrderLine;
 import cafe.mvc.model.dto.Orders;
 import cafe.mvc.model.dto.Product;
 import cafe.mvc.model.dto.Statistics;
@@ -40,15 +41,20 @@ public class SuccessView {
 		System.out.println("******"+ userTel + " 회원님의 지난 주문 내역");
 		for(Orders orders : list) {
 			//전화번호,이름,주문수량,상품명,판매가격,가격*주문수량
-			//String userTel = orders.getUserTel();
-			String userName = orders.getUserName();
-			int qty = orders.getQty();
-			String prodName = orders.getProdName();
-			int prodPrice = orders.getProdPrice();
-			int priceQty = orders.getPriceQty();
+//			String userName = orders.getUserName();
+			
+			for(OrderLine orderLine : orders.getOrdelLineList()) {
+				int qty = orderLine.getQty();
+//				String prodName = orderLine.getProdName();
+//				int prodPrice = orderLine.getProdPrice();
+				int priceQty = orderLine.getPriceQty();
+				
+//				System.out.println("번호 : "+ userTel + " | " + userName + "님  | 수량 : " + qty + "  | " + prodName + " | " + prodPrice + "￦ |  총 결제금액 : " + priceQty + "￦");
+				
+			}
+//			
 			
 			
-			System.out.println("번호 : "+ userTel + " | " + userName + "님  | 수량 : " + qty + "  | " + prodName + " | " + prodPrice + "￦ |  총 결제금액 : " + priceQty + "￦");
 		}
 		
 		
@@ -64,14 +70,14 @@ public class SuccessView {
 			
 			//String userTel = orders.getUserTel();
 			int stateCode = orders.getStateCode();
-			String userName = orders.getUserName();
-			
-			String prodName = orders.getProdName();
-			int qty = orders.getQty();
-			int prodPrice = orders.getProdPrice();
-			int priceQty = orders.getPriceQty();
-			
-			System.out.println("주문상태코드 :" + stateCode + userName + "님 | 수량 : " + qty + " | " + prodName + " | " + prodPrice + "￦ | 총 결제금액 : " +priceQty + "￦");
+//			String userName = orders.getUserName();
+//			
+//			String prodName = orders.getProdName();
+//			int qty = orders.getQty();
+//			int prodPrice = orders.getProdPrice();
+//			int priceQty = orders.getPriceQty();
+//			
+//			System.out.println("주문상태코드 :" + stateCode + userName + "님 | 수량 : " + qty + " | " + prodName + " | " + prodPrice + "￦ | 총 결제금액 : " +priceQty + "￦");
 		}
 		
 	}

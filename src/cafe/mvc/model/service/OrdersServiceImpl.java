@@ -13,7 +13,7 @@ import cafe.mvc.model.dto.Statistics;
 
 public class OrdersServiceImpl implements OrdersService {
 
-	OrdersDAO orderDao = new OrdersDAOImpl();	
+	OrdersDAO ordersDao = new OrdersDAOImpl();	
 	
 	/**
 	 * 주문하기
@@ -24,9 +24,11 @@ public class OrdersServiceImpl implements OrdersService {
 	 * 5. 디저트 주문이 들어온 경우 stock 감소(update)
 	 * */
 	@Override
-	public void orderInsert(Orders orders) throws SQLException, AddException, ModifyException, NotFoundException {
-		// TODO Auto-generated method stub
-		
+	public void orderInsert(Orders orders) throws SQLException, AddException {
+		int result = ordersDao.orderInsert(orders);
+		if(result == 0) {
+			throw new AddException("주문이 완료되지 않았습니다.");
+		}
 	}
 
 	/**
@@ -36,9 +38,10 @@ public class OrdersServiceImpl implements OrdersService {
 	 * */
 	@Override
 	public void orderStateUpdate(Orders orders) throws SQLException, ModifyException, NotFoundException {
-		int result = orderDao.orderStateUpdate(orders);
+
+		int result = ordersDao.orderStateUpdate(orders);
 		if(result==0)throw new SQLException("변경을 실패하였습니니다.");
-		
+
 	}
 
 	/**
@@ -47,7 +50,7 @@ public class OrdersServiceImpl implements OrdersService {
 	 * */
 	@Override
 	public List<Orders> selectOngoingOrder() throws SQLException, NotFoundException {
-		List<Orders> list=orderDao.selectOnoingOrder();
+		List<Orders> list=ordersDao.selectOnoingOrder();
 		if(list.isEmpty()) throw new SQLException("현재 진행중인 주문이 없습니다..");
 		return list;
 	}
@@ -58,7 +61,7 @@ public class OrdersServiceImpl implements OrdersService {
 	 * */
 	@Override
 	public List<Orders> selectByUserTel(String UserTel) throws SQLException, NotFoundException {
-		List<Orders> list=orderDao.selectByUserTel(UserTel);
+		List<Orders> list=ordersDao.selectByUserTel(UserTel);
 		if( list.isEmpty() ) throw new SQLException("지난 주문 내역이 없습니다..");
 		return list;
 	}
@@ -67,9 +70,12 @@ public class OrdersServiceImpl implements OrdersService {
 	 * 일간 매출 통계 조회
 	 * */
 	@Override
-	public Statistics dailySalesStatistic() throws SQLException, AddException, NotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+	public Statistics dailySalesStatistic(String date) throws SQLException, NotFoundException {
+		Statistics statistic = ordersDao.dailySalesStatistic(date);
+//		if (statistic == null) {
+//			throw new NotFoundException("일간 매출을 검색할 수 없습니다.");
+//		}
+		return statistic;
 	}
 
 }

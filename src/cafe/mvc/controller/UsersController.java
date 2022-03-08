@@ -29,7 +29,7 @@ public class UsersController {
 	 */
 	public static void registor(Users users) {
 		try {
-			usersService.userInsert(users);
+			usersService.userUpdate(users);
 			SuccessView.printMessage("가입완료");
 			//MenuView.menu();
 		}catch (Exception e) {
@@ -38,5 +38,33 @@ public class UsersController {
 			
 
 		}
+	}
+	
+	/**
+	 * 비밀번호변경
+	 */
+	public static void pwdUpdate(Users users) {
+		try {
+			usersService.userUpdate(users);
+			SuccessView.printMessage("변경완료");
+			//MenuView.menu();
+		}catch (Exception e) {
+			e.printStackTrace();
+			FailView.errorMessage(e.getMessage());
+		}
+	}
+	/**
+	 * 적립금확인
+	 */
+	public static void userPointCh(Users users) {
+		try {
+			usersService.userPointCh(users);
+			SuccessView.printMessage("적립금확인완료");
+			//MenuView.menu();
+		}catch (Exception e) {
+			e.printStackTrace();
+			FailView.errorMessage(e.getMessage());
+		}
+		
 	}
 }

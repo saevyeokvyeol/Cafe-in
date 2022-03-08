@@ -28,7 +28,7 @@ public interface UsersService {
 	/**
 	 * 적립금 확인: user 테이블 select
 	 * */
-	Users selectPointByUserTel(String userTel) throws SQLException, NotFoundException;
+	void userPointCh(Users users) throws SQLException, ModifyException, NotFoundException;
 	
 	/**
 	 * 더 필요한 메소드 있을까요?
