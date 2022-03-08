@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.Scanner;
+
+import cafe.mvc.controller.ProductController;
 import cafe.mvc.model.dto.Product;
 import cafe.mvc.model.dto.Stock;
 import cafe.mvc.util.DbUtil;
@@ -175,7 +177,6 @@ public class ProductDAOImpl implements ProductDAO {
 	@Override
 	public List<Product> selectAll() throws SQLException {
 
-		// TODO Auto-generated method stub
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -183,7 +184,7 @@ public class ProductDAOImpl implements ProductDAO {
 		
 		try {
 			conn = DbUtil.getConnection();
-			String sql = String.format("select * from product", selectByProdCode(null));
+			String sql = profile.getProperty("Product.selectAll");
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
 		
@@ -219,8 +220,9 @@ public class ProductDAOImpl implements ProductDAO {
 		
 		try {
 			conn = DbUtil.getConnection();
-			String sql = String.format("select * from product where PROD_GROUP = '%s'",  groupCode);
+			String sql = profile.getProperty("product.selectByGroup");
 			ps = conn.prepareStatement(sql);
+			ps.setString(1, groupCode);
 			rs = ps.executeQuery();
 		
 			while(rs.next()) {	

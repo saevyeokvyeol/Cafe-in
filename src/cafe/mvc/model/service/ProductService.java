@@ -53,7 +53,9 @@ public interface ProductService {
 	/**
 	 * 전체상품 메뉴보기(커피/티/스무디/디저트 순서로 나옴)
 	 * */
+
 	List<Product> selectAll(String ProdCode) throws SQLException, NotFoundException;
+
 
 	
 }

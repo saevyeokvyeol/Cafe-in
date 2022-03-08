@@ -1,6 +1,7 @@
 package cafe.mvc.controller;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import cafe.mvc.model.dto.Product;
 import cafe.mvc.model.dto.Stock;
@@ -73,5 +74,23 @@ public class ProductController {
 		}
 		
 	}
-	
+	//카테고리별 상품 조회
+	public static List<Product> selectByGroup(String groupCode) {
+		try {
+			List<Product> list = productService.selectByGroup(groupCode);
+			return list; 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	//전체 상품 조회
+	public static void selectByGroup(Product product) {
+		try {
+			List<Product>list = productService.selectAll(null);
+			System.out.println(list);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
