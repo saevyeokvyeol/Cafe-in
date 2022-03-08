@@ -81,7 +81,6 @@ public class ProductDAOImpl implements ProductDAO {
 		PreparedStatement ps = null;
 		int result=0;
 		String sql = profile.getProperty("product.update");
-//		update product set prod_price = ?, prod_detail = ? where prod_code = ? 
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
@@ -214,36 +213,25 @@ public class ProductDAOImpl implements ProductDAO {
 	 * */
 	@Override
 	public List<Product> selectAll() throws SQLException {
-
-		Connection conn = null;
+		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		List<Product> productList = new ArrayList<>();
+		List<Product> list = new ArrayList<>();
+		String sql = profile.getProperty("product.selectAll");
 		
 		try {
-			conn = DbUtil.getConnection();
-			String sql = profile.getProperty("Product.selectAll");
-			ps = conn.prepareStatement(sql);
+			con = DbUtil.getConnection();
+			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 		
 			while(rs.next()) {	
-				Product product = new Product(
-						rs.getString(1),
-						rs.getString(2),
-						rs.getString(3),
-						rs.getInt(4),
-						rs.getString(5),
-						rs.getInt(6)
-					);
-				
-				productList.add(product);				
+				Product product = new Product(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getInt(6));
+				list.add(product);				
 			}
-		}finally {
-				DbUtil.close(conn, ps, rs);
-			}
-			
-			return productList;
-
+			}finally {
+					DbUtil.close(con, ps, rs);
+				}
+				return list;
 	}
 	/**
 	 * 카테고리별 상품 보기

@@ -3,6 +3,8 @@ package cafe.mvc.view;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.ListCellRenderer;
+
 import cafe.mvc.model.dto.OrderLine;
 import cafe.mvc.model.dto.Orders;
 import cafe.mvc.model.dto.Product;
@@ -108,10 +110,24 @@ public class SuccessView {
 		}
 		System.out.println(
 				"---------------------------------------------------------------------------------------------------------|");
-			
-
-
 	}
+	/**
+	 * 전체 상품 조회
+	 * */
+	public static void printSelectAll(List<Product> list) {
+		System.out.println("*********상품 "+ list.size() +"개*********");
+		
+		for (Product product: list) {
+			String prodCode = product.getProdCode();
+		    String prodGroup = product.getProdGroup();
+		    String prodName= product.getProdName();
+		    int prodPrice= product.getProdPrice();
+		    String prodDetail= product.getProdDetail();
+		    int prodState= product.getProdState();
+		    
+		    System.out.println(product.getProdCode() + " | " + product.getProdGroup()+ " | " +product.getProdName()+ " | " +product.getProdPrice()+ " | " +product.getProdDetail()+ " | " +product.getProdState()); 
+		}
+		}
 
 	public static void printSelectProduct(Product product) {
 		System.out.println(product.getProdCode() + " | " + product.getProdName());
