@@ -33,6 +33,8 @@ public class Orders {
 		this.orderDate = orderDate;
 		this.takeOut = takeOut;
 	}
+	
+	
 
 	public int getOrderNum() {
 		return orderNum;

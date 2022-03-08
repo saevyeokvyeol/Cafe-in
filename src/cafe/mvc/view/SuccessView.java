@@ -32,6 +32,7 @@ public class SuccessView {
 			
 			System.out.println(prodCode + " | " + prodName + " | " + prodPrice + " | " + qty + " | " + (prodPrice * qty));
 		}
+		
 		System.out.println("총 가격 : " + totalPrice);
 	}
 	/**
@@ -80,6 +81,10 @@ public class SuccessView {
 //			System.out.println("주문상태코드 :" + stateCode + userName + "님 | 수량 : " + qty + " | " + prodName + " | " + prodPrice + "￦ | 총 결제금액 : " +priceQty + "￦");
 		}
 		
+	}
+	
+	public static void printSelectProduct(Product product) {
+		System.out.println(product.getProdCode() + " | " + product.getProdName());
 	}
 	
 	public static void printMessage(String message) {

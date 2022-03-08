@@ -1,11 +1,15 @@
 package cafe.mvc.model.dto;
 
+import java.util.List;
+
 public class Users{
 	private String userTel; //회원전화번호
     private String userName; //이름
     private int userPoint; //적립금
     private int userPwd; //비밀번호
     private String regDate;
+    
+    private List<Orders> orderList;
    
     public Users() {}
 
@@ -74,7 +78,13 @@ public class Users{
 	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
-	
-	
+
+	public List<Orders> getOrderList() {
+		return orderList;
+	}
+
+	public void setOrderList(List<Orders> orderList) {
+		this.orderList = orderList;
+	}	
   
 }
