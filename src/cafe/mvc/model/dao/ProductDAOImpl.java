@@ -1,9 +1,14 @@
 package cafe.mvc.model.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import cafe.mvc.model.dto.Product;
+import cafe.mvc.util.DbUtil;
 
 public class ProductDAOImpl implements ProductDAO {
 
@@ -67,7 +72,34 @@ public class ProductDAOImpl implements ProductDAO {
 	@Override
 	public List<Product> selectAll() throws SQLException {
 		// TODO Auto-generated method stub
-		return null;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Product> productList = new ArrayList<>();
+		
+		try {
+			conn = DbUtil.getConnection();
+			String sql = String.format("select * from product", selectByProdCode(null));
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+		
+			while(rs.next()) {	
+				Product product = new Product(
+						rs.getString(1),
+						rs.getString(2),
+						rs.getString(3),
+						rs.getInt(4),
+						rs.getString(5),
+						rs.getInt(6)
+					);
+				
+				productList.add(product);				
+			}
+		}finally {
+				DbUtil.close(conn, ps, rs);
+			}
+			
+			return productList;
 	}
 	/**
 	 * 카테고리별 상품 보기
@@ -75,9 +107,37 @@ public class ProductDAOImpl implements ProductDAO {
 	 * */
 	@Override
 	public List<Product> selectByGroup(String groupCode) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Product> productList = new ArrayList<>();
+		
+		try {
+			conn = DbUtil.getConnection();
+			String sql = String.format("select * from product where PROD_GROUP = '%s'",  groupCode);
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+		
+			while(rs.next()) {	
+				Product product = new Product(
+						rs.getString(1),
+						rs.getString(2),
+						rs.getString(3),
+						rs.getInt(4),
+						rs.getString(5),
+						rs.getInt(6)
+					);
+				
+				productList.add(product);				
+			}
+		}finally {
+				DbUtil.close(conn, ps, rs);
+			}
+			
+			return productList;
+			
+		}
+		
 	/**
 	 * 상품 코드로 상품 검색
 	 * */

@@ -7,10 +7,14 @@ import cafe.mvc.exception.AddException;
 import cafe.mvc.exception.DuplicatedException;
 import cafe.mvc.exception.ModifyException;
 import cafe.mvc.exception.NotFoundException;
+import cafe.mvc.model.dao.ProductDAOImpl;
 import cafe.mvc.model.dto.Product;
 
 public class ProductServiceImpl implements ProductService {
+	
 
+	ProductDAOImpl productDAO = new ProductDAOImpl();
+	
 	/**
 	 * 음료 등록: product 테이블 레코드 insert
 	 * */
@@ -63,24 +67,26 @@ public class ProductServiceImpl implements ProductService {
 	public void dessertDelete(Product product) throws SQLException, ModifyException, NotFoundException {
 		// TODO Auto-generated method stub
 
+	}	
+	/**
+	 * 전체상품검색
+	 * */
+	@Override
+	public List<Product> selectAll(String ProdCode) throws SQLException, NotFoundException {
+		// TODO Auto-generated method stub
+		List<Product> productList = productDAO.selectAll();
+		return productList;
 	}
+
 	/**
 	 * 카테고리별 상품 보기
 	 * : 상품분류코드를 통해 각 카테고리에 맞는 상품만 조회
 	 * */
+	// List<Product>
 	@Override
 	public List<Product> selectByGroup(String groupCode) throws SQLException, NotFoundException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * 상품 코드로 상품 검색
-	 * */
-	@Override
-	public Product selectByProdCode(String ProdCode) throws SQLException, NotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		List<Product> productList = productDAO.selectByGroup(groupCode);
+		return productList;
 	}
 
 }

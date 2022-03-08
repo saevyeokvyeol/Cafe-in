@@ -7,14 +7,16 @@ public class Statistics {
 	private String date;
 	private int dailyOrderTimes;
 	private int dailySalesPrice;
+	private int dailySalesQty;
 
 	public Statistics() {}
 	
-	public Statistics(String date, int dailyOrderTimes, int dailySalesPrice) {
+	public Statistics(String date, int dailyOrderTimes, int dailySalesPrice, int dailySalesQty) {
 		super();
 		this.date = date;
 		this.dailyOrderTimes = dailyOrderTimes;
 		this.dailySalesPrice = dailySalesPrice;
+		this.dailySalesQty = dailySalesQty;
 	}
 
 	public String getDate() {
@@ -39,6 +41,14 @@ public class Statistics {
 
 	public void setDailySalesPrice(int dailySalesPrice) {
 		this.dailySalesPrice = dailySalesPrice;
+	}
+
+	public int getDailySalesQty() {
+		return dailySalesQty;
+	}
+
+	public void setDailySalesQty(int dailySalesQty) {
+		this.dailySalesQty = dailySalesQty;
 	}
 	
 	

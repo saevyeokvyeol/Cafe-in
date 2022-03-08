@@ -50,9 +50,10 @@ public interface ProductService {
 	List<Product> selectByGroup(String groupCode) throws SQLException, NotFoundException;
 	
 	/**
-	 * 상품 코드로 상품 검색
+	 * 전체상품 메뉴보기(커피/티/스무디/디저트 순서로 나옴)
 	 * */
-	Product selectByProdCode(String ProdCode) throws SQLException, NotFoundException;
+	List<Product> selectAll(String ProdCode) throws SQLException, NotFoundException;
+
 	
 	/**
 	 * 더 필요한 메소드 있을까요?
