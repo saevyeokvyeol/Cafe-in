@@ -203,6 +203,7 @@ public class OrdersDAOImpl implements OrdersDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
+		//Orders orders = null;
 		List<Orders> orderList = new ArrayList<>();
 		String sql = "select*from orders join order_line using(order_num) where user_tel =?";
 		//int주문상태코드, String이름, String상품명,int 수량, int판매가격, int가격*주문수량 
@@ -211,11 +212,16 @@ public class OrdersDAOImpl implements OrdersDAO {
 			ps= con.prepareStatement(sql);
 			ps.setString(1, UserTel);
 			rs= ps.executeQuery();
-			
+			//selectByUserTelOrderLine(con,orders.getOrderNum());
 			
 			while(rs.next()) {
 				// int orderNum, String userTel, int stateCode, String payMethod, int payPoint, int totalPrice, String orderDate, int takeOut
 				Orders orders = new Orders( rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getString(7), rs.getInt(8) );
+				//orderList.add(orders);
+				/////////////////
+				List<OrderLine> orderLineList = selectByUserTelOrderLine(con,orders.getOrderNum());
+				orders.setOrdelLineList(orderLineList);
+				
 				orderList.add(orders);
 			}
 			
@@ -230,30 +236,30 @@ public class OrdersDAOImpl implements OrdersDAO {
 	/**
 	 * 주문상세
 	 * */
-//	public List<OrderLine> selectByUserTelOrderLine(Connection con,int orderNum)throws SQLException{
-//		PreparedStatement ps = null;
-//		ResultSet rs = null;
-//		List<OrderLine> list = new ArrayList<>();
-//		Orders orders= null;
-//		String sql = "select*from order_line where order_num=?";
-//		
-//
-//		try {
-//			con=DbUtil.getConnection();
-//			ps= con.prepareStatement(sql);
-//			ps.setInt(1, orderNum);
-//			rs=ps.executeQuery();
-//			while(rs.next()) {
-//				OrderLine orderLine = new OrderLine(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getInt(5));
-//				list.add(orderLine);
-//				orders.setOrdelLineList(list);
-//			}
-//		} finally {
-//			DbUtil.close(null, ps, rs);
-//		}
-//		
-//		return list;
-//	}
+	public List<OrderLine> selectByUserTelOrderLine(Connection con, int orderNum)throws SQLException{
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<OrderLine> list = new ArrayList<OrderLine>();
+		
+		String sql = "select*from order_line where order_num=?";
+		
+
+		try {
+			con=DbUtil.getConnection();
+			ps= con.prepareStatement(sql);
+			ps.setInt(1, orderNum);
+			rs=ps.executeQuery();
+			
+			while(rs.next()) {
+				OrderLine orderLine = new OrderLine(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getInt(5));
+				list.add(orderLine);
+			}
+		} finally {
+			DbUtil.close(null, ps, rs);
+		}
+		
+		return list;
+	}
 
 	
 

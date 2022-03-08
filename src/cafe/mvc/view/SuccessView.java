@@ -39,7 +39,7 @@ public class SuccessView {
 	 * 회원의 지난 주문 내역 조회
 	 */
 	public static void printSelectByUserTel(List<Orders> list, String userTel) {
-		System.out.println("*********ㅁ" + userTel + " 회원님의 지난 주문 내역");
+		System.out.println("*********" + userTel + " 회원님의 지난 주문 내역");
 		System.out.println("\t----*** 0 : eat in  1 : take out ***----");
 		System.out.println(
 				"〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓|");
@@ -56,11 +56,28 @@ public class SuccessView {
 
 			System.out.println("주문번호 : " + orderNum + "번 | take out 여부 : " + takeOut + " 결제방법 : " + payMethod
 					+ " | 주문 일자 : " + orderDate + " | 총 결제금액 : " + totalPrice + "￦");
-			System.out.println(
-					"〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓|");
-
+//			System.out.println(
+//					"〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓|");
+//			
+			for(OrderLine orderline : orders.getOrdelLineList()) {
+				System.out.println("\t*********주문 상세*********");
+				
+				int orderLineCode = orderline.getOrderLineCode();
+				String prodCode = orderline.getProdCode();
+				int qty = orderline.getQty();
+				int priceQty = orderline.getPriceQty();
+				System.out.println("주문상세코드 : "+orderLineCode+ " | 상품코드 : "+prodCode+" | 수량 : "+qty+" | ");
+				System.out.println(
+						"〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓|");
+	
+			}	
 		}
-
+		
+//		Orders orders=new Orders();
+//		for(OrderLine orderLine : orders.getOrdelLineList()) {
+//			int a = orderLine.getOrderLineCode();
+//					System.out.println(a);
+//		}
 	}
 
 	/**
