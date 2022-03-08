@@ -93,5 +93,4 @@ public class ProductServiceImpl implements ProductService {
 		List<Product> productList = productDao.selectByGroup(groupCode);
 		return productList;
 	}
-
 }

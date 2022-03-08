@@ -8,10 +8,7 @@ public class Product {
 	   private String prodDetail;
 	   private int soldOut;
 	   
-<<<<<<< HEAD
 	   // 재고가 있는 디저트의 경우 1:1의 관계로 stock을 가지고 있음
-=======
->>>>>>> cb754816728576241d284d7e5dfd7697404b6f4f
 	   private Stock stock;
 
 	public Product() {}
@@ -65,9 +62,5 @@ public class Product {
 	public void setStock(Stock stock) {
 		this.stock = stock;
 	}
-<<<<<<< HEAD
-	
-=======
->>>>>>> cb754816728576241d284d7e5dfd7697404b6f4f
 	  
 }

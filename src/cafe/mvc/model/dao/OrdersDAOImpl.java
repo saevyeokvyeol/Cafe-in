@@ -5,11 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-<<<<<<< HEAD
 import java.util.Properties;
-=======
 import java.util.Scanner;
->>>>>>> cb754816728576241d284d7e5dfd7697404b6f4f
 
 import cafe.mvc.model.dto.OrderLine;
 import cafe.mvc.model.dto.Orders;
@@ -246,8 +243,8 @@ public class OrdersDAOImpl implements OrdersDAO {
 			//List = new ArrayList<Orders>();
 			//전화번호,이름,주문수량,상품명,판매가격,가격*주문수량
 			while(rs.next()) {
-				orders = new Orders( rs.getString(1),rs.getString(2),rs.getInt(3),rs.getString(4),rs.getInt(5),rs.getInt(6) );
-				list.add(orders);
+//				orders = new Orders( rs.getString(1),rs.getString(2),rs.getInt(3),rs.getString(4),rs.getInt(5),rs.getInt(6) );
+//				list.add(orders);
 			}
 		
 			

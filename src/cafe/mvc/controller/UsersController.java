@@ -5,11 +5,7 @@ import cafe.mvc.model.service.UsersService;
 import cafe.mvc.model.service.UsersServiceImpl;
 import cafe.mvc.view.FailView;
 import cafe.mvc.view.MenuView;
-<<<<<<< HEAD
-import cafe.mvc.view.MenuView2;
-=======
 import cafe.mvc.view.SuccessView;
->>>>>>> cb754816728576241d284d7e5dfd7697404b6f4f
 
 
 public class UsersController {
@@ -21,16 +17,12 @@ public class UsersController {
 	public static void login(String userTel, int userPwd) {
 		try {
 			Users users = usersService.login(userTel, userPwd);
-//			MenuView.printUserMenu(users.getUserTel(), users.getUserName());
-			MenuView2.userMenu(users.getUserTel(), users.getUserName());
+			MenuView.printUserMenu(users.getUserTel(), users.getUserName());
 		} catch (Exception e) {
 			FailView.errorMessage(e.getMessage());
 
 		}
 	}
-<<<<<<< HEAD
-}
-=======
 	
 	/**
 	 * 회원가입
@@ -76,4 +68,3 @@ public class UsersController {
 		
 	}
 }
->>>>>>> cb754816728576241d284d7e5dfd7697404b6f4f
