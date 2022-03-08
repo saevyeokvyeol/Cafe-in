@@ -96,18 +96,20 @@ public class ProductController {
 		}
 	}
 
+
 	
 	/**
 	 * 카테고리별 상품 조회
 	 * */
-	public static List<Product> selectByGroup(String groupCode) {
+	public static void selectByGroup(String groupCode) {
+
 		try {
 			List<Product> list = productService.selectByGroup(groupCode);
-			return list; 
+			SuccessView.printByCategory(list);
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
 	}
 	
 	

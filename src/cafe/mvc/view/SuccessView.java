@@ -138,4 +138,14 @@ public class SuccessView {
 		System.out.println(message);
 	}
 
+	public static void printByCategory(List<Product> productList) {
+		for(Product p : productList) {
+			System.out.println(p.getProdCode() + " | " + 
+							   p.getProdGroup()+ " | " + 
+							   p.getProdName() + " | " + 
+							   p.getProdPrice()+ " | " + 
+							   p.getProdDetail());
+		}
+	}
+	
 }
