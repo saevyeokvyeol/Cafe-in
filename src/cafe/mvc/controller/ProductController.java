@@ -56,8 +56,9 @@ public class ProductController {
 	public static void productDelete(String prodCode) {
 		try {
 		  productService.productDelete(prodCode);
-		// if() 상품코드 찾아서 stock 0개인 제품찾아서 아래 메소드 호출
-//		  productService.stockDelete(prodCode); //디저트 상품삭제(스턱)
+		  if(productService.selectByProdCode(prodCode).getStock().getProdStock() == 0){
+			  productService.stockDelete(prodCode);
+		  }
 		  SuccessView.printMessage("상품 삭제 완료");
 		}catch (Exception e) {
 			//e.printStackTrace();
@@ -101,7 +102,7 @@ public class ProductController {
 			  productService.productStateUpdate(prodCode,prodState);
 			  SuccessView.printMessage("상품 상태 변경 완료");
 			}catch (Exception e) {
-				//e.printStackTrace();
+				e.printStackTrace();
 				FailView.errorMessage(e.getMessage());
 			}
 		
