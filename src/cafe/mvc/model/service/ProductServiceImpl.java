@@ -90,10 +90,10 @@ public class ProductServiceImpl implements ProductService {
 	 * 전체상품검색
 	 * */
 	@Override
-	public List<Product> selectAll(String ProdCode) throws SQLException, NotFoundException {
-		// TODO Auto-generated method stub
-		List<Product> productList = productDao.selectAll();
-		return productList;
+	public List<Product> selectAll() throws SQLException, NotFoundException {
+		List<Product> list = productDao.selectAll();
+		if(list.size()==0)throw new NotFoundException("현재 상품이 없습니다.");
+		return list;
 	}
 
 	/**
