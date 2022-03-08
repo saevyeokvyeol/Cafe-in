@@ -1,8 +1,17 @@
 package cafe.mvc.view;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
+import cafe.mvc.controller.CartController;
+import cafe.mvc.controller.OrdersController;
 import cafe.mvc.controller.UsersController;
+import cafe.mvc.model.dto.OrderLine;
+import cafe.mvc.model.dto.Orders;
+import cafe.mvc.model.dto.Product;
+import cafe.mvc.session.Session;
 import cafe.mvc.session.SessionSet;
 
 public class MenuView2 {
@@ -23,7 +32,7 @@ public class MenuView2 {
 				MenuView2.login();
 				break;
 			case 4 : 
-				MenuView2.orderMenu();
+				MenuView2.orderMenu(null, null);
 				break;
 			case 0 : 
 				System.exit(0);
@@ -42,16 +51,20 @@ public class MenuView2 {
 			int menu =Integer.parseInt( sc.nextLine());
 			switch(menu) {
 				case 1 :
-					MenuView2.orderMenu();
+					MenuView2.orderInsert(userTel);
+					// MenuView2.orderMenu(userTel, userName);
 					break;
 				case 2 :
+					MenuView2.putCart(userTel);
 					break;
 				case 3 :
+					CartController.viewCart(userTel);
 					break;
 				case 9 :
+					MenuView2.deleteCartByCode(userTel);
 					return;
 				case 0 : 
-					System.exit(0);
+					CartController.deleteCartAll(userTel);
 			}
 		}
 		
@@ -60,7 +73,7 @@ public class MenuView2 {
 	/**
 	 * 주문 메뉴
 	 * */
-	public static void orderMenu() {
+	public static void orderMenu(String userTel, String userName) {
 		while(true) {
 			System.out.println("\n" + "[ 1. 커피 메뉴 보기  |  2. 스무디 메뉴 보기  |  3. 차 메뉴 보기  |  4. 디저트 메뉴 보기  |  5. 장바구니 보기  |  9. 뒤로 가기  |  0. 종료 ]");
 			System.out.print("▶ ");
@@ -75,7 +88,7 @@ public class MenuView2 {
 				case 4 :
 					break;
 				case 5 :
-					MenuView2.cartMenu();
+					MenuView2.cartMenu(userTel, userName);
 				case 9 :
 					return;
 				case 0 :
@@ -87,7 +100,7 @@ public class MenuView2 {
 	/**
 	 * 카테고리별 상품 페이지
 	 * */
-	public static void categoryMenu() {
+	public static void categoryMenu(String userTel, String userName) {
 		while(true) {
 			System.out.println("\n" + "[ 1. 장바구니에 상품 담기  |  9. 뒤로 가기  |  0. 종료 ]");
 			System.out.print("▶ ");
@@ -106,7 +119,7 @@ public class MenuView2 {
     /**
      * 관리자 메뉴
      * */
-	public static void adminMenu() {
+	public static void adminMenu(String userTel, String userName) {
 		while(true) {
 			System.out.println("\n" + "관리자 메뉴");
 			System.out.println("[ 1. 상품 조회  |  2. 상품 등록  |  3. 상품 수정  |  4. 회원 정보 수정  |  5. 현재 주문 조회  |  6. 주문 상태 변경  |  7. 일간 매출 통계  |  9. 로그아웃  |  0. 종료 ]");
@@ -138,7 +151,7 @@ public class MenuView2 {
     /**
      * 장바구니 메뉴
      * */
-	public static void cartMenu() {
+	public static void cartMenu(String userTel, String userName) {
 		while(true) {
 			System.out.println("\n" + "[ 1. 결제  |  2. 장바구니 상품 삭제  |  3. 장바구니 전체 삭제  |  9. 뒤로 가기  |  0. 종료 ]");
 			System.out.print("▶ ");
@@ -164,15 +177,22 @@ public class MenuView2 {
 	 * 로그인 메소드
 	 * */
 	public static void login() {
-		 System.out.println("전화번호를 입력해주세요");
-		 System.out.print("▶ ");
-		 String userTel = sc.nextLine();
-		 
-		 System.out.println("비밀번호를 입력해주세요");
-		 System.out.print("▶ ");
-		 int userPwd = Integer.parseInt(sc.nextLine());
-		 
-		 UsersController.login(userTel, userPwd);
+		System.out.println("전화번호를 입력해주세요");
+		System.out.print("▶ ");
+		String userTel = sc.nextLine();
+		
+		System.out.println("비밀번호를 입력해주세요");
+		System.out.print("▶ ");
+		int userPwd = Integer.parseInt(sc.nextLine());
+		
+		UsersController.login(userTel, userPwd);
+	}
+	
+	/**
+	 * 관리자 로그인 메소드
+	 * */
+	public static void adminLogin() {
+		
 	}
 
 	/**
@@ -192,21 +212,61 @@ public class MenuView2 {
 	/**
 	 * 장바구니 추가 메소드
 	 * */
-	public static void putCart() {
+	public static void putCart(String userTel) {
+		System.out.println("장바구니에 추가할 상품 코드를 입력해주세요");
+		System.out.print("▶ ");
+		String prodCode = sc.nextLine();
 		
+		System.out.println("원하시는 상품 수량을 입력해주세요.");
+		System.out.print("▶ ");
+		int qty = Integer.parseInt(sc.nextLine());
+		
+		CartController.putCart(userTel, prodCode, qty);
 	}
 	
 	/**
 	 * 장바구니 부분 삭제 메소드
 	 * */
-	public static void deleteCartByCode() {
+	public static void deleteCartByCode(String userTel) {
+		System.out.println("장바구니에서 제외할 상품 코드를 입력해주세요");
+		System.out.print("▶ ");
+		String prodCode = sc.nextLine();
 		
+		CartController.deleteCartByCode(userTel, prodCode);
 	}
 	
 	/**
 	 * 결제 메소드
 	 * */
-	public static void orderInsert() {
+	public static void orderInsert(String userTel) {
+		SessionSet ss = SessionSet.getInstance();
+		Session session = ss.get(userTel);
+		
+		int payPoint = 0;
+		
+		if(userTel != null) {
+			System.out.println("사용하실 적립금 액수를 입력해주세요.");
+			System.out.print("▶ ");
+			payPoint = Integer.parseInt(sc.nextLine());
+		}
+		
+		System.out.println("결제 방법을 선택해주세요.");
+		System.out.println("[ 카드 / 현금 ]");
+		System.out.print("▶ ");
+		String payMethod = sc.nextLine();
+		
+		System.out.println("포장 여부를 선택해주세요.");
+		System.out.println("[ 0. 매장에서 먹고 갈게요  |  1. 포장해 주세요 ]");
+		System.out.print("▶ ");
+		int takeout = Integer.parseInt(sc.nextLine());
+		
+		List<OrderLine> list = new ArrayList<OrderLine>();
+		Map<Product, Integer> cart = (Map<Product, Integer>) session.getAttributes("cart");
+		
+		Orders orders = new Orders(0, userTel, 0, payMethod, payPoint, 0, null, takeout);
+		orders.setOrdelLineList(list);
+		
+		OrdersController.orderInsert(orders);
 		
 	}
 	
