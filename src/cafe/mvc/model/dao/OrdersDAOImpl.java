@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.Scanner;
@@ -177,9 +178,9 @@ public class OrdersDAOImpl implements OrdersDAO {
 			System.out.println("변경할 상태코드는 ? \n 1.접수대기 | 2.주문 접수 |  3.상품 준비중 | 4. 상품 준비 완료 | 5. 픽업 완료 | 6. 주문 취소");
 			int a = sc.nextInt();
 			System.out.println("변경할 주문번호는 ?");
-			int b = sc.nextInt();
+			int orderNum = orders.getOrderNum();
 			ps.setInt(1, a);
-			ps.setInt(2, b);
+			ps.setInt(2, orderNum);
 			
 			result = ps.executeUpdate();
 			if(result==0) {
@@ -202,16 +203,20 @@ public class OrdersDAOImpl implements OrdersDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		List<Orders> orderList = null;
-		String sql = "";
-		
+		List<Orders> orderList = new ArrayList<Orders>();
+		String sql = "select o.state_code, u.user_name, p.prod_name,ol.qty , p.prod_price, ol.price_qty from users u join orders o on u.user_tel = o.user_tel join order_line ol using(order_num) join product p on ol.prod_code = p.prod_code where state_code != 4 and state_code !=5";
+		//int주문상태코드, String이름, String상품명,int 수량, int판매가격, int가격*주문수량 
 		try {
 			con = DbUtil.getConnection();
 			con.setAutoCommit(false);
 			
 			ps= con.prepareStatement(sql);
+			rs= ps.executeQuery();
 			
-			orderList = (List<Orders>) ps.executeQuery();
+			while(rs.next()) {
+//				Orders orders = new Orders(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getInt(5),rs.getInt(6));
+//				orderList.add(orders);
+			}
 			
 		}finally {
 			DbUtil.close(con, ps, rs);
@@ -230,10 +235,10 @@ public class OrdersDAOImpl implements OrdersDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		List<Orders> list = null;
-		String sql = "select u.user_tel,u.user_name, ol.qty, p.prod_name, p.prod_price,ol.price_qty from users u join orders o on u.user_tel = o.user_tel join order_line ol using(order_num)join product p on ol.prod_code = p.prod_code where u.user_tel=?;";
-		Orders orders= null;
-
+		List<Orders> list = new ArrayList<Orders>();
+		String sql = "select u.user_tel,u.user_name, ol.qty, p.prod_name, p.prod_price,ol.price_qty from users u join orders o on u.user_tel = o.user_tel join order_line ol using(order_num)join product p on ol.prod_code = p.prod_code where u.user_tel=?";
+		//Orders orders= null;
+	
 		try {
 			con = DbUtil.getConnection();
 			con.setAutoCommit(false);
@@ -243,8 +248,10 @@ public class OrdersDAOImpl implements OrdersDAO {
 			//List = new ArrayList<Orders>();
 			//전화번호,이름,주문수량,상품명,판매가격,가격*주문수량
 			while(rs.next()) {
+
 //				orders = new Orders( rs.getString(1),rs.getString(2),rs.getInt(3),rs.getString(4),rs.getInt(5),rs.getInt(6) );
 //				list.add(orders);
+
 			}
 		
 			

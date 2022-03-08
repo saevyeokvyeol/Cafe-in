@@ -1,31 +1,28 @@
 package cafe.mvc.view;
 
 
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
-
-
 import cafe.mvc.controller.OrdersController;
 import cafe.mvc.controller.UsersController;
-import cafe.mvc.model.dto.Users;
-import cafe.mvc.exception.NotFoundException;
+import cafe.mvc.model.dto.Orders;
 import cafe.mvc.model.dto.Product;
-import cafe.mvc.model.service.ProductService;
+import cafe.mvc.model.dto.Users;
 import cafe.mvc.model.service.ProductServiceImpl;
 import cafe.mvc.session.SessionSet;
-import cafe.mvc.controller.ProductController;
 
 
 public class MenuView {
-	
+
+
 	//private static ProductServiceImpl productService;
 	
 	static ProductServiceImpl productService = new ProductServiceImpl();
 	
 	private static Scanner sc = new Scanner(System.in);
+
 
 	public static void menu() {
 
@@ -47,7 +44,7 @@ public class MenuView {
 				MenuView.printNotUserMenu();
 				break;
 			case 4 : 
-				MenuView.adminMenu();
+				MenuView.adminsMenu();
 			case 9 : 
 				System.exit(0);
 			}
@@ -153,10 +150,28 @@ public class MenuView {
 //		System.out.println("1. 적립금확인  |  2. 지난주문내역   | 9. 나가기");
 //	}
 //    
+	
+	public static void adminsMenu() {
+		
+		System.out.println("비밀번호를 입력해주세요 :");
+		int psw = Integer.parseInt(sc.nextLine());
+		boolean a = true;
+		while(a) {
+			if(psw==8888) {
+			
+				adminMenu();
+			}else {
+				
+				System.out.println("비밀번호 오류입니다..");
+				adminsMenu();
+			}
+			
+		}
+	}
 //    //관리자메뉴
 	public static void adminMenu() {
 		System.out.println("관리자 메뉴");
-		System.out.println("  1.상품등록  |  2.상품수정  |  3.상품삭제  |  4.주문상태변경  |  5.회원정보변경  | 6. 일간 매출 조회 |  9. 나가기  ");
+		System.out.println("  1.상품등록  |  2.상품수정  |  3.상품삭제  |  4.주문상태변경  |  5.회원정보변경  | 6. 일간 매출 조회 | 7.현재진행중인 주문검색 | 8.회원의 지난 주문 내역 조회  9. 나가기  ");
 		System.out.print("메뉴 입력 > ");
 		int menu = Integer.parseInt(sc.nextLine());
 		switch(menu) {
@@ -165,10 +180,29 @@ public class MenuView {
 			break;
 		case 2 :
 			break;
+		case 3 :
+			break;
+		case 4 :
+			int orderNum = sc.nextLine();
+
+			int stateCode = sc.nextLine();
+			OrdersController.orderStateUpdate(new Orders(orderNum, stateCode));
+			break;
+		case 5 :
+			break;
 		case 6 : 
 			String date = new SimpleDateFormat("yyMMdd").format(new Date());
 			//OrdersController.dailySalesStatistic(date);
 			break;
+		case 7 : //현재진행중인 주문검색
+			OrdersController.selectOngoingOrder();
+			break;
+		case 8 :
+			System.out.println("회원의 전화번호를 입력하세요 :");
+			String userTel = sc.nextLine();
+			
+			OrdersController.selectByUserTel(userTel);
+			
 		case 9 : 
 			System.exit(0);
 		}

@@ -38,7 +38,10 @@ public class OrdersServiceImpl implements OrdersService {
 	 * */
 	@Override
 	public void orderStateUpdate(Orders orders) throws SQLException, ModifyException, NotFoundException {
-		
+
+		int result = ordersDao.orderStateUpdate(orders);
+		if(result==0)throw new SQLException("변경을 실패하였습니니다.");
+
 	}
 
 	/**
@@ -47,8 +50,9 @@ public class OrdersServiceImpl implements OrdersService {
 	 * */
 	@Override
 	public List<Orders> selectOngoingOrder() throws SQLException, NotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		List<Orders> list=ordersDao.selectOnoingOrder();
+		if(list.isEmpty()) throw new SQLException("현재 진행중인 주문이 없습니다..");
+		return list;
 	}
 
 	/**
@@ -57,8 +61,9 @@ public class OrdersServiceImpl implements OrdersService {
 	 * */
 	@Override
 	public List<Orders> selectByUserTel(String UserTel) throws SQLException, NotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		List<Orders> list=ordersDao.selectByUserTel(UserTel);
+		if( list.isEmpty() ) throw new SQLException("지난 주문 내역이 없습니다..");
+		return list;
 	}
 
 	/**
