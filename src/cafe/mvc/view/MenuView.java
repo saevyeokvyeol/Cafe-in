@@ -157,6 +157,7 @@ public class MenuView {
 		int psw = Integer.parseInt(sc.nextLine());
 		boolean a = true;
 		while(a) {
+
 			if(psw==8888) {
 			
 				adminMenu();
@@ -170,7 +171,7 @@ public class MenuView {
 	}
 //    //관리자메뉴
 	public static void adminMenu() {
-		System.out.println("관리자 메뉴");
+		System.out.println("※관리자 메뉴※");
 		System.out.println("  1.상품등록  |  2.상품수정  |  3.상품삭제  |  4.주문상태변경  |  5.회원정보변경  | 6. 일간 매출 조회 | 7.현재진행중인 주문검색 | 8.회원의 지난 주문 내역 조회  9. 나가기  ");
 		System.out.print("메뉴 입력 > ");
 		int menu = Integer.parseInt(sc.nextLine());
@@ -183,9 +184,9 @@ public class MenuView {
 		case 3 :
 			break;
 		case 4 :
-			int orderNum = sc.nextLine();
+			int orderNum = Integer.parseInt(sc.nextLine());
 
-			int stateCode = sc.nextLine();
+			int stateCode = Integer.parseInt(sc.nextLine());
 			OrdersController.orderStateUpdate(new Orders(orderNum, stateCode));
 			break;
 		case 5 :
