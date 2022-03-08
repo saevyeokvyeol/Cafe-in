@@ -32,7 +32,7 @@ public class ProductDAOImpl implements ProductDAO {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setString(1, product.getProdCode());
-			ps.setString(2, product.getProdGroup());
+			ps.setString(2, Integer.toString(product.getProdCode().charAt(0)));
 			ps.setString(3, product.getProdName());
 			ps.setInt(4, product.getProdPrice());
 			ps.setString(5, product.getProdDetail());
@@ -79,13 +79,13 @@ public class ProductDAOImpl implements ProductDAO {
 		PreparedStatement ps = null;
 		int result=0;
 		String sql = profile.getProperty("product.update");
+//		update product set prod_price = ?, prod_detail = ? where prod_code = ? 
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, product.getProdPrice());
 			ps.setString(2, product.getProdDetail());
-			ps.setInt(3, product.getProdState());
-			ps.setString(4, product.getProdCode());
+			ps.setString(3, product.getProdCode());
 			
 			result = ps.executeUpdate();
 		}finally {
@@ -197,6 +197,8 @@ public class ProductDAOImpl implements ProductDAO {
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
+			ps.setInt(1, prodState);
+			ps.setString(2, prodCode);
 			result = ps.executeUpdate();
 		}finally {
 			DbUtil.close(con, ps);

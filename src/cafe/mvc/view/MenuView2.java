@@ -2,7 +2,10 @@ package cafe.mvc.view;
 
 import java.util.Scanner;
 
+import cafe.mvc.controller.ProductController;
 import cafe.mvc.controller.UsersController;
+import cafe.mvc.model.dto.Product;
+import cafe.mvc.model.dto.Stock;
 import cafe.mvc.session.SessionSet;
 
 public class MenuView2 {
@@ -109,23 +112,28 @@ public class MenuView2 {
 	public static void adminMenu() {
 		while(true) {
 			System.out.println("\n" + "관리자 메뉴");
-			System.out.println("[ 1. 상품 조회  |  2. 상품 등록  |  3. 상품 수정  |  4. 회원 정보 수정  |  5. 현재 주문 조회  |  6. 주문 상태 변경  |  7. 일간 매출 통계  |  9. 로그아웃  |  0. 종료 ]");
+			System.out.println("[ 1. 상품 조회  |  2. 상품 등록  |  3. 상품 수정  | 4. 상품 상태 변경  |  5. 회원 정보 수정  |  6. 현재 주문 조회  |  7. 주문 상태 변경  |  8. 일간 매출 통계  |  9. 로그아웃  |  0. 종료 ]");
 			System.out.print("▶ ");
 			int menu = Integer.parseInt(sc.nextLine());
 			switch(menu) {
 			case 1 :
 				break;
 			case 2 :
+				productInsert();
 				break;
 			case 3 :
+				productUpdate();
 				break;
 			case 4 :
+				productStateUpdate();
 				break;
 			case 5 :
 				break;
 			case 6 :
 				break;
 			case 7 :
+				break;
+			case 8 :
 				break;
 			case 9 : 
 				return;
@@ -214,14 +222,75 @@ public class MenuView2 {
 	 * 상품 등록 메소드
 	 * */
 	public static void productInsert() {
-		
+		 System.out.print("상품코드 ▶ ");
+		 String prodCode = sc.nextLine();
+		 
+		 System.out.print("상품이름 ▶ ");
+		 String prodName = sc.nextLine();
+		 
+		 System.out.print("상품가격 ▶ ");
+		 int prodPrice = Integer.parseInt(sc.nextLine());
+		 
+		 System.out.print("상품소개 ▶ ");
+		 String prodDetail = sc.nextLine();
+		 
+		 System.out.print("상품상태 ▶ ");
+		 int prodState = Integer.parseInt(sc.nextLine());
+		 
+		 char group = prodCode.charAt(0);
+		 if(group == 'D') { 
+			 System.out.print("디저트 재고량 ▶ ");
+			 int prodStock = Integer.parseInt(sc.nextLine());
+			 Product product = new Product(prodCode, null, prodName, prodPrice, prodDetail, prodState);
+			 Stock stock = new Stock(prodCode, prodStock);
+			 product.setStock(stock);
+			 ProductController.dessertInsert(product);
+		 } else {
+			 ProductController.drinkInsert(new Product(prodCode, null, prodName, prodPrice, prodDetail, prodState));
+		 }
+	
 	}
 	
 	/**
 	 * 상품 수정 메소드
 	 * */
 	public static void productUpdate() {
+		 System.out.print("상품코드 ▶ ");
+		 String prodCode = sc.nextLine();
+		 
+		 System.out.print("상품가격 ▶ ");
+		 int prodPrice = Integer.parseInt(sc.nextLine());
+		 
+		 System.out.print("상품소개 ▶ ");
+		 String prodDetail = sc.nextLine();
+	
+		 
+		 
+		 //디저트재고량
+		 char group = prodCode.charAt(0);
+		 if(group == 'D') { 
+			 System.out.print("디저트 재고량 ▶ ");
+			 int prodStock = Integer.parseInt(sc.nextLine());
+			 Product product = new Product(prodCode, null, null, prodPrice, prodDetail, 0);
+			 Stock stock = new Stock(prodCode, prodStock);
+			 product.setStock(stock);
+			 ProductController.dessertStockUpdate(stock);
+		 } else {
+			 ProductController.productUpdate(new Product(prodCode, null, null, prodPrice, prodDetail, 0));
+		 }
 		
+	}
+	
+	/**
+	 * 상품 상태 변경 메소드
+	 * */
+	public static void productStateUpdate() {
+		 System.out.print("상품코드 ▶ ");
+		 String prodCode = sc.nextLine();
+		 
+		 System.out.print("상품상태 ▶ ");
+		 int prodState = Integer.parseInt(sc.nextLine());
+		 ProductController.productStateUpdate(prodCode, prodState);
 	}
 	
 	/**
