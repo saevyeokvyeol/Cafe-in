@@ -286,10 +286,9 @@ public class MenuView {
 
 				p.getProdDetail() + "|" +
 				p.getProdState());
-<<<<<<< HEAD
 
-=======
->>>>>>> 37177ecad2264779b336e003dc752c31793e3777
+
+
 	}
 }
     

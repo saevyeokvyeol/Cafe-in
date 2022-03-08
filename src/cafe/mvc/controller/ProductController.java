@@ -1,10 +1,8 @@
 package cafe.mvc.controller;
 
-<<<<<<< HEAD
+
 import java.sql.SQLException;
 import java.util.List;
-=======
->>>>>>> 37177ecad2264779b336e003dc752c31793e3777
 import cafe.mvc.model.dto.Product;
 import cafe.mvc.model.dto.Stock;
 import cafe.mvc.model.service.ProductService;
@@ -97,7 +95,7 @@ public class ProductController {
 			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
 		}
-<<<<<<< HEAD
+
 	}
 
 	//카테고리별 상품 조회
@@ -132,21 +130,6 @@ public class ProductController {
 			}
 		
 	}
-=======
 	}
 	
-	/**
-	 * 상품 상태 변경
-	 * */
-	public static void productStateUpdate(String prodCode, int prodState) {
-		try {
-			  productService.productStateUpdate(prodCode,prodState);
-			  SuccessView.printMessage("상품 상태 변경 완료");
-			}catch (Exception e) {
-				e.printStackTrace();
-				FailView.errorMessage(e.getMessage());
-			}
-		
-	}
->>>>>>> 37177ecad2264779b336e003dc752c31793e3777
-}
+	
