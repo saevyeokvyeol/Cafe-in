@@ -8,6 +8,7 @@ import cafe.mvc.exception.DuplicatedException;
 import cafe.mvc.exception.ModifyException;
 import cafe.mvc.exception.NotFoundException;
 import cafe.mvc.model.dto.Product;
+import cafe.mvc.model.dto.Stock;
 
 public interface ProductService {
 	/**
@@ -23,7 +24,7 @@ public interface ProductService {
 	/**
 	 * 상품 수정: product 테이블 레코드 update(판매 가격, 상세 정보, 품절 여부)
 	 * */
-	void productUpdate(Product product) throws SQLException, ModifyException, NotFoundException;
+   void productUpdate(Product product) throws SQLException, ModifyException, NotFoundException;
 	
 	/**
 	 * 디저트 재고 수정
@@ -31,17 +32,17 @@ public interface ProductService {
 	 *   만일 stock 테이블 재고 수량이 0 이하로 내려가지 못하도록 하고
 	 *   stock 테이블 재고 수량이 0일 때 자동으로 디저트 품절 여부가 yes가 되도록...?
 	 * */
-	void dessertStockUpdate(Product product) throws SQLException, ModifyException, NotFoundException;
+	void dessertStockUpdate(Stock stock) throws SQLException, ModifyException, NotFoundException;
 	
 	/**
 	 * 음료 삭제: product 테이블 레코드 delete
 	 * */
-	void drinkDelete(Product product) throws SQLException, ModifyException, NotFoundException;
+	void productDelete(String prodCode) throws SQLException, ModifyException, NotFoundException;
 	
 	/**
-	 * 디저트 삭제: product 테이블, stock 테이블 레코드 delete
+	 * 디저트 재고 삭제: product 테이블, stock 테이블 레코드 delete
 	 * */
-	void dessertDelete(Product product) throws SQLException, ModifyException, NotFoundException;
+	void stockDelete(String prodCode) throws SQLException, ModifyException, NotFoundException;
 	
 	/**
 	 * 카테고리별 상품 보기
@@ -50,11 +51,9 @@ public interface ProductService {
 	List<Product> selectByGroup(String groupCode) throws SQLException, NotFoundException;
 	
 	/**
-	 * 상품 코드로 상품 검색
+	 * 전체상품 메뉴보기(커피/티/스무디/디저트 순서로 나옴)
 	 * */
-	Product selectByProdCode(String ProdCode) throws SQLException, NotFoundException;
+	List<Product> selectAll(String ProdCode) throws SQLException, NotFoundException;
+
 	
-	/**
-	 * 더 필요한 메소드 있을까요?
-	 * */
 }

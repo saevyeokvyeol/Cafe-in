@@ -1,22 +1,37 @@
 package cafe.mvc.view;
 
 
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
+
 
 import cafe.mvc.controller.OrdersController;
 import cafe.mvc.controller.UsersController;
 import cafe.mvc.model.dto.Users;
+import cafe.mvc.exception.NotFoundException;
+import cafe.mvc.model.dto.Product;
+import cafe.mvc.model.service.ProductService;
+import cafe.mvc.model.service.ProductServiceImpl;
 import cafe.mvc.session.SessionSet;
+import cafe.mvc.controller.ProductController;
+
 
 public class MenuView {
-	private static Scanner sc = new Scanner(System.in);
 	
+	//private static ProductServiceImpl productService;
+	
+	static ProductServiceImpl productService = new ProductServiceImpl();
+	
+	private static Scanner sc = new Scanner(System.in);
+
 	public static void menu() {
+
 		while(true) {
 			//session :전화번호로 로그인하면 이름보여주면 좋을듯..?
-			
+			 
 			MenuView.printMenu();
 			
 			int menu = Integer.parseInt(sc.nextLine());
@@ -25,11 +40,11 @@ public class MenuView {
 				MenuView.register();
 				break;
 			case 2 :
-
 				// 로그인
 				MenuView.login();
-
-
+				break;
+			case 3 :
+				MenuView.printNotUserMenu();
 				break;
 			case 4 : 
 				MenuView.adminMenu();
@@ -75,11 +90,12 @@ public class MenuView {
 				case 2 :
 					//마이페이지(적립금확인,지난주문내역)
 					break;
-				case 3 :
-					//메뉴보기
+				case 3 : 
+					//메뉴보기(카테고리 형식)
+					MenuView.category();
 					break;
 				case 4 :
-					//주문하기(1.커피 2.티 3.스무디 4.디저트 5.장바구니담기 6.결제하기 로 가게하면됨..또while문...?ㅠ)
+					//OrderStart();
 					break;
 				case 5 :
 					//주문취소(결제된거 취소)
@@ -93,16 +109,21 @@ public class MenuView {
 	public static void printNotUserMenu() {
 		while(true) {
 			System.out.println("어서오십시오."); //비회원한테 하는말..
-			System.out.println("  1.메뉴보기 |  2.주문하기  |  9.종료  ");
+			System.out.println("  1.메뉴보기 |  2.주문하기  | 3. 모든 상품조회 |  9.종료  ");
 			int menu =Integer.parseInt( sc.nextLine());
 			switch(menu) {
 				case 1 :
 					//메뉴보기
+					MenuView.category();
 					break;
 				case 2 :
-					//주문하기(1.커피 2.티 3.스무디 4.디저트 5.장바구니담기 6.결제하기 로 가게하면됨..또while문...?ㅠ)
+					//OrderStart();
 					break;
-				case 3 :
+				case 3 : 
+					//전체상품 조회
+					MenuView.productAll();
+					break;
+				case 9 :
 					//종료
 					break;
 				}
@@ -151,40 +172,67 @@ public class MenuView {
 		 UsersController.login(userTel, userPwd);
 
 	}
+
 //	
 //	//로그아웃
 //	public static void logout() {
 //		
 //	}
-//	
-//	//주문하기-장바구니에 자동으로 담아지게
-//    public static void 주문하기메소드이름() {
-//    	while(true) {
-//			System.out.println("  1.커피 |  2.티  |  3.스무디  |  4.디저트  |  5.장바구니담기  |  6.결제하기  ");
-//			int menu =Integer.parseInt( sc.nextLine());
-//			switch(menu) {
-//				case 1 :
-//					//커피메뉴띄어주는....
-//					break;
-//				case 2 :
-//					//티메뉴띄어주는....
-//					break;
-//				case 3 :
-//					//스무디메뉴띄어주는....
-//					break;
-//				case 4 :
-//					//디저트메뉴띄어주는....
-//					break;
-//				case 5 :
-//					//장바구니담기
-//					break;
-//			    case 6 :
-//					//결제하기
-//					break;
-//				}
-//		}
-//    }
-//    
+//	 
+//	//카테고리별 메뉴보기
+    public static void category() {
+    	while(true) {
+			System.out.println("  1.커피 |  2.티  |  3.스무디  |  4.디저트 | 5. 뒤로 가기 ");
+			int menu =Integer.parseInt( sc.nextLine());
+			switch(menu) {
+				case 1 :
+					//커피메뉴띄어주는....
+					String coffeeGroup = "C";
+					//List<Product> productListC =  productService.selectByGroup(coffeeGroup);
+					//MenuView.getMenu(productListC);
+					break;
+				case 2 :
+					//티메뉴띄어주는....
+					String teaGroup = "T";
+					//List<Product> productListT =  productService.selectByGroup(teaGroup);
+					//MenuView.getMenu(productListT);
+					break;
+				case 3 :
+					//스무디메뉴띄어주는....
+					String SmoothieGroup = "S";
+					//List<Product> productListS =  productService.selectByGroup(SmoothieGroup);
+					//MenuView.getMenu(productListS);
+					break;
+				case 4 :
+					//디저트메뉴띄어주는....
+					String dessertGroup = "D";
+					//List<Product> productListD =  productService.selectByGroup(dessertGroup);
+					//MenuView.getMenu(productListD);
+					break;
+				case 5 :
+					//메뉴 다 봤으면 뒤로 가기!
+					return;
+				}
+		}
+    }
+//카테고리 검색 for
+    public static void getMenu(List<Product> productList) {
+	for(Product p : productList) {
+		System.out.println(
+				p.getProdName()  + "|" +
+				p.getProdPrice() + "|" +
+				p.getProdDetail() + "|" +
+				p.getSoldOut());
+	}
+    }
+//전체 상품조회
+    public static void productAll()  {
+    	if(true) {
+    		//List<Product> productList =  productService.selectAll(null);
+			//MenuView.getMenu(productList);
+    	}
+    }
+ 
 //
 //    //장바구니 보기
 //	public static void viewCart() {
@@ -193,3 +241,6 @@ public class MenuView {
 //	}
 //	
 }
+
+
+

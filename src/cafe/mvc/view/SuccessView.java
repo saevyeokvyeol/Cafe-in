@@ -1,7 +1,6 @@
 package cafe.mvc.view;
 
 import java.util.Map;
-
 import cafe.mvc.model.dto.Product;
 import cafe.mvc.model.dto.Statistics;
 

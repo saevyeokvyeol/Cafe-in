@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import cafe.mvc.model.dto.Product;
+import cafe.mvc.model.dto.Stock;
 
 public interface ProductDAO {
 	/**
@@ -27,17 +28,17 @@ public interface ProductDAO {
 	 *   만일 stock 테이블 재고 수량이 0 이하로 내려가지 못하도록 하고
 	 *   stock 테이블 재고 수량이 0일 때 자동으로 디저트 품절 여부가 yes가 되도록...?
 	 * */
-	int dessertStockUpdate(Product product) throws SQLException;
+	int dessertStockUpdate(Stock stock) throws SQLException;
 	
 	/**
-	 * 음료 삭제: product 테이블 레코드 delete
+	 * 상품 삭제: product 테이블 레코드 delete
 	 * */
-	int drinkDelete(Product product) throws SQLException;
+	int productDelete(String prodCode) throws SQLException;
 	
 	/**
-	 * 디저트 삭제: product 테이블, stock 테이블 레코드 delete
+	 * 디저트 재고 삭제: product 테이블, stock 테이블 레코드 delete
 	 * */
-	int dessertDelete(Product product) throws SQLException;
+	int stockDelete(String prodCode) throws SQLException;
 	
 	/**
 	 * 전체 상품 보기
