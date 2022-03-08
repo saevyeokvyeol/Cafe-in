@@ -282,13 +282,11 @@ public class MenuView {
 		System.out.println(
 				p.getProdName()  + "|" +
 				p.getProdPrice() + "|" +
-<<<<<<< HEAD
-				p.getProdDetail()+ "|" +
-				p.getSoldOut());
-=======
+
+
 				p.getProdDetail() + "|" +
 				p.getProdState());
->>>>>>> 37177ecad2264779b336e003dc752c31793e3777
+
 	}
 }
     

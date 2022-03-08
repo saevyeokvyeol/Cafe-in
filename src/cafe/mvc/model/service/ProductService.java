@@ -67,6 +67,4 @@ public interface ProductService {
 	 * */
 	Product selectByProdCode(String prodCode) throws SQLException, NotFoundException;
 
-
-	
 }
