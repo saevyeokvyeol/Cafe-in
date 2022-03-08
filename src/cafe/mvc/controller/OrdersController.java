@@ -11,12 +11,15 @@ import cafe.mvc.view.SuccessView;
 public class OrdersController {
 	static OrdersService ordersService = new OrdersServiceImpl();
 
+	/**
+	 * 주문하기
+	 * */
 	public static void orderInsert(Orders orders) {
 		try {
 			ordersService.orderInsert(orders);
 		} catch (Exception e) {
 			e.printStackTrace();
-			FailView.errorMessage(e.getMessage());
+//			FailView.errorMessage(e.getMessage());
 		}
 	}
 

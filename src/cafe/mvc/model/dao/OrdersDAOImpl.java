@@ -60,6 +60,7 @@ public class OrdersDAOImpl implements OrdersDAO {
 			} else {
 				int re[] = orderLineInsert(con, orders); // orderLineInsert를 통해 주문 상세 insert
 				for(int i : re) {
+					System.out.print(i + " | ");
 					if(i != 1) { // 결과 array에서 1행이 등록된 정상적인 결과가 아니라면
 						con.rollback();
 						throw new SQLException("주문이 완료되지 않았습니다.");
@@ -67,7 +68,7 @@ public class OrdersDAOImpl implements OrdersDAO {
 				}
 			}
 			
-			decremStockUpdate(con, orders.getOrdelLineList());
+			decrementStockUpdate(con, orders.getOrdelLineList());
 			
 			con.commit(); // 모든 것이 정상적으로 완료되면 커밋
 		} finally {
@@ -92,9 +93,9 @@ public class OrdersDAOImpl implements OrdersDAO {
 			for(OrderLine orderLine : orders.getOrdelLineList()) {
 				Product product = productDao.selectByProdCode(orderLine.getProdCode()); // 코드로 상품 정보 끌어오기 
 				ps.setInt(1, orders.getOrderNum());
-				ps.setString(2, orderLine.getProdCode());
+				ps.setString(2, product.getProdCode());
 				ps.setInt(3, orderLine.getQty());
-				ps.setInt(4, orderLine.getPriceQty());
+				ps.setInt(4, (product.getProdPrice() * orderLine.getQty()));
 				
 				ps.addBatch(); // 배치에 추가
 				ps.clearParameters(); // 파라미터 지우기
@@ -110,7 +111,7 @@ public class OrdersDAOImpl implements OrdersDAO {
 	/**
 	 * 디저트일 경우 재고량 감소
 	 * */
-	public int[] decremStockUpdate(Connection con, List<OrderLine> orderLineList) throws SQLException {
+	public int[] decrementStockUpdate(Connection con, List<OrderLine> orderLineList) throws SQLException {
 		PreparedStatement ps = null;
 		String sql = proFile.getProperty("order.decremStockUpdate");
 		int[] result = null;

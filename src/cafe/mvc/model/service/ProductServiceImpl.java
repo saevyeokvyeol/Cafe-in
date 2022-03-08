@@ -66,6 +66,25 @@ public class ProductServiceImpl implements ProductService {
 			throw new SQLException("삭제 실패");
 		}
 	}
+	
+
+	/**
+	 * 디저트 재고 삭제
+	 * */
+	public void stockDelete(String prodCode) throws SQLException, ModifyException, NotFoundException {
+		int result = productDao.stockDelete(prodCode);
+		if(result==0)throw new SQLException("삭제 실패");
+	}
+	
+	/**
+	 * 상품 상태 변경
+	 * */
+	@Override
+	public void productStateUpdate(String prodCode, int prodState) throws SQLException, ModifyException, NotFoundException {
+		int result = productDao.productStateUpdate(prodCode, prodState);
+		if(result==0)throw new SQLException("수정 실패");
+	}
+	
 
 	/**
 	 * 전체상품검색
@@ -77,12 +96,6 @@ public class ProductServiceImpl implements ProductService {
 		return productList;
 	}
 
-    //디저트재고
-	public void stockDelete(String prodCode) throws SQLException, ModifyException, NotFoundException {
-		int result = productDao.stockDelete(prodCode);
-		if(result==0)throw new SQLException("삭제 실패");
-	}
-
 	/**
 	 * 카테고리별 상품 보기
 	 * : 상품분류코드를 통해 각 카테고리에 맞는 상품만 조회
@@ -92,5 +105,18 @@ public class ProductServiceImpl implements ProductService {
 	public List<Product> selectByGroup(String groupCode) throws SQLException, NotFoundException {
 		List<Product> productList = productDao.selectByGroup(groupCode);
 		return productList;
+	}
+	
+	/**
+	 * 상품 코드로 상품 검색
+	 * */
+	public Product selectByProdCode(String prodCode) throws SQLException, NotFoundException {
+		Product product = productDao.selectByProdCode(prodCode);
+		
+		if(product == null) {
+			throw new NotFoundException(prodCode + " 상품을 찾을 수 없습니다.");
+		}
+		
+		return product;
 	}
 }

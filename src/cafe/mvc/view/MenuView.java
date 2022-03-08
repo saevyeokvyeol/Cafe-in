@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import cafe.mvc.controller.OrdersController;
+import cafe.mvc.controller.ProductController;
 import cafe.mvc.controller.UsersController;
 import cafe.mvc.model.dto.Orders;
 import cafe.mvc.model.dto.Product;
@@ -78,7 +79,7 @@ public class MenuView {
 			SessionSet ss = SessionSet.getInstance();
 			System.out.println(ss.getSet());
 			System.out.println("어서오십시오. " +userName+ " 님"); //전화번호쓰면 회원이름보이게 하고싶음..
-			System.out.println("  1.로그아웃 |  2.마이페이지  |  3.메뉴보기  |  4.주문하기  |  5.주문취소  | 6.적립금 확인 ");
+			System.out.println("  1.로그아웃 |  2.마이페이지  |  3.메뉴보기  |  4.주문하기  |  5.주문취소  | 6.적립금 확인 | 7.쿠폰 확인 ");
 			int menu =Integer.parseInt( sc.nextLine());
 			switch(menu) {
 				case 1 :
@@ -102,6 +103,10 @@ public class MenuView {
 					//적립금확인
 					MenuView.userPointCh(userTel);
 					break;
+				case 7 :
+					//쿠폰확인
+					MenuView.userCouponCh(userTel);
+					break;
 				}
 		}
 		
@@ -109,6 +114,10 @@ public class MenuView {
 	public static void userPointCh(String userTel) {
 		Users users = new Users(userTel, null, 0);
 		UsersController.userPointCh(users);
+	}
+	public static void userCouponCh(String userTel) {
+		Users users = new Users(userTel, null, 0);
+		UsersController.userCouponCh(users);
 	}
 	public static void pwdUpdate(String userTel) {
 		System.out.print("변결할비밀번호 : ");
@@ -134,7 +143,7 @@ public class MenuView {
 					break;
 				case 3 : 
 					//전체상품 조회
-					MenuView.productAll();
+					MenuView.selectAll(null);
 					break;
 				case 9 :
 					//종료
@@ -239,25 +248,26 @@ public class MenuView {
 				case 1 :
 					//커피메뉴띄어주는....
 					String coffeeGroup = "C";
-					//List<Product> productListC =  productService.selectByGroup(coffeeGroup);
+					List<Product>list = ProductController.selectByGroup(coffeeGroup);
+					System.out.println();
 					//MenuView.getMenu(productListC);
 					break;
 				case 2 :
 					//티메뉴띄어주는....
 					String teaGroup = "T";
-					//List<Product> productListT =  productService.selectByGroup(teaGroup);
+					ProductController.selectByGroup(teaGroup);
 					//MenuView.getMenu(productListT);
 					break;
 				case 3 :
 					//스무디메뉴띄어주는....
 					String SmoothieGroup = "S";
-					//List<Product> productListS =  productService.selectByGroup(SmoothieGroup);
+					ProductController.selectByGroup(SmoothieGroup);
 					//MenuView.getMenu(productListS);
 					break;
 				case 4 :
 					//디저트메뉴띄어주는....
 					String dessertGroup = "D";
-					//List<Product> productListD =  productService.selectByGroup(dessertGroup);
+					ProductController.selectByGroup(dessertGroup);
 					//MenuView.getMenu(productListD);
 					break;
 				case 5 :
@@ -267,18 +277,23 @@ public class MenuView {
 		}
     }
 //카테고리 검색 for
+
     public static void getMenu(List<Product> productList) {
 	for(Product p : productList) {
 		System.out.println(
 				p.getProdName()  + "|" +
 				p.getProdPrice() + "|" +
+
+
 				p.getProdDetail() + "|" +
-				p.getSoldOut());
+				p.getProdState());
+
 	}
-    }
+}
+    
 //전체 상품조회
-    public static void productAll()  {
-    	if(true) {
+    public static void selectAll(String groupCode)  {
+    	ProductController.selectByGroup(groupCode);
     		//List<Product> productList =  productService.selectAll(null);
 			//MenuView.getMenu(productList);
     	}
@@ -291,7 +306,7 @@ public class MenuView {
 //	
 //	}
 //	
-}
+
 
 
 

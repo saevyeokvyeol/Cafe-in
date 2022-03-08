@@ -32,6 +32,7 @@ public class SuccessView {
 			System.out
 					.println(prodCode + " | " + prodName + " | " + prodPrice + " | " + qty + " | " + (prodPrice * qty));
 		}
+		
 		System.out.println("ÃÑ °¡°Ý : " + totalPrice);
 	}
 
@@ -111,6 +112,11 @@ public class SuccessView {
 
 
 	}
+
+	public static void printSelectProduct(Product product) {
+		System.out.println(product.getProdCode() + " | " + product.getProdName());
+	}
+	
 
 	public static void printMessage(String message) {
 		System.out.println(message);
