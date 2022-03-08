@@ -1,7 +1,5 @@
 package cafe.mvc.controller;
 
-import java.sql.SQLException;
-
 import cafe.mvc.model.dto.Product;
 import cafe.mvc.model.dto.Stock;
 import cafe.mvc.model.service.ProductService;
@@ -21,7 +19,6 @@ public class ProductController {
 			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
 		}
-
 	}
 	
 	//디저트 메뉴등록
@@ -36,7 +33,9 @@ public class ProductController {
 
 	}
 	
-	//메뉴수정(디저트 & 음료정보)
+	/**
+	 * 메뉴수정(디저트 & 음료정보)
+	 * */
 	public static void productUpdate(Product product) {
 		try {
 		  productService.productUpdate(product);
@@ -71,7 +70,20 @@ public class ProductController {
 			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
 		}
-		
+	}
+	
+	/**
+	 * 상품 코드로 상품 검색
+	 * */
+	
+	public static void selectByProdCode(String prodCode) {
+		try {
+			Product product = productService.selectByProdCode(prodCode);
+			SuccessView.printSelectProduct(product);
+		} catch (Exception e) {
+			e.printStackTrace();
+			FailView.errorMessage(e.getMessage());
+		}
 	}
 	
 }

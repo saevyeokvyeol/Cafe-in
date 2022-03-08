@@ -93,4 +93,17 @@ public class ProductServiceImpl implements ProductService {
 		List<Product> productList = productDao.selectByGroup(groupCode);
 		return productList;
 	}
+	
+	/**
+	 * 상품 코드로 상품 검색
+	 * */
+	public Product selectByProdCode(String prodCode) throws SQLException, NotFoundException {
+		Product product = productDao.selectByProdCode(prodCode);
+		
+		if(product == null) {
+			throw new NotFoundException(prodCode + " 상품을 찾을 수 없습니다.");
+		}
+		
+		return product;
+	}
 }

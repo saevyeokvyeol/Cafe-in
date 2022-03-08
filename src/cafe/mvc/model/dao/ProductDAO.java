@@ -55,7 +55,7 @@ public interface ProductDAO {
 	/**
 	 * 상품 코드로 상품 검색
 	 * */
-	Product selectByProdCode(String ProdCode) throws SQLException;
+	Product selectByProdCode(String prodCode) throws SQLException;
 	
 	/**
 	 * 더 필요한 메소드 있을까요?

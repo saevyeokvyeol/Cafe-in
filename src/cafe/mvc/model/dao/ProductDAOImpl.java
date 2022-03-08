@@ -246,10 +246,30 @@ public class ProductDAOImpl implements ProductDAO {
 	/**
 	 * 상품 코드로 상품 검색
 	 * */
-
 	@Override
-	public Product selectByProdCode(String ProdCode) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+	public Product selectByProdCode(String prodCode) throws SQLException {
+		String sql = profile.getProperty("product.selectByProdCode");
+		
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		Product product = null;
+		
+		try {
+			con = DbUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setString(1, prodCode);
+			
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				product = new Product(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getInt(6));
+				
+			}
+		} finally {
+			DbUtil.close(con, ps, rs);
+		}
+		return product;
 	}
 }
