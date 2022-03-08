@@ -62,6 +62,7 @@ public class OrdersServiceImpl implements OrdersService {
 	@Override
 	public List<Orders> selectByUserTel(String UserTel) throws SQLException, NotFoundException {
 		List<Orders> list=ordersDao.selectByUserTel(UserTel);
+		
 		if( list.isEmpty() ) throw new SQLException("지난 주문 내역이 없습니다..");
 		return list;
 	}

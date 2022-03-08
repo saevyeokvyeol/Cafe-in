@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.Scanner;
 
 import cafe.mvc.model.dto.OrderLine;
 import cafe.mvc.model.dto.Orders;
@@ -168,7 +167,7 @@ public class OrdersDAOImpl implements OrdersDAO {
 		PreparedStatement ps = null;
 		String sql = "update orders set state_code =? where order_num=?";
 		int result=0;
-		Scanner sc = new Scanner(System.in);
+	
 		
 		try {
 			
@@ -177,10 +176,10 @@ public class OrdersDAOImpl implements OrdersDAO {
 			
 			ps=con.prepareStatement(sql);
 			System.out.println("변경할 상태코드는 ? \n 1.접수대기 | 2.주문 접수 |  3.상품 준비중 | 4. 상품 준비 완료 | 5. 픽업 완료 | 6. 주문 취소");
-			int a = sc.nextInt();
+			int stateCode = orders.getStateCode();
 			System.out.println("변경할 주문번호는 ?");
 			int orderNum = orders.getOrderNum();
-			ps.setInt(1, a);
+			ps.setInt(1, stateCode);
 			ps.setInt(2, orderNum);
 			
 			result = ps.executeUpdate();
@@ -196,27 +195,35 @@ public class OrdersDAOImpl implements OrdersDAO {
 	}
 
 	/**
-	 * 현재 진행 중인 주문 검색: 픽업 완료, 주문 취소 상태가 아닌 모든 주문 검색
-	 * : 메소드명 고민중입니다... 다들 아이디어 부탁드려요!
+	 * 회원의 지난 주문 내역 조회
+	 * : 로그인한 회원의 정보를 통해 회원의 지난 주문 내역 검색
+	 *   주문 상세 메소드를 따로 만들어 상세 내역도 함께 보여주기
 	 * */
 	@Override
-	public List<Orders> selectOnoingOrder() throws SQLException {
+	public List<Orders> selectByUserTel(String UserTel)  throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		List<Orders> orderList = new ArrayList<Orders>();
-		String sql = "select o.state_code, u.user_name, p.prod_name,ol.qty , p.prod_price, ol.price_qty from users u join orders o on u.user_tel = o.user_tel join order_line ol using(order_num) join product p on ol.prod_code = p.prod_code where state_code != 4 and state_code !=5";
+		//Orders orders = null;
+		List<Orders> orderList = new ArrayList<>();
+		String sql = "select*from orders join order_line using(order_num) where user_tel =?";
 		//int주문상태코드, String이름, String상품명,int 수량, int판매가격, int가격*주문수량 
 		try {
 			con = DbUtil.getConnection();
-			con.setAutoCommit(false);
-			
 			ps= con.prepareStatement(sql);
+			ps.setString(1, UserTel);
 			rs= ps.executeQuery();
+			//selectByUserTelOrderLine(con,orders.getOrderNum());
 			
 			while(rs.next()) {
-//				Orders orders = new Orders(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getInt(5),rs.getInt(6));
-//				orderList.add(orders);
+				// int orderNum, String userTel, int stateCode, String payMethod, int payPoint, int totalPrice, String orderDate, int takeOut
+				Orders orders = new Orders( rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getString(7), rs.getInt(8) );
+				//orderList.add(orders);
+				/////////////////
+				List<OrderLine> orderLineList = selectByUserTelOrderLine(con,orders.getOrderNum());
+				orders.setOrdelLineList(orderLineList);
+				
+				orderList.add(orders);
 			}
 			
 		}finally {
@@ -225,41 +232,66 @@ public class OrdersDAOImpl implements OrdersDAO {
 		
 		return orderList;
 	}
+	
 
 	/**
-	 * 회원의 지난 주문 내역 조회
-	 * : 로그인한 회원의 정보를 통해 회원의 지난 주문 내역 검색
-	 *   주문 상세 메소드를 따로 만들어 상세 내역도 함께 보여주기
+	 * 주문상세
+	 * */
+	public List<OrderLine> selectByUserTelOrderLine(Connection con, int orderNum)throws SQLException{
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<OrderLine> list = new ArrayList<OrderLine>();
+		
+		String sql = "select*from order_line where order_num=?";
+		
+
+		try {
+			con=DbUtil.getConnection();
+			ps= con.prepareStatement(sql);
+			ps.setInt(1, orderNum);
+			rs=ps.executeQuery();
+			
+			while(rs.next()) {
+				OrderLine orderLine = new OrderLine(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getInt(5));
+				list.add(orderLine);
+			}
+		} finally {
+			DbUtil.close(null, ps, rs);
+		}
+		
+		return list;
+	}
+
+	
+
+	/**
+	 * 현재 진행 중인 주문 검색: 픽업 완료, 주문 취소 상태가 아닌 모든 주문 검색
+	 * : 메소드명 고민중입니다... 다들 아이디어 부탁드려요!
 	 * */
 	@Override
-	public List<Orders> selectByUserTel(String UserTel) throws SQLException {
+	public List<Orders> selectOnoingOrder() throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		List<Orders> list = new ArrayList<Orders>();
-		String sql = "select u.user_tel,u.user_name, ol.qty, p.prod_name, p.prod_price,ol.price_qty from users u join orders o on u.user_tel = o.user_tel join order_line ol using(order_num)join product p on ol.prod_code = p.prod_code where u.user_tel=?";
-		//Orders orders= null;
-	
+		List<Orders> list = new ArrayList<>();
+		
+		String sql = "select*from orders where state_code not in(4,5)";
+		
 		try {
 			con = DbUtil.getConnection();
-			con.setAutoCommit(false);
 			ps = con.prepareStatement(sql);
-			ps.setString(1, UserTel);
-			rs = ps.executeQuery();
-			//List = new ArrayList<Orders>();
-			//전화번호,이름,주문수량,상품명,판매가격,가격*주문수량
-			while(rs.next()) {
-
-//				orders = new Orders( rs.getString(1),rs.getString(2),rs.getInt(3),rs.getString(4),rs.getInt(5),rs.getInt(6) );
-//				list.add(orders);
-
-			}
-		
+			rs=ps.executeQuery();
 			
-		}finally {
+			while(rs.next()) {
+				Orders orders = new Orders( rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getString(7), rs.getInt(8) );
+				list.add(orders);
+			
+			}
+			
+			
+		} finally {
 			DbUtil.close(con, ps, rs);
 		}
-		
 		return list;
 	}
 
