@@ -35,11 +35,12 @@ public class Orders {
 		 this.prodPrice=prodPrice;
 		 this.priceQty=priceQty;
 	 }
-	//int주문상태코드, String이름, String상품명, int판매가격, int가격*주문수량
-	 public Orders(int stateCode, String userName,String prodName, int prodPrice, int priceQty) {
+	//int주문상태코드, String이름, String상품명,int수량 int판매가격, int가격*주문수량
+	 public Orders(int stateCode, String userName,String prodName,int qty, int prodPrice, int priceQty) {
 		 this.stateCode=stateCode;
 		 this.userName=userName;
 		 this.prodName=prodName;
+		 this.qty=qty;
 		 this.prodPrice=prodPrice;
 		 this.priceQty=priceQty;
 	 }

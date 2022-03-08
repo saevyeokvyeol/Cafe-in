@@ -48,7 +48,7 @@ public class SuccessView {
 			int priceQty = orders.getPriceQty();
 			
 			
-			System.out.println(userTel + " | " + userName + " | " + qty + " | " + prodName + " | " + prodPrice + " | " + priceQty);
+			System.out.println("번호 : "+ userTel + " | " + userName + "님  | 수량 : " + qty + "  | " + prodName + " | " + prodPrice + "￦ |  총 결제금액 : " + priceQty + "￦");
 		}
 		
 		
@@ -58,18 +58,20 @@ public class SuccessView {
 	 * 현재 진행 중인 주문 검색: 픽업 완료, 주문 취소 상태가 아닌 모든 주문 검색
 	 * */
 	public static void selectOngoingOrder(List<Orders> list) {
-		//전화번호,이름,주문수량,상품명,판매가격,가격*주문수량
+		//int주문상태코드, String이름, String상품명,int수량 int판매가격, int가격*주문수량
 		System.out.println("0 : 접수대기 | 1 : 주문접수 | 2 : 상품준비중 | 3 : 상품준비완료");
 		for(Orders orders : list) {
 			
 			//String userTel = orders.getUserTel();
+			int stateCode = orders.getStateCode();
 			String userName = orders.getUserName();
-			int qty = orders.getQty();
+			
 			String prodName = orders.getProdName();
+			int qty = orders.getQty();
 			int prodPrice = orders.getProdPrice();
 			int priceQty = orders.getPriceQty();
 			
-			System.out.println( userName + " | " + qty + " | " + prodName + " | " + prodPrice + " | " +priceQty);
+			System.out.println("주문상태코드 :" + stateCode + userName + "님 | 수량 : " + qty + " | " + prodName + " | " + prodPrice + "￦ | 총 결제금액 : " +priceQty + "￦");
 		}
 		
 	}

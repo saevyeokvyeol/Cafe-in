@@ -81,8 +81,8 @@ public class OrdersDAOImpl implements OrdersDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<Orders> orderList = new ArrayList<Orders>();
-		String sql = "select o.state_code, u.user_name, p.prod_name, p.prod_price, ol.price_qty from users u join orders o on u.user_tel = o.user_tel join order_line ol using(order_num) join product p on ol.prod_code = p.prod_code where state_code != 4 and state_code !=5";
-		//int주문상태코드, String이름, String상품명, int판매가격, int가격*주문수량 
+		String sql = "select o.state_code, u.user_name, p.prod_name,ol.qty , p.prod_price, ol.price_qty from users u join orders o on u.user_tel = o.user_tel join order_line ol using(order_num) join product p on ol.prod_code = p.prod_code where state_code != 4 and state_code !=5";
+		//int주문상태코드, String이름, String상품명,int 수량, int판매가격, int가격*주문수량 
 		try {
 			con = DbUtil.getConnection();
 			con.setAutoCommit(false);
@@ -91,7 +91,7 @@ public class OrdersDAOImpl implements OrdersDAO {
 			rs= ps.executeQuery();
 			
 			while(rs.next()) {
-				Orders orders = new Orders(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getInt(5));
+				Orders orders = new Orders(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getInt(5),rs.getInt(6));
 				orderList.add(orders);
 			}
 			

@@ -107,13 +107,17 @@ public class MenuView {
 		
 		System.out.println("비밀번호를 입력해주세요 :");
 		int psw = Integer.parseInt(sc.nextLine());
-		while(true) {
+		boolean a = true;
+		while(a) {
 			if(psw==8888) {
 			
 				adminMenu();
 			}else {
-				System.out.println("다시 입력해주세요 :");
+				
+				System.out.println("비밀번호 오류입니다..");
+				adminsMenu();
 			}
+			
 		}
 	}
 //    //관리자메뉴
