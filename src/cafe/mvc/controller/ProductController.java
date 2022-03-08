@@ -1,8 +1,8 @@
 package cafe.mvc.controller;
 
-
 import java.sql.SQLException;
 import java.util.List;
+
 import cafe.mvc.model.dto.Product;
 import cafe.mvc.model.dto.Stock;
 import cafe.mvc.model.service.ProductService;
@@ -96,6 +96,7 @@ public class ProductController {
 			FailView.errorMessage(e.getMessage());
 		}
 
+
 	}
 
 	//카테고리별 상품 조회
@@ -128,8 +129,7 @@ public class ProductController {
 				e.printStackTrace();
 				FailView.errorMessage(e.getMessage());
 			}
-		
+
 	}
 	}
-	
 	

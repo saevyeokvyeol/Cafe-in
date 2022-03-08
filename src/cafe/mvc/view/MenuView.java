@@ -287,8 +287,6 @@ public class MenuView {
 				p.getProdDetail() + "|" +
 				p.getProdState());
 
-
-
 	}
 }
     
