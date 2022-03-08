@@ -24,7 +24,6 @@ public class DbUtil {
 			proFile.load(new FileInputStream("resources/dbInfo.properties"));
 			proFile.load(new FileInputStream("resources/users.properties"));
 			proFile.load(new FileInputStream("resources/cafeinQuery.properties"));
-
 			// cafeinQuery는 쿼리 생겼을 때 주석 풀어주세요
 			
 			Class.forName(proFile.getProperty("driverName"));

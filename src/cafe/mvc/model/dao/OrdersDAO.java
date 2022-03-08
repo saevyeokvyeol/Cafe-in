@@ -45,7 +45,7 @@ public interface OrdersDAO {
 	 * 일간 매출 통계
 	 * : 통계를 어떻게 끌어올까요...(통계용 DTO를 새로 만들어서 가져오기...?)
 	 * */
-	Statistics dailySalesStatistic() throws SQLException;
+	Statistics dailySalesStatistic(String date) throws SQLException;
 	
 	/**
 	 * 더 필요한 메소드 있을까요?

@@ -42,7 +42,7 @@ public interface OrdersService {
 	/**
 	 * 일간 매출 통계 조회
 	 * */
-	Statistics dailySalesStatistic() throws SQLException, AddException, NotFoundException;
+	Statistics dailySalesStatistic(String date) throws SQLException, NotFoundException;
 	
 	/**
 	 * 더 필요한 메소드 있을까요?

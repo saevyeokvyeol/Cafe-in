@@ -4,14 +4,21 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.Scanner;
 
+import cafe.mvc.model.dto.OrderLine;
 import cafe.mvc.model.dto.Orders;
+import cafe.mvc.model.dto.Product;
 import cafe.mvc.model.dto.Statistics;
 import cafe.mvc.util.DbUtil;
 
 public class OrdersDAOImpl implements OrdersDAO {
+	// DbUtil에서 proFile 가져오기
+	private Properties proFile = DbUtil.getProFile();
+	ProductDAO productDao = new ProductDAOImpl();
 
 	/**
 	 * 주문하기
@@ -28,8 +35,125 @@ public class OrdersDAOImpl implements OrdersDAO {
 	
 	@Override
 	public int orderInsert(Orders orders) throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		String sql = proFile.getProperty("order.orderInsert");
+		// insert into orders values(orders_seq.nextval, ?, 0, ?, ?, ?, sysdate, ?);
+		// 전화번호, 결제 방법, 적립금 사용 액수, 총 결제 금액, 테이크아웃 여부
+		int result = 0;
+		
+		try {
+			con = DbUtil.getConnection();
+			con.setAutoCommit(false); // 자동 커밋 해제
+			
+			ps = con.prepareStatement(sql);
+			ps.setString(1, orders.getUserTel());
+			ps.setString(2, orders.getPayMethod());
+			ps.setInt(3, orders.getPayPoint());
+			ps.setInt(4, this.getToTalPrice(orders));
+			ps.setInt(5, orders.getTakeOut());
+			
+			result = ps.executeUpdate();
+			
+			if(result == 0) { // 만약 오류로 인해 등록되지 않았다면
+				con.rollback();
+				throw new SQLException("주문이 완료되지 않았습니다.");
+			} else {
+				int re[] = orderLineInsert(con, orders); // orderLineInsert를 통해 주문 상세 insert
+				for(int i : re) {
+					if(i != 1) { // 결과 array에서 1행이 등록된 정상적인 결과가 아니라면
+						con.rollback();
+						throw new SQLException("주문이 완료되지 않았습니다.");
+					}
+				}
+			}
+			
+			decremStockUpdate(con, orders.getOrdelLineList());
+			
+			con.commit(); // 모든 것이 정상적으로 완료되면 커밋
+		} finally {
+			con.commit(); // 중간에 끊겼다면 rollback한 상태로 커밋
+			DbUtil.close(con, ps);
+		}
+		return result;
+	}
 	
-		return 0;
+	/**
+	 * 주문 상세 등록하기
+	 * */
+	public int[] orderLineInsert(Connection con, Orders orders) throws SQLException{
+		PreparedStatement ps = null;
+		String sql = proFile.getProperty("order.orderLineInsert");
+		// insert into order_line values(orderline_seq.nextval, ?, ?, ?, ?)
+		// 오더 넘버, 상품코드, 갯수, 가격*갯수
+		int[] result = null;
+		
+		try {
+			ps = con.prepareStatement(sql);
+			for(OrderLine orderLine : orders.getOrdelLineList()) {
+				Product product = productDao.selectByProdCode(orderLine.getProdCode()); // 코드로 상품 정보 끌어오기 
+				ps.setInt(1, orders.getOrderNum());
+				ps.setString(2, orderLine.getProdCode());
+				ps.setInt(3, orderLine.getQty());
+				ps.setInt(4, orderLine.getPriceQty());
+				
+				ps.addBatch(); // 배치에 추가
+				ps.clearParameters(); // 파라미터 지우기
+			}
+			
+			result = ps.executeBatch(); // 일괄처리
+		} finally {
+			DbUtil.close(null, ps);
+		}
+		return result;
+	}
+	
+	/**
+	 * 디저트일 경우 재고량 감소
+	 * */
+	public int[] decremStockUpdate(Connection con, List<OrderLine> orderLineList) throws SQLException {
+		PreparedStatement ps = null;
+		String sql = proFile.getProperty("order.decremStockUpdate");
+		int[] result = null;
+		
+		try {
+			ps = con.prepareStatement(sql);
+			for(OrderLine orderLine : orderLineList) {
+				Product product = productDao.selectByProdCode(orderLine.getProdCode()); // 코드로 상품 정보 끌어오기 
+				ps.setInt(1, orderLine.getQty());
+				ps.setString(2, orderLine.getProdCode());
+				
+				ps.addBatch(); // 배치에 추가
+				ps.clearParameters(); // 파라미터 지우기
+			}
+			
+			result = ps.executeBatch();
+		} finally {
+			// TODO: handle finally clause
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * 상품 총 구매 금액 구하기
+	 * */
+	public int getToTalPrice(Orders orders) throws SQLException{
+		List<OrderLine> orderLineList = orders.getOrdelLineList();
+		int total = 0;
+		
+		for(OrderLine orderline : orderLineList) {
+			Product product = productDao.selectByProdCode(orderline.getProdCode());
+			if(product == null) {
+				throw new SQLException("상품 번호에 오류가 발생해 결제를 실패했습니다.");
+			} else if(product.getStock().getProdStock() < orderline.getQty()) {
+				throw new SQLException("재고량이 부족해 결제를 실패했습니다.");
+			}
+			
+			total += (orderline.getQty() * product.getProdPrice());
+		}
+		
+		return total;
 	}
 
 	/**
@@ -54,9 +178,9 @@ public class OrdersDAOImpl implements OrdersDAO {
 			System.out.println("변경할 상태코드는 ? \n 1.접수대기 | 2.주문 접수 |  3.상품 준비중 | 4. 상품 준비 완료 | 5. 픽업 완료 | 6. 주문 취소");
 			int a = sc.nextInt();
 			System.out.println("변경할 주문번호는 ?");
-			int b = sc.nextInt();
+			int orderNum = orders.getOrderNum();
 			ps.setInt(1, a);
-			ps.setInt(2, b);
+			ps.setInt(2, orderNum);
 			
 			result = ps.executeUpdate();
 			if(result==0) {
@@ -79,16 +203,20 @@ public class OrdersDAOImpl implements OrdersDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		List<Orders> orderList = null;
-		String sql = "";
-		
+		List<Orders> orderList = new ArrayList<Orders>();
+		String sql = "select o.state_code, u.user_name, p.prod_name,ol.qty , p.prod_price, ol.price_qty from users u join orders o on u.user_tel = o.user_tel join order_line ol using(order_num) join product p on ol.prod_code = p.prod_code where state_code != 4 and state_code !=5";
+		//int주문상태코드, String이름, String상품명,int 수량, int판매가격, int가격*주문수량 
 		try {
 			con = DbUtil.getConnection();
 			con.setAutoCommit(false);
 			
 			ps= con.prepareStatement(sql);
+			rs= ps.executeQuery();
 			
-			orderList = (List<Orders>) ps.executeQuery();
+			while(rs.next()) {
+//				Orders orders = new Orders(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getInt(5),rs.getInt(6));
+//				orderList.add(orders);
+			}
 			
 		}finally {
 			DbUtil.close(con, ps, rs);
@@ -107,10 +235,10 @@ public class OrdersDAOImpl implements OrdersDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		List<Orders> list = null;
-		String sql = "select u.user_tel,u.user_name, ol.qty, p.prod_name, p.prod_price,ol.price_qty from users u join orders o on u.user_tel = o.user_tel join order_line ol using(order_num)join product p on ol.prod_code = p.prod_code where u.user_tel=?;";
-		Orders orders= null;
-
+		List<Orders> list = new ArrayList<Orders>();
+		String sql = "select u.user_tel,u.user_name, ol.qty, p.prod_name, p.prod_price,ol.price_qty from users u join orders o on u.user_tel = o.user_tel join order_line ol using(order_num)join product p on ol.prod_code = p.prod_code where u.user_tel=?";
+		//Orders orders= null;
+	
 		try {
 			con = DbUtil.getConnection();
 			con.setAutoCommit(false);
@@ -120,8 +248,10 @@ public class OrdersDAOImpl implements OrdersDAO {
 			//List = new ArrayList<Orders>();
 			//전화번호,이름,주문수량,상품명,판매가격,가격*주문수량
 			while(rs.next()) {
-				orders = new Orders( rs.getString(1),rs.getString(2),rs.getInt(3),rs.getString(4),rs.getInt(5),rs.getInt(6) );
-				list.add(orders);
+
+//				orders = new Orders( rs.getString(1),rs.getString(2),rs.getInt(3),rs.getString(4),rs.getInt(5),rs.getInt(6) );
+//				list.add(orders);
+
 			}
 		
 			
@@ -138,9 +268,44 @@ public class OrdersDAOImpl implements OrdersDAO {
 	 * : 통계를 어떻게 끌어올까요...(통계용 DTO를 새로 만들어서 가져오기...?)
 	 * */
 	@Override
-	public Statistics dailySalesStatistic() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+	public Statistics dailySalesStatistic(String date) throws SQLException {
+		// con, ps, rs, 리턴값 생성, sql문 긁어오기
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		Statistics statistics = null;
+		String sql = proFile.getProperty("statistic.dailyStatistic");
+		
+		try {
+			con = DbUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setString(1, date);
+			
+			rs = ps.executeQuery();
+			
+			int dailyOrderTimes = 0;
+			int dailySalesPrice = 0;
+			int dailySalesQty = 0;
+			int orderNum = 0;
+			while(rs.next()) {
+				
+				if(orderNum != rs.getInt(1)) { // 주문 번호가 다르면 총 주문 횟수++
+					dailyOrderTimes++;
+					orderNum = rs.getInt(1);
+				}
+				
+				dailySalesPrice += rs.getInt(5);
+				dailySalesQty += rs.getInt(4);
+			}
+			
+			statistics = new Statistics(date, dailyOrderTimes, dailySalesPrice, dailySalesQty); 
+		} finally {
+			DbUtil.close(con, ps, rs);
+		}
+		
+		
+		return statistics;
 	}
 
 }

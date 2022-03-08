@@ -3,6 +3,8 @@ package cafe.mvc.model.dao;
 import java.sql.SQLException;
 import java.util.List;
 
+import cafe.mvc.exception.ModifyException;
+import cafe.mvc.exception.NotFoundException;
 import cafe.mvc.model.dto.Product;
 import cafe.mvc.model.dto.Stock;
 
@@ -41,6 +43,11 @@ public interface ProductDAO {
 	int stockDelete(String prodCode) throws SQLException;
 	
 	/**
+	 * 상품상태변경
+	 * */
+	int productStateUpdate(String prodCode, int prodState) throws SQLException;
+	
+	/**
 	 * 전체 상품 보기
 	 * : 상품분류코드를 통해 각 카테고리에 맞는 상품만 조회
 	 * */
@@ -55,9 +62,7 @@ public interface ProductDAO {
 	/**
 	 * 상품 코드로 상품 검색
 	 * */
-	Product selectByProdCode(String ProdCode) throws SQLException;
+	Product selectByProdCode(String prodCode) throws SQLException;
 	
-	/**
-	 * 더 필요한 메소드 있을까요?
-	 * */
+	
 }
