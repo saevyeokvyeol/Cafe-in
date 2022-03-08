@@ -45,6 +45,12 @@ public interface ProductService {
 	void stockDelete(String prodCode) throws SQLException, ModifyException, NotFoundException;
 	
 	/**
+	 * 상품상태변경
+	 * */
+	void productStateUpdate(String prodCode, int prodState) throws SQLException, ModifyException, NotFoundException;
+	
+	
+	/**
 	 * 카테고리별 상품 보기
 	 * : 상품분류코드를 통해 각 카테고리에 맞는 상품만 조회
 	 * */

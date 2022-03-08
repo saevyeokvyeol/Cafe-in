@@ -66,6 +66,25 @@ public class ProductServiceImpl implements ProductService {
 			throw new SQLException("삭제 실패");
 		}
 	}
+	
+
+	/**
+	 * 디저트 재고 삭제
+	 * */
+	public void stockDelete(String prodCode) throws SQLException, ModifyException, NotFoundException {
+		int result = productDao.stockDelete(prodCode);
+		if(result==0)throw new SQLException("삭제 실패");
+	}
+	
+	/**
+	 * 상품 상태 변경
+	 * */
+	@Override
+	public void productStateUpdate(String prodCode, int prodState) throws SQLException, ModifyException, NotFoundException {
+		int result = productDao.productStateUpdate(prodCode, prodState);
+		if(result==0)throw new SQLException("수정 실패");
+	}
+	
 
 	/**
 	 * 전체상품검색
@@ -75,12 +94,6 @@ public class ProductServiceImpl implements ProductService {
 		// TODO Auto-generated method stub
 		List<Product> productList = productDao.selectAll();
 		return productList;
-	}
-
-    //디저트재고
-	public void stockDelete(String prodCode) throws SQLException, ModifyException, NotFoundException {
-		int result = productDao.stockDelete(prodCode);
-		if(result==0)throw new SQLException("삭제 실패");
 	}
 
 	/**

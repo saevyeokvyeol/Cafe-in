@@ -183,9 +183,9 @@ public class MenuView {
 		case 3 :
 			break;
 		case 4 :
-			int orderNum = sc.nextLine();
+			int orderNum = Integer.parseInt(sc.nextLine());
 
-			int stateCode = sc.nextLine();
+			int stateCode = Integer.parseInt(sc.nextLine());
 			OrdersController.orderStateUpdate(new Orders(orderNum, stateCode));
 			break;
 		case 5 :
@@ -272,7 +272,7 @@ public class MenuView {
 				p.getProdName()  + "|" +
 				p.getProdPrice() + "|" +
 				p.getProdDetail() + "|" +
-				p.getSoldOut());
+				p.getProdState());
 	}
     }
 //전체 상품조회
