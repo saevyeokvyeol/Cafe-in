@@ -309,7 +309,7 @@ public class MenuView2 {
 		SessionSet sessionSet = SessionSet.getInstance();
 		sessionSet.add(session);
 		
-		MenuView2.userMenu(guestId);
+		MenuView2.orderMenu(guestId);
 	}
 
 	/**
