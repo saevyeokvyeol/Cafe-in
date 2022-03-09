@@ -228,7 +228,7 @@ public class MenuView2 {
 //				OrdersController.dailySalesStatistic();
 				break;
 			case 4 :
-				OrdersController.productSalesStatistic();
+//				OrdersController.productSalesStatistic();
 				break;
 			case 9 : 
 				return;
@@ -482,7 +482,13 @@ public class MenuView2 {
 	 * 주문 상태 변경 메소드
 	 * */
 	public static void orderStateUpdate() {
+		System.out.println("▶ 변경할 주문번호 :");
 		
+		int orderNum = Integer.parseInt(sc.nextLine());
+		System.out.println("▶ 0 : 접수대기 | 1 : 주문접수 | 2 : 상품 준비중 | 3 : 상품 준비 완료 | 4 : 픽업완료 | 5 : 주문취소");
+		System.out.println("▶ 변경할 주문상태코드 : ");
+		int stateCode = Integer.parseInt(sc.nextLine());
+		OrdersController.orderStateUpdate(new OrdersDTO(orderNum, stateCode));
 	}
 	
 	/**
