@@ -24,16 +24,16 @@ public class CartController {
 	public static void putCart(String userTel, String prodCode, int qty) {
 		try {
 
-			//ProductDTO productDTO = productService.selectByProdCode(prodCode); // 상품 번호에 해당하는 상품 검색
+			ProductDTO product = productService.productSelectByProdCode(prodCode); // 상품 번호에 해당하는 상품 검색
 
 			
 			if(qty <= 0) {
 				throw new AddException("상품 수량을 1개 이상 입력해주세요.");
 			}
 			
-			if(productDTO.getStock() != null) {
-				if(productDTO.getStock().getProdStock() < qty) {
-					throw new AddException("재고량이 부족해 " + productDTO.getProdName() + " 상품을 담을 수 없습니다.");
+			if(product.getStock() != null) {
+				if(product.getStock().getProdStock() < qty) {
+					throw new AddException("재고량이 부족해 " + product.getProdName() + " 상품을 담을 수 없습니다.");
 				}
 			}
 			
@@ -51,12 +51,12 @@ public class CartController {
 			}
 			
 			// 장바구니에서 상품 찾기
-			Integer oldQty = cart.get(productDTO);
+			Integer oldQty = cart.get(product);
 			if(oldQty != null) { // 장바구니에 이미 해당 상품이 있다면
 				qty += oldQty; // 수량을 누적
 			}
 			
-			cart.put(productDTO, qty);
+			cart.put(product, qty);
 			
 			SuccessView.printMessage("장바구니에 상품을 담았습니다.");
 		} catch (Exception e) {

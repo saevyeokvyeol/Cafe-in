@@ -61,7 +61,7 @@ public class ProductController {
 	public static void selectByProdCode(String prodCode) {
 		try {
 
-			ProductDTO productDTO = productService.selectByProdCode(prodCode);
+			ProductDTO productDTO = productService.productSelectByProdCode(prodCode);
 			SuccessView.printSelectProduct(productDTO);
 
 		} catch (Exception e) {
