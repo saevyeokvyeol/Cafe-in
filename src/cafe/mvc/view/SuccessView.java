@@ -59,14 +59,11 @@ public class SuccessView {
 	 */
 	public static void printSelectByUserTel(List<OrdersDTO> list, String userTel) {
 		System.out.println("*********" + userTel + " 회원님의 지난 주문 내역");
-		System.out.println("\t----*** 0 : eat in  1 : take out ***----");
+		System.out.println("----*** 0 : eat in  1 : take out ***----");
 		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓|");
 
 		for (OrdersDTO ordersDTO : list) {
-			// int orderNum, String userTel, int stateCode, String payMethod, int payPoint,
-			// int totalPrice, String orderDate, int takeOut
 			int orderNum = ordersDTO.getOrderNum();
-			// userTel = orders.getUserTel();
 			String payMethod = ordersDTO.getPayMethod();
 			int totalPrice = ordersDTO.getTotalPrice();
 			String orderDate = ordersDTO.getOrderDate();
@@ -118,7 +115,7 @@ public class SuccessView {
 					"---------------------------------------------------------------------------------------------------------|");
 			if (userTel != null) {
 				System.out.println("주문번호 : "+orderNum+ "번 | 현재 주문 상태 : " + stateCode + " | " + userTel + " 회원님 | 결제방법 : "+payMethod+" | 주문 일자 : "+ orderDate +" | 총 결제 금액 :"+totalPrice+"￦");	
-			} 			
+			}
 		}
 
 		System.out.println(

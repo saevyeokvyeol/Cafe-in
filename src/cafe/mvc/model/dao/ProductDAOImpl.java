@@ -234,7 +234,7 @@ public class ProductDAOImpl implements ProductDAO {
 				if (product.getProdCode().substring(0, 1).equals("D")) {
 					product.setStock(selectStock(con, product.getProdCode()));
 				}
-				productList.add(productDTO);
+				productList.add(product);
 
 			}
 		} finally {

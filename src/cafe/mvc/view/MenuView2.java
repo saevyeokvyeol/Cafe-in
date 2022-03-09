@@ -53,7 +53,7 @@ public class MenuView2 {
 	 * */
 	public static void userMenu(String userTel) {
 		while(true) {
-			System.out.println("\n" + "[ 1. 주문하기  |  2. 지난 주문 내역  |  3. 적립금 확인  |  4. 비밀번호 변경  |  9. 로그아웃  |  0. 종료 ]");
+			System.out.println("[ 1. 주문하기  |  2. 지난 주문 내역  |  3. 적립금 확인  |  4. 비밀번호 변경  |  9. 로그아웃  |  0. 종료 ]");
 			System.out.print("▶ ");
 			int menu =Integer.parseInt( sc.nextLine());
 			switch(menu) {
@@ -89,13 +89,20 @@ public class MenuView2 {
 			int menu =Integer.parseInt( sc.nextLine());
 			switch(menu) {
 				case 1 :
-					putCart(userTel);
+					ProductController.selectByGroup("C");
+					MenuView2.categoryMenu(userTel);
 					break;
 				case 2 :
+					ProductController.selectByGroup("S");
+					MenuView2.categoryMenu(userTel);
 					break;
 				case 3 :
+					ProductController.selectByGroup("T");
+					MenuView2.categoryMenu(userTel);
 					break;
 				case 4 :
+					ProductController.selectByGroup("D");
+					MenuView2.categoryMenu(userTel);
 					break;
 				case 5 :
 					MenuView2.cartMenu(userTel);
@@ -454,7 +461,6 @@ public class MenuView2 {
 		 } else {
 			 ProductController.productUpdate(new ProductDTO(prodCode, null, null, prodPrice, prodDetail, 0));
 		 }
-		
 	}
 	
 	/**
