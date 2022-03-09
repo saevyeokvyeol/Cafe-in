@@ -15,7 +15,7 @@ public class ProductController {
 	/**
 	 * 상품등록
 	 */
-	public static void productInsert(Product product) {
+	public static void productInsert(ProductDTO product) {
 		try {
 			productService.productInsert(product);
 			SuccessView.printMessage("상품 등록 완료");
