@@ -12,14 +12,9 @@ import cafe.mvc.model.dto.Stock;
 
 public interface ProductService {
 	/**
-	 * 음료 등록: product 테이블 레코드 insert
+	 * 상품 등록: product 테이블 레코드 insert
 	 */
-	void drinkInsert(Product product) throws SQLException, AddException, DuplicatedException;
-
-	/**
-	 * 디저트 등록: product 테이블, stock 테이블 레코드 insert
-	 */
-	void dessertInsert(Product product) throws SQLException, AddException, DuplicatedException;
+	void productInsert(Product product) throws SQLException, AddException, DuplicatedException;
 
 	/**
 	 * 상품 수정: product 테이블 레코드 update(판매 가격, 상세 정보, 품절 여부)
@@ -32,16 +27,7 @@ public interface ProductService {
 	 */
 	void dessertStockUpdate(Stock stock) throws SQLException, ModifyException, NotFoundException;
 
-	/**
-	 * 음료 삭제: product 테이블 레코드 delete
-	 */
-	void productDelete(String prodCode) throws SQLException, ModifyException, NotFoundException;
-
-	/**
-	 * 디저트 재고 삭제: product 테이블, stock 테이블 레코드 delete
-	 */
-	void stockDelete(String prodCode) throws SQLException, ModifyException, NotFoundException;
-
+	
 	/**
 	 * 상품상태변경
 	 */
@@ -56,10 +42,10 @@ public interface ProductService {
 	 * 전체상품 메뉴보기(커피/티/스무디/디저트 순서로 나옴)
 	 */
 
-	List<Product> selectAll() throws SQLException, NotFoundException;
+	List<Product> productSelectAll() throws SQLException, NotFoundException;
 
 	/**
-	 * 전체상품 메뉴보기(커피/티/스무디/디저트 순서로 나옴)
+	 * 검색한 상품 메뉴보기
 	 */
 	Product selectByProdCode(String prodCode) throws SQLException, NotFoundException;
 

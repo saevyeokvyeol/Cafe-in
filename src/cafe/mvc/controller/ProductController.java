@@ -13,30 +13,18 @@ public class ProductController {
 	static ProductService productService = new ProductServiceImpl();
 
 	/**
-	 * 음료 메뉴 등록
+	 * 상품등록
 	 */
-	public static void drinkInsert(Product product) {
+	public static void productInsert(Product product) {
 		try {
-			productService.drinkInsert(product);
-			SuccessView.printMessage("음료 등록 완료");
+			productService.productInsert(product);
+			SuccessView.printMessage("상품 등록 완료");
 		} catch (Exception e) {
 			// e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
 		}
 	}
 
-	/**
-	 * 디저트 메뉴등록
-	 */
-	public static void dessertInsert(Product product) {
-		try {
-			productService.dessertInsert(product);
-			SuccessView.printMessage("디저트 등록 완료");
-		} catch (Exception e) {
-			// e.printStackTrace();
-			FailView.errorMessage(e.getMessage());
-		}
-	}
 
 	/**
 	 * 메뉴수정(디저트 & 음료정보)
@@ -52,23 +40,7 @@ public class ProductController {
 
 	}
 
-	/**
-	 * 상품 메뉴 삭제
-	 */
-	public static void productDelete(String prodCode) {
-		try {
-			productService.productDelete(prodCode);
-			if (productService.selectByProdCode(prodCode).getStock().getProdStock() == 0) {
-				productService.stockDelete(prodCode);
-			}
-			SuccessView.printMessage("상품 삭제 완료");
-		} catch (Exception e) {
-			// e.printStackTrace();
-			FailView.errorMessage(e.getMessage());
-		}
-
-	}
-
+	
 	/**
 	 * 디저트 재고 수정
 	 */
@@ -113,9 +85,9 @@ public class ProductController {
 	/**
 	 * 전체 상품 조회
 	 */
-	public static void selectAll() {
+	public static void productSelectAll() {
 		try {
-			List<Product> list = productService.selectAll();
+			List<Product> list = productService.productSelectAll();
 			SuccessView.printSelectAll(list);
 		} catch (Exception e) {
 			FailView.errorMessage(e.getMessage());

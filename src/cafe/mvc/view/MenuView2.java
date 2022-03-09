@@ -132,7 +132,7 @@ public class MenuView2 {
 			int menu = Integer.parseInt(sc.nextLine());
 			switch(menu) {
 			case 1 :
-				ProductController.selectAll();
+				ProductController.productSelectAll();
 				break;
 			case 2 :
 				productInsert();
@@ -301,6 +301,7 @@ public class MenuView2 {
 	public static void productInsert() {
 		 System.out.print("상품코드 ▶ ");
 		 String prodCode = sc.nextLine();
+		 //잘맞게 들어왔는지 체크 '알파벳 숫자 숫자'
 		 
 		 System.out.print("상품이름 ▶ ");
 		 String prodName = sc.nextLine();
@@ -313,18 +314,18 @@ public class MenuView2 {
 		 
 		 System.out.print("상품상태 ▶ ");
 		 int prodState = Integer.parseInt(sc.nextLine());
+
+		 Product product = new Product(prodCode, null, prodName, prodPrice, prodDetail, prodState);
 		 
 		 char group = prodCode.charAt(0);
 		 if(group == 'D') { 
 			 System.out.print("디저트 재고량 ▶ ");
 			 int prodStock = Integer.parseInt(sc.nextLine());
-			 Product product = new Product(prodCode, null, prodName, prodPrice, prodDetail, prodState);
 			 Stock stock = new Stock(prodCode, prodStock);
 			 product.setStock(stock);
-			 ProductController.dessertInsert(product);
-		 } else {
-			 ProductController.drinkInsert(new Product(prodCode, null, prodName, prodPrice, prodDetail, prodState));
 		 }
+
+		 ProductController.productInsert(product);
 	
 	}
 	
@@ -341,9 +342,7 @@ public class MenuView2 {
 		 System.out.print("상품소개 ▶ ");
 		 String prodDetail = sc.nextLine();
 	
-		 
-		 
-		 //디저트재고량
+		 //디저트재고량 수정
 		 char group = prodCode.charAt(0);
 		 if(group == 'D') { 
 			 System.out.print("디저트 재고량 ▶ ");
