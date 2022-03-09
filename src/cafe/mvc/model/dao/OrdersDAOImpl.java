@@ -267,9 +267,7 @@ public class OrdersDAOImpl implements OrdersDAO {
 			con.setAutoCommit(false);
 			
 			ps=con.prepareStatement(sql);
-			System.out.println("변경할 상태코드는 ? \n 1.접수대기 | 2.주문 접수 |  3.상품 준비중 | 4. 상품 준비 완료 | 5. 픽업 완료 | 6. 주문 취소");
 			int stateCode = orders.getStateCode();
-			System.out.println("변경할 주문번호는 ?");
 			int orderNum = orders.getOrderNum();
 			ps.setInt(1, stateCode);
 			ps.setInt(2, orderNum);
