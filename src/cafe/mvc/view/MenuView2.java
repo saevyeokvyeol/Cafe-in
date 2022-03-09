@@ -1,6 +1,8 @@
 package cafe.mvc.view;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -26,7 +28,7 @@ public class MenuView2 {
 	 * */
 	public static void mainMenu() {
 		while(true) {
-			System.out.println("[ 1. 회원가입  |  2. 로그인  |  3. 비회원주문  |  0. 종료 ]");
+			System.out.println("\n" + "[ 1. 회원가입  |  2. 로그인  |  3. 비회원주문  |  0. 종료 ]");
 			System.out.print("▶ ");
 			int menu = Integer.parseInt(sc.nextLine());
 			switch(menu) {
@@ -51,7 +53,7 @@ public class MenuView2 {
 	 * */
 	public static void userMenu(String userTel) {
 		while(true) {
-			System.out.println("[ 1. 주문하기  |  2. 지난 주문 내역  |  3. 적립금 확인  |  4. 비밀번호 변경  |  9. 로그아웃  |  0. 종료 ]");
+			System.out.println("\n" + "[ 1. 주문하기  |  2. 지난 주문 내역  |  3. 적립금 확인  |  4. 비밀번호 변경  |  9. 로그아웃  |  0. 종료 ]");
 			System.out.print("▶ ");
 			int menu =Integer.parseInt( sc.nextLine());
 			switch(menu) {
@@ -162,7 +164,7 @@ public class MenuView2 {
 	 * */
 	public static void prodManageMenu(String userTel) {
 		while(true) {
-			System.out.println("[ 1. 상품 조회  |  2. 상품 등록  |  3. 상품 수정  | 4. 상품 상태 변경  |  9. 뒤로 가기  |  0. 종료 ]");
+			System.out.println("\n" + "[ 1. 상품 조회  |  2. 상품 등록  |  3. 상품 수정  | 4. 상품 상태 변경  |  9. 뒤로 가기  |  0. 종료 ]");
 			System.out.print("▶ ");
 			int menu = Integer.parseInt(sc.nextLine());
 			switch(menu) {
@@ -191,12 +193,12 @@ public class MenuView2 {
 	 * */
 	public static void usersManageMenu(String userTel) {
 		while(true) {
-			System.out.println("[ 1. 전체 회원 조회  |  2. 회원 정보 검색  |  9. 뒤로 가기  |  0. 종료 ]");
+			System.out.println("\n" + "[ 1. 전체 회원 조회  |  2. 회원 정보 검색  |  9. 뒤로 가기  |  0. 종료 ]");
 			System.out.print("▶ ");
 			int menu = Integer.parseInt(sc.nextLine());
 			switch(menu) {
 			case 1 :
-				
+				UsersController.userSelectAll();
 				break;
 			case 2 :
 				MenuView2.userSelectByUserTel();
@@ -214,7 +216,7 @@ public class MenuView2 {
 	 * */
 	public static void ordersManageMenu(String userTel) {
 		while(true) {
-			System.out.println("[ 1. 현재 주문 조회  |  2. 주문 상태 변경  |  3. 일간 매출 통계  |  4. 제품별 판매 통계  |  9. 뒤로 가기  |  0. 종료 ]");
+			System.out.println("\n" + "[ 1. 현재 주문 조회  |  2. 주문 상태 변경  |  3. 일간 매출 통계  |  4. 제품별 판매 통계  |  9. 뒤로 가기  |  0. 종료 ]");
 			System.out.print("▶ ");
 			int menu = Integer.parseInt(sc.nextLine());
 			switch(menu) {
@@ -225,7 +227,7 @@ public class MenuView2 {
 				MenuView2.orderStateUpdate();
 				break;
 			case 3 :
-//				OrdersController.dailySalesStatistic();
+				OrdersController.dailySalesStatistic(new SimpleDateFormat("yyMMdd").format(new Date()));
 				break;
 			case 4 :
 				OrdersController.productSalesStatistic();
@@ -489,6 +491,10 @@ public class MenuView2 {
 	 * 회원 정보 검색
 	 * */
 	public static void userSelectByUserTel() {
+		System.out.println("검색할 회원의 전화번호를 입력해주세요.");
+		System.out.print("▶ ");
+		String userTel = sc.nextLine();
 		
+		UsersController.selectByUserTel(userTel);
 	}
 }

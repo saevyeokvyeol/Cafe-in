@@ -162,7 +162,16 @@ public class SuccessView {
 		}
 	}
 	
-	public static void printUsersInfo(UsersDTO usersDTO) {
-		System.out.println(usersDTO.getUserName() + " | " + usersDTO.getUserTel() + " | " + usersDTO.getUserPoint() + " | " + usersDTO.getRegDate());
+	public static void printUsersInfo(UsersDTO users) {
+		System.out.println("\n" + "***** " + users.getUserName() + " 회원님의 정보를 조회합니다 *****");
+		System.out.println(users.getUserName() + " | " + users.getUserTel() + " | " + users.getUserPoint() + " | " + users.getRegDate());
+	}
+	
+	public static void printUserSelectAll(List<UsersDTO> list) {
+		System.out.println("\n" + "***** 전체 회원 리스트를 조회합니다 *****");
+		for(UsersDTO users : list) {
+			System.out.println(users.getUserTel() + " | " + users.getUserName() + " | " + users.getUserPoint() + " | " + users.getRegDate());
+			
+		}
 	}
 }
