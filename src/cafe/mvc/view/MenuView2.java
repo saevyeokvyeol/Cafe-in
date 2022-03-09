@@ -43,7 +43,9 @@ public class MenuView2 {
 				MenuView2.guestLogin();
 				break;
 			case 0 : 
+				System.out.println("다음에 또 이용해주세요.");
 				System.exit(0);
+				
 			}
 		}
 	}
@@ -72,8 +74,10 @@ public class MenuView2 {
 				case 9 :
 					MenuView2.logout(userTel);
 					return;
-				case 0 : 
+				case 0 :
+					System.out.println("다음에 또 이용해주세요.");
 					System.exit(0);
+					
 			}
 		}
 		
@@ -113,6 +117,7 @@ public class MenuView2 {
 					}
 					return;
 				case 0 :
+					System.out.println("다음에 또 이용해주세요.");
 					System.exit(0);
 			}
 		}
@@ -133,6 +138,7 @@ public class MenuView2 {
 				case 9 :
 					return;
 				case 0 :
+					System.out.println("다음에 또 이용해주세요.");
 					System.exit(0);
 			}
 		}
@@ -161,6 +167,7 @@ public class MenuView2 {
 				MenuView2.logout(userTel);
 				return;
 			case 0 : 
+				System.out.println("다음에 또 이용해주세요.");
 				System.exit(0);
 			}
 		}
@@ -190,7 +197,9 @@ public class MenuView2 {
 			case 9 : 
 				return;
 			case 0 : 
+				System.out.println("다음에 또 이용해주세요.");
 				System.exit(0);
+				
 			}
 		}
 	}
@@ -213,7 +222,9 @@ public class MenuView2 {
 			case 9 : 
 				return;
 			case 0 : 
+				System.out.println("다음에 또 이용해주세요.");
 				System.exit(0);
+				
 			}
 		}
 	}
@@ -242,7 +253,9 @@ public class MenuView2 {
 			case 9 : 
 				return;
 			case 0 : 
+				System.out.println("다음에 또 이용해주세요.");
 				System.exit(0);
+				
 			}
 		}
 	}
@@ -271,7 +284,9 @@ public class MenuView2 {
 			case 9 : 
 				return;
 			case 0 :
+				System.out.println("다음에 또 이용해주세요.");
 				System.exit(0);
+				
 			}
 		}
 	}
@@ -282,11 +297,11 @@ public class MenuView2 {
 	 * 로그인 메소드
 	 * */
 	public static void login() {
-		System.out.println("전화번호를 입력해주세요");
+		System.out.println("전화번호를 입력해주세요.");
 		System.out.print("▶ ");
 		String userTel = sc.nextLine();
 		
-		System.out.println("비밀번호를 입력해주세요");
+		System.out.println("비밀번호를 입력해주세요.");
 		System.out.print("▶ ");
 		String stringPwd = sc.nextLine();
 		int userPwd = 0;
@@ -294,7 +309,7 @@ public class MenuView2 {
 		if(stringPwd.matches("[+-]?\\d*(\\.\\d+)?")) {
 			userPwd = Integer.parseInt(stringPwd);
 		} else {
-			System.out.println("비밀번호는 숫자만 입력해주세요");
+			System.out.println("비밀번호는 숫자만 입력해주세요.");
 			return;
 		}
 		
@@ -326,13 +341,13 @@ public class MenuView2 {
 	 */
 	public static void userInsert() {
 		try {
-			System.out.print("전화번호 ex)010-1111-1111 : ");
+			System.out.print("전화번호 ex)010-1111-1111 ▶ ");
 			String userTel = sc.nextLine();
 			
-			System.out.print("이름 : ");
+			System.out.print("이름 ▶ ");
 			String userName = sc.nextLine();
 			
-			System.out.print("비밀번호 : ");
+			System.out.print("비밀번호 ▶ ");
 			int userPwd = Integer.parseInt(sc.nextLine());	
 			
 			UsersDTO usersDTO = new UsersDTO(userTel, userName, userPwd);
@@ -369,7 +384,7 @@ public class MenuView2 {
 	 * 장바구니 부분 삭제 메소드
 	 * */
 	public static void deleteCartByCode(String userTel) {
-		System.out.println("장바구니에서 제외할 상품 코드를 입력해주세요");
+		System.out.println("장바구니에서 제외할 상품 코드를 입력해주세요.");
 		System.out.print("▶ ");
 		String prodCode = sc.nextLine();
 		
@@ -386,6 +401,7 @@ public class MenuView2 {
 		int payPoint = 0;
 		
 		if(!userTel.equals(guestId)) {
+			System.out.println("상품을 결제하겠습니다.");
 			System.out.println("사용하실 적립금 액수를 입력해주세요.");
 			System.out.print("▶ ");
 			payPoint = Integer.parseInt(sc.nextLine());
@@ -397,7 +413,7 @@ public class MenuView2 {
 		String payMethod = sc.nextLine();
 		
 		System.out.println("포장 여부를 선택해주세요.");
-		System.out.println("[ 0. 매장에서 먹고 갈게요  |  1. 포장해 주세요 ]");
+		System.out.println("[ 0. 매장에서 먹고 갈게요.  |  1. 포장해 주세요. ]");
 		System.out.print("▶ ");
 		int takeout = Integer.parseInt(sc.nextLine());
 		
@@ -420,6 +436,7 @@ public class MenuView2 {
 	 * 상품 등록 메소드
 	 * */
 	public static void productInsert() {
+		System.out.println("상품을 등록해주세요.");
 		 System.out.print("상품코드 ▶ ");
 		 String prodCode = sc.nextLine();
 		 //잘맞게 들어왔는지 체크 '알파벳 숫자 숫자'
@@ -460,6 +477,7 @@ public class MenuView2 {
 	 * 상품 수정 메소드
 	 * */
 	public static void productUpdate() {
+		System.out.println("상품을 수정해주세요.");
 		 System.out.print("상품코드 ▶ ");
 		 String prodCode = sc.nextLine();
 		 
@@ -487,6 +505,7 @@ public class MenuView2 {
 	 * 상품 상태 변경 메소드
 	 * */
 	public static void productStateUpdate() {
+		 System.out.println("상품 상태를 수정해주세요.");
 		 System.out.print("상품코드 ▶ ");
 		 String prodCode = sc.nextLine();
 		 
@@ -499,7 +518,8 @@ public class MenuView2 {
 	 * 회원 비밀번호 수정 메소드
 	 * */
 	public static void userPwdUpdate(String userTel) {
-		System.out.print("변경할 비밀번호 : ");
+		System.out.println("변경할 비밀번호를 입력해주세요.");
+		System.out.print("▶ ");
 		int userPwd = Integer.parseInt(sc.nextLine());
 		
 		UsersDTO usersDTO = new UsersDTO(userTel, null, userPwd);
