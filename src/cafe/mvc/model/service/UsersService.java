@@ -31,6 +31,11 @@ public interface UsersService {
 	void userPointCh(Users users) throws SQLException, ModifyException, NotFoundException;
 	
 	/**
+	 * 전화번호로 유저 검색
+	 * */
+	Users selectByUserTel(String userTel) throws SQLException, NotFoundException;
+	
+	/**
 	 * 더 필요한 메소드 있을까요?
 	 * */
 }

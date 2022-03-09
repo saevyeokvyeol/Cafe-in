@@ -3,10 +3,13 @@ package cafe.mvc.view;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.ListCellRenderer;
+
 import cafe.mvc.model.dto.OrderLine;
 import cafe.mvc.model.dto.Orders;
 import cafe.mvc.model.dto.Product;
 import cafe.mvc.model.dto.Statistics;
+import cafe.mvc.model.dto.Users;
 
 public class SuccessView {
 
@@ -32,7 +35,7 @@ public class SuccessView {
 			System.out
 					.println(prodCode + " | " + prodName + " | " + prodPrice + " | " + qty + " | " + (prodPrice * qty));
 		}
-		
+
 		System.out.println("총 가격 : " + totalPrice);
 	}
 
@@ -42,8 +45,7 @@ public class SuccessView {
 	public static void printSelectByUserTel(List<Orders> list, String userTel) {
 		System.out.println("*********" + userTel + " 회원님의 지난 주문 내역");
 		System.out.println("\t----*** 0 : eat in  1 : take out ***----");
-		System.out.println(
-				"〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓|");
+		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓|");
 
 		for (Orders orders : list) {
 			// int orderNum, String userTel, int stateCode, String payMethod, int payPoint,
@@ -60,20 +62,19 @@ public class SuccessView {
 //			System.out.println(
 //					"〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓|");
 //			
-			for(OrderLine orderline : orders.getOrdelLineList()) {
+			for(OrderLine orderline : orders.getOrderLineList()) {
 				System.out.println("\t*********주문 상세*********");
-				
+
 				int orderLineCode = orderline.getOrderLineCode();
 				String prodCode = orderline.getProdCode();
 				int qty = orderline.getQty();
 				int priceQty = orderline.getPriceQty();
-				System.out.println("주문상세코드 : "+orderLineCode+ " | 상품코드 : "+prodCode+" | 수량 : "+qty+" | ");
-				System.out.println(
-						"〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓|");
-	
-			}	
+				System.out.println("주문상세코드 : " + orderLineCode + " | 상품코드 : " + prodCode + " | 수량 : " + qty + " | ");
+				System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓|");
+
+			}
 		}
-		
+
 //		Orders orders=new Orders();
 //		for(OrderLine orderLine : orders.getOrdelLineList()) {
 //			int a = orderLine.getOrderLineCode();
@@ -100,26 +101,56 @@ public class SuccessView {
 			int stateCode = orders.getStateCode();
 			System.out.println(
 					"---------------------------------------------------------------------------------------------------------|");
-			if(userTel == null) {
-				
-			} else {
-				System.out.println("현재 주문 상태 : " + stateCode + " | " + userTel + " 회원님 | 결제방법 : "+payMethod+" | 주문 일자 : "+ orderDate +" | 총 결제 금액 :"+totalPrice+"￦");
-			}
+			if (userTel != null) {
+				System.out.println("주문번호 : "+orderNum+ "번 | 현재 주문 상태 : " + stateCode + " | " + userTel + " 회원님 | 결제방법 : "+payMethod+" | 주문 일자 : "+ orderDate +" | 총 결제 금액 :"+totalPrice+"￦");	
+			} 			
 		}
+
 		System.out.println(
 				"---------------------------------------------------------------------------------------------------------|");
-			
+	}
 
 
+	/**
+	 * 전체 상품 조회
+	 */
+	public static void printSelectAll(List<Product> list) {
+		System.out.println("*********상품 " + list.size() + "개*********");
+		for (Product product : list) {
+			String prodCode = product.getProdCode();
+			String prodGroup = product.getProdGroup();
+			String prodName = product.getProdName();
+			int prodPrice = product.getProdPrice();
+			String prodDetail = product.getProdDetail();
+			int prodState = product.getProdState();
+
+			if (product.getStock() == null) {
+				System.out.println(product.getProdCode() + " | " + product.getProdGroup() + " | "
+						+ product.getProdName() + " | " + product.getProdPrice() + " | " + product.getProdDetail()
+						+ " | " + product.getProdState());
+			} else
+				System.out.println(product.getProdCode() + " | " + product.getProdGroup() + " | "
+						+ product.getProdName() + " | " + product.getProdPrice() + " | " + product.getProdDetail()
+						+ " | " + product.getProdState() + " | " + product.getStock().getProdStock());
+		}
 	}
 
 	public static void printSelectProduct(Product product) {
 		System.out.println(product.getProdCode() + " | " + product.getProdName());
 	}
-	
 
 	public static void printMessage(String message) {
 		System.out.println(message);
 	}
 
+	public static void printByCategory(List<Product> productList) {
+		for (Product p : productList) {
+			System.out.println(p.getProdCode() + " | " + p.getProdGroup() + " | " + p.getProdName() + " | "
+					+ p.getProdPrice() + " | " + p.getProdDetail());
+		}
+	}
+	
+	public static void printUsersInfo(Users users) {
+		System.out.println(users.getUserName() + " | " + users.getUserTel() + " | " + users.getUserPoint() + " | " + users.getRegDate());
+	}
 }

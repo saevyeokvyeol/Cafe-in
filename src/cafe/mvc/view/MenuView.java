@@ -46,6 +46,7 @@ public class MenuView {
 				break;
 			case 4 : 
 				MenuView.adminsMenu();
+				break;
 			case 9 : 
 				System.exit(0);
 			}
@@ -91,7 +92,7 @@ public class MenuView {
 					break;
 				case 3 : 
 					//메뉴보기(카테고리 형식)
-					MenuView.category();
+
 					break;
 				case 4 :
 					//OrderStart();
@@ -136,7 +137,7 @@ public class MenuView {
 			switch(menu) {
 				case 1 :
 					//메뉴보기
-					MenuView.category();
+					MenuView.categoryMenu();
 					break;
 				case 2 :
 					//OrderStart();
@@ -175,7 +176,7 @@ public class MenuView {
 				System.out.println("비밀번호 오류입니다..");
 				adminsMenu();
 			}
-			
+		
 		}
 	}
 //    //관리자메뉴
@@ -193,8 +194,12 @@ public class MenuView {
 		case 3 :
 			break;
 		case 4 :
+			
+			System.out.println("▶ 변경할 주문번호 :");
+		
 			int orderNum = Integer.parseInt(sc.nextLine());
-
+			System.out.println("▶ 0 : 접수대기 | 1 : 주문접수 | 2 : 상품 준비중 | 3 : 상품 준비 완료 | 4 : 픽업완료 | 5 : 주문취소");
+			System.out.println("▶ 변경할 주문상태코드 : ");
 			int stateCode = Integer.parseInt(sc.nextLine());
 			OrdersController.orderStateUpdate(new Orders(orderNum, stateCode));
 			break;
@@ -212,7 +217,7 @@ public class MenuView {
 			String userTel = sc.nextLine();
 			
 			OrdersController.selectByUserTel(userTel);
-			
+			break;
 		case 9 : 
 			System.exit(0);
 		}
@@ -240,7 +245,7 @@ public class MenuView {
 //	}
 //	 
 //	//카테고리별 메뉴보기
-    public static void category() {
+    public static void categoryMenu() {
     	while(true) {
 			System.out.println("  1.커피 |  2.티  |  3.스무디  |  4.디저트 | 5. 뒤로 가기 ");
 			int menu =Integer.parseInt( sc.nextLine());
@@ -248,7 +253,7 @@ public class MenuView {
 				case 1 :
 					//커피메뉴띄어주는....
 					String coffeeGroup = "C";
-					List<Product>list = ProductController.selectByGroup(coffeeGroup);
+					ProductController.selectByGroup(coffeeGroup);
 					System.out.println();
 					//MenuView.getMenu(productListC);
 					break;
@@ -276,21 +281,9 @@ public class MenuView {
 				}
 		}
     }
-//카테고리 검색 for
+//카테고리 검색
 
-    public static void getMenu(List<Product> productList) {
-	for(Product p : productList) {
-		System.out.println(
-				p.getProdName()  + "|" +
-				p.getProdPrice() + "|" +
-
-
-				p.getProdDetail() + "|" +
-				p.getProdState());
-
-	}
-}
-    
+ 
 //전체 상품조회
     public static void selectAll(String groupCode)  {
     	ProductController.selectByGroup(groupCode);

@@ -73,6 +73,16 @@ public class UsersServiceImpl implements UsersService{
 		return users;
 	}
 	
-
-
+	/**
+	 * 전화번호로 유저 검색
+	 * */
+	@Override
+	public Users selectByUserTel(String userTel) throws SQLException, NotFoundException {
+		Users users = usersDAO.selectByUserTel(userTel);
+		
+		if(users == null) {
+			throw new NotFoundException("회원 정보를 찾을 수 없습니다.");
+		}
+		return users;
+	}
 }

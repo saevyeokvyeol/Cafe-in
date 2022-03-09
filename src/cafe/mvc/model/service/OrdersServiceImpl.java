@@ -73,9 +73,9 @@ public class OrdersServiceImpl implements OrdersService {
 	@Override
 	public Statistics dailySalesStatistic(String date) throws SQLException, NotFoundException {
 		Statistics statistic = ordersDao.dailySalesStatistic(date);
-//		if (statistic == null) {
-//			throw new NotFoundException("일간 매출을 검색할 수 없습니다.");
-//		}
+		if (statistic == null) {
+			throw new NotFoundException("일간 매출을 검색할 수 없습니다.");
+		}
 		return statistic;
 	}
 

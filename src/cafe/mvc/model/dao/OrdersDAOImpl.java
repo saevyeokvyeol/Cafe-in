@@ -38,43 +38,139 @@ public class OrdersDAOImpl implements OrdersDAO {
 		PreparedStatement ps = null;
 		String sql = proFile.getProperty("order.orderInsert");
 		// insert into orders values(orders_seq.nextval, ?, 0, ?, ?, ?, sysdate, ?);
-		// 전화번호, 결제 방법, 적립금 사용 액수, 총 결제 금액, 테이크아웃 여부
+		// 1. 전화번호, 2. 결제 방법, 3. 적립금 사용 액수, 4. 총 결제 금액, 5. 테이크아웃 여부
 		int result = 0;
 		
 		try {
 			con = DbUtil.getConnection();
 			con.setAutoCommit(false); // 자동 커밋 해제
 			
+			String userTel = orders.getUserTel();
+			String payMethod = orders.getPayMethod();
+			int payPoint = orders.getPayPoint();
+			int totalPrice = this.getToTalPrice(orders);
+			
 			ps = con.prepareStatement(sql);
-			ps.setString(1, orders.getUserTel());
-			ps.setString(2, orders.getPayMethod());
-			ps.setInt(3, orders.getPayPoint());
-			ps.setInt(4, this.getToTalPrice(orders));
+			
+			if(!userTel.equals("guest")) {
+				ps.setString(1, userTel);
+			} else {
+				ps.setString(1, null);
+			}
+			
+			if(payMethod.equals("카드")) {
+				ps.setString(2, "card");
+			} else if(payMethod.equals("현금")) {
+				ps.setString(2, "cash");
+			} else {
+				throw new SQLException("결제 방법이 잘못되어 주문이 완료되지 않았습니다.");
+			}
+			ps.setInt(3, payPoint);
+			ps.setInt(4, totalPrice);
 			ps.setInt(5, orders.getTakeOut());
+			ps.setInt(6, orders.getTakeOut());
 			
 			result = ps.executeUpdate();
+			
+			
 			
 			if(result == 0) { // 만약 오류로 인해 등록되지 않았다면
 				con.rollback();
 				throw new SQLException("주문이 완료되지 않았습니다.");
+			}
+			
+			// 적립금 사용 시 적립금 차감
+			if(!userTel.equals("guest")) {
+				if(payPoint > 0) {
+					int dePointResult = dereaseUserPoint(con, payPoint, userTel);
+					if(dePointResult != 1) {
+						throw new SQLException("적립금 사용 오류가 발생하여 주문이 완료되지 않았습니다.");
+					}
+				} else if(payPoint < 0) {
+					throw new SQLException("적립금 사용 액수가 잘못되어 주문이 완료되지 않았습니다.");
+				}
 			} else {
-				int re[] = orderLineInsert(con, orders); // orderLineInsert를 통해 주문 상세 insert
-				for(int i : re) {
-					System.out.print(i + " | ");
-					if(i != 1) { // 결과 array에서 1행이 등록된 정상적인 결과가 아니라면
-						con.rollback();
+				if(payPoint != 0) {
+					throw new SQLException("비회원은 적립금을 사용할 수 없습니다.");
+				}
+			}
+			
+			// 적립금 추가
+			if(!userTel.equals("guest")) {
+				int inPointResult = increaseUserPoint(con, totalPrice, userTel);
+				if(inPointResult != 1) {
+					throw new SQLException("적립금 적립 오류가 발생하여 주문이 완료되지 않았습니다.");
+				}
+				
+			}
+			
+			 // orderLineInsert를 통해 주문 상세 insert 
+			int lineResult[] = orderLineInsert(con, orders);
+			for(int i : lineResult) {
+				if(i != 1) { // 결과 array에서 1행이 등록된 정상적인 결과가 아니라면
+					con.rollback();
+					throw new SQLException("주문이 완료되지 않았습니다.");
+				}
+			}
+			
+			for(OrderLine orderLine : orders.getOrderLineList()) {
+				if(orderLine.getProdCode().substring(0, 1).equals("D")) {
+					int stockResult = decreaseStockUpdate(con, orderLine);
+					if(stockResult == 0) {
 						throw new SQLException("주문이 완료되지 않았습니다.");
 					}
 				}
 			}
-			
-			decrementStockUpdate(con, orders.getOrdelLineList());
 			
 			con.commit(); // 모든 것이 정상적으로 완료되면 커밋
 		} finally {
 			con.commit(); // 중간에 끊겼다면 rollback한 상태로 커밋
 			DbUtil.close(con, ps);
 		}
+		return result;
+	}
+	
+	/**
+	 * 적립금 사용한 경우 적립금 차감
+	 * */
+	public int dereaseUserPoint(Connection con, int payPoint, String userTel) throws SQLException{
+		PreparedStatement ps = null;
+		String sql = proFile.getProperty("order.dereaseUserPoint");
+		int result = 0;
+		
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, payPoint);
+			ps.setString(2, userTel);
+			
+			result = ps.executeUpdate();
+		} finally {
+			DbUtil.close(null, ps);
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * 총 주문 금액의 10% 적립
+	 * @throws SQLException 
+	 * */
+	public int increaseUserPoint(Connection con, int totalPrice, String userTel) throws SQLException {
+		PreparedStatement ps = null;
+		String sql = proFile.getProperty("order.increaseUserPoint");
+		int result = 0;
+		
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, (totalPrice / 10));
+			ps.setString(2, userTel);
+			
+			result = ps.executeUpdate();
+			
+		} finally {
+			DbUtil.close(null, ps);
+		}
+		
 		return result;
 	}
 	
@@ -90,12 +186,11 @@ public class OrdersDAOImpl implements OrdersDAO {
 		
 		try {
 			ps = con.prepareStatement(sql);
-			for(OrderLine orderLine : orders.getOrdelLineList()) {
+			for(OrderLine orderLine : orders.getOrderLineList()) {
 				Product product = productDao.selectByProdCode(orderLine.getProdCode()); // 코드로 상품 정보 끌어오기 
-				ps.setInt(1, orders.getOrderNum());
-				ps.setString(2, product.getProdCode());
-				ps.setInt(3, orderLine.getQty());
-				ps.setInt(4, (product.getProdPrice() * orderLine.getQty()));
+				ps.setString(1, product.getProdCode());
+				ps.setInt(2, orderLine.getQty());
+				ps.setInt(3, (product.getProdPrice() * orderLine.getQty()));
 				
 				ps.addBatch(); // 배치에 추가
 				ps.clearParameters(); // 파라미터 지우기
@@ -111,25 +206,24 @@ public class OrdersDAOImpl implements OrdersDAO {
 	/**
 	 * 디저트일 경우 재고량 감소
 	 * */
-	public int[] decrementStockUpdate(Connection con, List<OrderLine> orderLineList) throws SQLException {
+	public int decreaseStockUpdate(Connection con, OrderLine orderLine) throws SQLException {
 		PreparedStatement ps = null;
-		String sql = proFile.getProperty("order.decremStockUpdate");
-		int[] result = null;
+		String sql = proFile.getProperty("order.decrementStockUpdate");
+		int result = 0;
 		
 		try {
-			ps = con.prepareStatement(sql);
-			for(OrderLine orderLine : orderLineList) {
-				Product product = productDao.selectByProdCode(orderLine.getProdCode()); // 코드로 상품 정보 끌어오기 
-				ps.setInt(1, orderLine.getQty());
-				ps.setString(2, orderLine.getProdCode());
-				
-				ps.addBatch(); // 배치에 추가
-				ps.clearParameters(); // 파라미터 지우기
+			Product product = productDao.selectByProdCode(orderLine.getProdCode());
+			if(product.getProdCode().substring(0, 1).equals("D") && product.getStock().getProdStock() < orderLine.getQty()) {
+				throw new SQLException("재고량이 부족해 결제를 실패했습니다.");
 			}
 			
-			result = ps.executeBatch();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, orderLine.getQty());
+			ps.setString(2, orderLine.getProdCode());
+			
+			result = ps.executeUpdate();
 		} finally {
-			// TODO: handle finally clause
+			DbUtil.close(null, ps);
 		}
 		
 		return result;
@@ -139,18 +233,16 @@ public class OrdersDAOImpl implements OrdersDAO {
 	 * 상품 총 구매 금액 구하기
 	 * */
 	public int getToTalPrice(Orders orders) throws SQLException{
-		List<OrderLine> orderLineList = orders.getOrdelLineList();
+		List<OrderLine> orderLineList = orders.getOrderLineList();
 		int total = 0;
 		
 		for(OrderLine orderline : orderLineList) {
 			Product product = productDao.selectByProdCode(orderline.getProdCode());
 			if(product == null) {
 				throw new SQLException("상품 번호에 오류가 발생해 결제를 실패했습니다.");
-			} else if(product.getStock().getProdStock() < orderline.getQty()) {
-				throw new SQLException("재고량이 부족해 결제를 실패했습니다.");
 			}
 			
-			total += (orderline.getQty() * product.getProdPrice());
+			total = (orderline.getQty() * product.getProdPrice());
 		}
 		
 		return total;
@@ -175,9 +267,7 @@ public class OrdersDAOImpl implements OrdersDAO {
 			con.setAutoCommit(false);
 			
 			ps=con.prepareStatement(sql);
-			System.out.println("변경할 상태코드는 ? \n 1.접수대기 | 2.주문 접수 |  3.상품 준비중 | 4. 상품 준비 완료 | 5. 픽업 완료 | 6. 주문 취소");
 			int stateCode = orders.getStateCode();
-			System.out.println("변경할 주문번호는 ?");
 			int orderNum = orders.getOrderNum();
 			ps.setInt(1, stateCode);
 			ps.setInt(2, orderNum);
@@ -221,7 +311,7 @@ public class OrdersDAOImpl implements OrdersDAO {
 				//orderList.add(orders);
 				/////////////////
 				List<OrderLine> orderLineList = selectByUserTelOrderLine(con,orders.getOrderNum());
-				orders.setOrdelLineList(orderLineList);
+				orders.setOrderLineList(orderLineList);
 				
 				orderList.add(orders);
 			}
