@@ -23,7 +23,7 @@ public interface UsersDAO {
 	/**
 	 * 적립금 확인: user 테이블 select
 	 * */
-	int userPointCh(Users users) throws SQLException;
+	Users userPointCh(String userTel) throws SQLException;
 	
 	/**
 	 * 전화번호로 유저 검색

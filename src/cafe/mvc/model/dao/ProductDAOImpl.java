@@ -17,17 +17,18 @@ public class ProductDAOImpl implements ProductDAO {
 	Product product = new Product();
 
 	/**
-	 * 음료 등록: product 테이블 레코드 insert
+	 * 상품 등록: product 테이블 레코드 insert
 	 */
 	@Override
-	public int drinkInsert(Product product) throws SQLException {
+	public int productInsert(Product product) throws SQLException {
 
 		Connection con = null;
 		PreparedStatement ps = null;
 		int result = 0;
-		String sql = profile.getProperty("drink.insert");
+		String sql = profile.getProperty("product.productInsert");
 		try {
 			con = DbUtil.getConnection();
+			con.setAutoCommit(false);
 			ps = con.prepareStatement(sql);
 			ps.setString(1, product.getProdCode());
 			ps.setString(2, product.getProdCode().substring(0, 1));
@@ -37,30 +38,11 @@ public class ProductDAOImpl implements ProductDAO {
 			ps.setInt(6, product.getProdState());
 
 			result = ps.executeUpdate();
+			
+			con.commit();
+			
 		} finally {
-			DbUtil.close(con, ps);
-		}
-		return result;
-	}
-
-	/**
-	 * 디저트 등록: product 테이블, stock 테이블 레코드 insert
-	 */
-	@Override
-	public int dessertInsert(Product product) throws SQLException {
-		Connection con = null;
-		PreparedStatement ps = null;
-		int result = 0;
-		String sql = profile.getProperty("dessert.insert");
-		try {
-			con = DbUtil.getConnection();
-			ps = con.prepareStatement(sql);
-			drinkInsert(product);
-			ps.setString(1, product.getProdCode());
-			ps.setInt(2, product.getStock().getProdStock());
-
-			result = ps.executeUpdate();
-		} finally {
+			con.commit();
 			DbUtil.close(con, ps);
 		}
 		return result;
@@ -88,6 +70,28 @@ public class ProductDAOImpl implements ProductDAO {
 		}
 		return result;
 	}
+	
+	/**
+	 * 디저트 재고 등록
+	 */
+	@Override
+	public int dessertStockInsert(Stock stock) throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		int result = 0;
+		String sql = profile.getProperty("dessertStock.insert");
+		try {
+			con = DbUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, stock.getProdStock());
+			ps.setString(2, stock.getProdCode());
+			result = ps.executeUpdate();
+		} finally {
+			DbUtil.close(con, ps);
+		}
+		return result;
+	}
+
 
 	/**
 	 * 디저트 재고 수정
@@ -110,56 +114,37 @@ public class ProductDAOImpl implements ProductDAO {
 		}
 		return result;
 	}
-
+	
 	/**
-	 * 상품 삭제: product 테이블 레코드 delete
+	 * 디저트 재고 조회
 	 */
-	@Override
-	public int productDelete(String prodCode) throws SQLException {
+	public Stock selectStock(Connection con, String prodCode) throws SQLException {
+		String sql = profile.getProperty("product.selectStock");
 
-		Connection con = null;
 		PreparedStatement ps = null;
-		int result = 0;
-		String sql = profile.getProperty("product.delete");
+		ResultSet rs = null;
+
+		Stock stock = null;
+
 		try {
-			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setString(1, prodCode);
+			rs = ps.executeQuery();
 
-			result = ps.executeUpdate();
+			if (rs.next()) {
+				stock = new Stock(prodCode, rs.getInt(1));
+			}
 		} finally {
-			DbUtil.close(con, ps);
+			DbUtil.close(null, ps, rs);
 		}
-		return result;
+		return stock;
 	}
 
-	/**
-	 * 디저트 재고 삭제: product 테이블, stock 테이블 레코드 delete
-	 */
-	@Override
-	public int stockDelete(String prodCode) throws SQLException {
-		productDelete(prodCode);
-		Connection con = null;
-		PreparedStatement ps = null;
-		int result = 0;
-		String sql = profile.getProperty("dessertStock.delete");
-		try {
-			con = DbUtil.getConnection();
-			ps = con.prepareStatement(sql);
-			ps.setString(1, product.getProdCode());
-			result = ps.executeUpdate();
-		} finally {
-			DbUtil.close(con, ps);
-		}
-
-		return result;
-	}
 
 	/**
 	 * 디저트의 재고가 0이면 상품상태 0(판매중지)만들기
 	 */
 	public int dessertsoldOutUpdate(String prodCode) throws SQLException {
-		productDelete(prodCode);
 		Connection con = null;
 		PreparedStatement ps = null;
 		int result = 0;
@@ -196,10 +181,10 @@ public class ProductDAOImpl implements ProductDAO {
 	}
 
 	/**
-	 * 전체 상품 보기 : (카테고리 구분 X)
+	 * 전체 상품 보기 : (카테고리 구분 X) <productSelectAll>
 	 */
 	@Override
-	public List<Product> selectAll() throws SQLException {
+	public List<Product> productSelectAll() throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -224,30 +209,7 @@ public class ProductDAOImpl implements ProductDAO {
 		return list;
 	}
 
-	/**
-	 * 상품에 스톡 입력
-	 */
-	public Stock selectStock(Connection con, String prodCode) throws SQLException {
-		String sql = profile.getProperty("product.selectStock");
-
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-
-		Stock stock = null;
-
-		try {
-			ps = con.prepareStatement(sql);
-			ps.setString(1, prodCode);
-			rs = ps.executeQuery();
-
-			if (rs.next()) {
-				stock = new Stock(prodCode, rs.getInt(1));
-			}
-		} finally {
-			DbUtil.close(null, ps, rs);
-		}
-		return stock;
-	}
+	
 
 	/**
 	 * 카테고리별 상품 보기 : 상품분류코드를 통해 각 카테고리에 맞는 상품만 조회
@@ -266,7 +228,7 @@ public class ProductDAOImpl implements ProductDAO {
 			ps.setString(1, groupCode);
 			rs = ps.executeQuery();
 
-			while (rs.next()) {
+			while (rs.next()) { 
 				Product product = new Product(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4),
 						rs.getString(5), rs.getInt(6));
 				if (product.getProdCode().substring(0, 1).equals("D")) {

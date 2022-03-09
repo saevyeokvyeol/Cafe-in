@@ -17,21 +17,11 @@ public class ProductServiceImpl implements ProductService {
 	ProductDAO productDao = new ProductDAOImpl();
 
 	/**
-	 * 음료 등록: product 테이블 레코드 insert 등록하기 전에, 음료코드 중복체크 - selectByProdCode
+	 * 상품등록: product 테이블 레코드 insert 등록하기 전에, 음료코드 중복체크 - selectByProdCode
 	 */
 	@Override
-	public void drinkInsert(Product product) throws SQLException, AddException, DuplicatedException {
-		int result = productDao.drinkInsert(product);
-		if (result == 0)
-			throw new SQLException("등록 실패");
-	}
-
-	/**
-	 * 디저트 등록: product 테이블, stock 테이블 레코드 insert
-	 */
-	@Override
-	public void dessertInsert(Product product) throws SQLException, AddException, DuplicatedException {
-		int result = productDao.dessertInsert(product);
+	public void productInsert(Product product) throws SQLException, AddException, DuplicatedException {
+		int result = productDao.productInsert(product);
 		if (result == 0)
 			throw new SQLException("등록 실패");
 	}
@@ -58,25 +48,6 @@ public class ProductServiceImpl implements ProductService {
 
 	}
 
-	/**
-	 * 상품 삭제: product 테이블 레코드 delete
-	 */
-	@Override
-	public void productDelete(String prodCode) throws SQLException {
-		int result = productDao.productDelete(prodCode);
-		if (result == 0) {
-			throw new SQLException("삭제 실패");
-		}
-	}
-
-	/**
-	 * 디저트 재고 삭제
-	 */
-	public void stockDelete(String prodCode) throws SQLException, ModifyException, NotFoundException {
-		int result = productDao.stockDelete(prodCode);
-		if (result == 0)
-			throw new SQLException("삭제 실패");
-	}
 
 	/**
 	 * 상품 상태 변경
@@ -93,8 +64,8 @@ public class ProductServiceImpl implements ProductService {
 	 * 전체상품검색
 	 */
 	@Override
-	public List<Product> selectAll() throws SQLException, NotFoundException {
-		List<Product> list = productDao.selectAll();
+	public List<Product> productSelectAll() throws SQLException, NotFoundException {
+		List<Product> list = productDao.productSelectAll();
 		if (list.size() == 0)
 			throw new NotFoundException("현재 상품이 없습니다.");
 		return list;

@@ -10,14 +10,14 @@ import cafe.mvc.model.dto.Stock;
 
 public interface ProductDAO {
 	/**
-	 * 음료 등록: product 테이블 레코드 insert
+	 * 상품 등록: product 테이블 레코드 insert
 	 */
-	int drinkInsert(Product product) throws SQLException;
-
+	int productInsert(Product product) throws SQLException;
+	
 	/**
-	 * 디저트 등록: product 테이블, stock 테이블 레코드 insert
-	 */
-	int dessertInsert(Product product) throws SQLException;
+	 * 디저트 재고 등록
+	 * */
+	int dessertStockInsert (Stock stock) throws SQLException;
 
 	/**
 	 * 상품 수정: product 테이블 레코드 update(판매 가격, 상세 정보, 품절 여부)
@@ -30,15 +30,6 @@ public interface ProductDAO {
 	 */
 	int dessertStockUpdate(Stock stock) throws SQLException;
 
-	/**
-	 * 상품 삭제: product 테이블 레코드 delete
-	 */
-	int productDelete(String prodCode) throws SQLException;
-
-	/**
-	 * 디저트 재고 삭제: product 테이블, stock 테이블 레코드 delete
-	 */
-	int stockDelete(String prodCode) throws SQLException;
 
 	/**
 	 * 상품상태변경
@@ -48,7 +39,7 @@ public interface ProductDAO {
 	/**
 	 * 전체 상품 보기 : 상품분류코드를 통해 각 카테고리에 맞는 상품만 조회
 	 */
-	List<Product> selectAll() throws SQLException;
+	List<Product> productSelectAll() throws SQLException;
 
 	/**
 	 * 카테고리별 상품 보기 : 상품분류코드를 통해 각 카테고리에 맞는 상품만 조회

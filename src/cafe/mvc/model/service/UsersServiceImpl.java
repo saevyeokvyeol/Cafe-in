@@ -46,9 +46,12 @@ public class UsersServiceImpl implements UsersService{
 	 * 적립금 확인: user 테이블 select
 	 * */
 	@Override
-	public void userPointCh(Users users) throws SQLException, ModifyException, NotFoundException {
-		int result = usersDAO.userPointCh(users);
-		System.out.println("적립금 : " + result + "원");
+	public Users userPointCh(String userTel) throws SQLException, ModifyException, NotFoundException {
+		Users users = usersDAO.userPointCh(userTel);
+		if(users == null) {
+			throw new SQLException("오류");
+		}
+		return users;
 		
 	}
 

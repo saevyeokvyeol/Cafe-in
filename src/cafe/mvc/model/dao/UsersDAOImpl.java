@@ -65,26 +65,27 @@ public class UsersDAOImpl implements UsersDAO{
 	 * 적립금 확인: user 테이블 select
 	 * */
 	@Override
-	public int userPointCh(Users users) throws SQLException {
+	public Users userPointCh(String userTel) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		int result = 0;
+		Users users = null;
 		String sql = proFile.getProperty("users.check");
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
-			ps.setString(1, users.getUserTel());
+			ps.setString(1, userTel);
 			
 			rs = ps.executeQuery();
-			rs.next();		
-			result = rs.getInt(1);
-			
+			if(rs.next()){
+				users = new Users(userTel, null, rs.getInt(1), 0);
+			}
 			
 		} finally {
-			DbUtil.close(con, ps);
+			DbUtil.close(con, ps, rs);
 		}
-		return result;
+		
+		return users;
 	}
 
 	/**
