@@ -103,12 +103,12 @@ public class SuccessView {
 			if(userTel == null) {
 				
 			} else {
-				System.out.println("현재 주문 상태 : " + stateCode + " | " + userTel + " 회원님 | 결제방법 : "+payMethod+" | 주문 일자 : "+ orderDate +" | 총 결제 금액 :"+totalPrice+"￦");
+				System.out.println("주문번호 : "+orderNum+ "번 | 현재 주문 상태 : " + stateCode + " | " + userTel + " 회원님 | 결제방법 : "+payMethod+" | 주문 일자 : "+ orderDate +" | 총 결제 금액 :"+totalPrice+"￦");
 			}
 		}
-		System.out.println(
-				"---------------------------------------------------------------------------------------------------------|");
-			
+//		System.out.println(
+//				"---------------------------------------------------------------------------------------------------------|");
+//			
 
 
 	}

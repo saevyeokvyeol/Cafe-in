@@ -46,6 +46,7 @@ public class MenuView {
 				break;
 			case 4 : 
 				MenuView.adminsMenu();
+				break;
 			case 9 : 
 				System.exit(0);
 			}
@@ -175,7 +176,7 @@ public class MenuView {
 				System.out.println("비밀번호 오류입니다..");
 				adminsMenu();
 			}
-			
+		
 		}
 	}
 //    //관리자메뉴
@@ -193,8 +194,12 @@ public class MenuView {
 		case 3 :
 			break;
 		case 4 :
+			
+			System.out.println("▶ 변경할 주문번호 :");
+		
 			int orderNum = Integer.parseInt(sc.nextLine());
-
+			System.out.println("▶ 0 : 접수대기 | 1 : 주문접수 | 2 : 상품 준비중 | 3 : 상품 준비 완료 | 4 : 픽업완료 | 5 : 주문취소");
+			System.out.println("▶ 변경할 주문상태코드 : ");
 			int stateCode = Integer.parseInt(sc.nextLine());
 			OrdersController.orderStateUpdate(new Orders(orderNum, stateCode));
 			break;
@@ -212,7 +217,7 @@ public class MenuView {
 			String userTel = sc.nextLine();
 			
 			OrdersController.selectByUserTel(userTel);
-			
+			break;
 		case 9 : 
 			System.exit(0);
 		}
