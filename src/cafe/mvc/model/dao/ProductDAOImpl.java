@@ -209,33 +209,6 @@ public class ProductDAOImpl implements ProductDAO {
 		return list;
 	}
 
-
-	/**
-	 * 상품에 스톡 입력
-	 */
-	public StockDTO selectStock(Connection con, String prodCode) throws SQLException {
-		String sql = profile.getProperty("product.selectStock");
-
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-
-		StockDTO stockDTO = null;
-
-		try {
-			ps = con.prepareStatement(sql);
-			ps.setString(1, prodCode);
-			rs = ps.executeQuery();
-
-			if (rs.next()) {
-				stockDTO = new StockDTO(prodCode, rs.getInt(1));
-			}
-		} finally {
-			DbUtil.close(null, ps, rs);
-		}
-		return stockDTO;
-	}
-
-
 	/**
 	 * 카테고리별 상품 보기 : 상품분류코드를 통해 각 카테고리에 맞는 상품만 조회
 	 */
