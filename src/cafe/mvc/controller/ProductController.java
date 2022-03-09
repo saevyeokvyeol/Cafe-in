@@ -15,7 +15,7 @@ public class ProductController {
 	/**
 	 * 상품등록
 	 */
-	public static void productInsert(ProductDTO product) {
+	public static void productInsert(Product product) {
 		try {
 			productService.productInsert(product);
 			SuccessView.printMessage("상품 등록 완료");
@@ -77,7 +77,7 @@ public class ProductController {
 
 		try {
 
-			List<ProductDTO> list = productService.selectByGroup(groupCode);
+			List<ProductDTO> list = productService.productSelectByGroup(groupCode);
 
 			SuccessView.printByCategory(list);
 
