@@ -4,8 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
+import cafe.mvc.exception.NotFoundException;
 import cafe.mvc.model.dto.UsersDTO;
 import cafe.mvc.util.DbUtil;
 
@@ -116,6 +119,32 @@ public class UsersDAOImpl implements UsersDAO{
 		}
 		
 		return usersDTO;
+	}
+	
+	/**
+	 * 전체 유저 검색
+	 * */
+	@Override
+	public List<UsersDTO> userSelectAll() throws SQLException, NotFoundException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<UsersDTO> list = new ArrayList<UsersDTO>();
+		String sql = proFile.getProperty("users.userSelectAll");		
+		try {
+			con = DbUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				UsersDTO users = new UsersDTO(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getString(4));
+				list.add(users);
+			}
+		} finally {
+			DbUtil.close(con, ps, rs);
+		}
+		
+		return list;
 	}
 
 	/**
