@@ -14,7 +14,7 @@ import cafe.mvc.exception.ModifyException;
 import cafe.mvc.exception.NotFoundException;
 import cafe.mvc.model.dao.UsersDAO;
 import cafe.mvc.model.dao.UsersDAOImpl;
-import cafe.mvc.model.dto.Users;
+import cafe.mvc.model.dto.UsersDTO;
 
 import cafe.mvc.session.Session;
 import cafe.mvc.session.SessionSet;
@@ -28,8 +28,8 @@ public class UsersServiceImpl implements UsersService{
 	 * 회원가입: user 테이블 insert
 	 * */
 	@Override
-	public void userInsert(Users users) throws SQLException, AddException, DuplicatedException {
-		int result = usersDAO.userInsert(users);
+	public void userInsert(UsersDTO usersDTO) throws SQLException, AddException, DuplicatedException {
+		int result = usersDAO.userInsert(usersDTO);
 		if(result==0)throw new SQLException("등록되지않았습니다.^^");
 	}
 
@@ -37,8 +37,8 @@ public class UsersServiceImpl implements UsersService{
 	 * 회원 정보 수정: user 테이블 update(전화번호/이름/적립금...?)
 	 * */
 	@Override
-	public void userUpdate(Users users) throws SQLException, ModifyException, NotFoundException {
-		int result = usersDAO.userUpdate(users);
+	public void userUpdate(UsersDTO usersDTO) throws SQLException, ModifyException, NotFoundException {
+		int result = usersDAO.userUpdate(usersDTO);
 		if(result==0)throw new SQLException("등록되지않았습니다.^^");
 		
 	}
@@ -46,12 +46,12 @@ public class UsersServiceImpl implements UsersService{
 	 * 적립금 확인: user 테이블 select
 	 * */
 	@Override
-	public Users userPointCh(String userTel) throws SQLException, ModifyException, NotFoundException {
-		Users users = usersDAO.userPointCh(userTel);
-		if(users == null) {
+	public UsersDTO userPointCh(String userTel) throws SQLException, ModifyException, NotFoundException {
+		UsersDTO usersDTO = usersDAO.userPointCh(userTel);
+		if(usersDTO == null) {
 			throw new SQLException("오류");
 		}
-		return users;
+		return usersDTO;
 		
 	}
 
@@ -59,10 +59,10 @@ public class UsersServiceImpl implements UsersService{
 	 * 로그인
 	 * */
 	@Override
-	public Users login(String userTel, int userPwd) throws SQLException, NotFoundException {
-		Users users = usersDAO.login(userTel, userPwd);
+	public UsersDTO login(String userTel, int userPwd) throws SQLException, NotFoundException {
+		UsersDTO usersDTO = usersDAO.login(userTel, userPwd);
 		
-		if(users == null) { // 아이디와 비밀번호가 일치하는지 확인
+		if(usersDTO == null) { // 아이디와 비밀번호가 일치하는지 확인
 			throw new NotFoundException("아이디 혹은 비밀번호가 잘못 되었습니다.");
 		}
 		
@@ -73,19 +73,19 @@ public class UsersServiceImpl implements UsersService{
 		SessionSet sessionSet = SessionSet.getInstance();
 		sessionSet.add(session);
 		
-		return users;
+		return usersDTO;
 	}
 	
 	/**
 	 * 전화번호로 유저 검색
 	 * */
 	@Override
-	public Users selectByUserTel(String userTel) throws SQLException, NotFoundException {
-		Users users = usersDAO.selectByUserTel(userTel);
+	public UsersDTO selectByUserTel(String userTel) throws SQLException, NotFoundException {
+		UsersDTO usersDTO = usersDAO.selectByUserTel(userTel);
 		
-		if(users == null) {
+		if(usersDTO == null) {
 			throw new NotFoundException("회원 정보를 찾을 수 없습니다.");
 		}
-		return users;
+		return usersDTO;
 	}
 }

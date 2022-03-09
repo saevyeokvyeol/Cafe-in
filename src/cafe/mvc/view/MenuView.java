@@ -8,9 +8,9 @@ import java.util.Scanner;
 import cafe.mvc.controller.OrdersController;
 import cafe.mvc.controller.ProductController;
 import cafe.mvc.controller.UsersController;
-import cafe.mvc.model.dto.Orders;
-import cafe.mvc.model.dto.Product;
-import cafe.mvc.model.dto.Users;
+import cafe.mvc.model.dto.OrdersDTO;
+import cafe.mvc.model.dto.ProductDTO;
+import cafe.mvc.model.dto.UsersDTO;
 import cafe.mvc.model.service.ProductServiceImpl;
 import cafe.mvc.session.SessionSet;
 
@@ -35,7 +35,7 @@ public class MenuView {
 			int menu = Integer.parseInt(sc.nextLine());
 			switch(menu) {
 			case 1 :
-				MenuView.register();
+				MenuView.userInsert();
 				break;
 			case 2 :
 				// 로그인
@@ -58,7 +58,7 @@ public class MenuView {
 		System.out.println("1. 회원가입   |   2. 회원주문   |  3. 비회원주문  |  4. 관리자설정  |  9. 종료");
 	}
 	
-	public static void register() {//userinsert변경
+	public static void userInsert() {
 		System.out.print("전화번호 ex)010-1111-1111 : ");
 		String userTel = sc.nextLine();
 		
@@ -68,8 +68,8 @@ public class MenuView {
 		System.out.print("비밀번호 : ");
 		int userPwd = Integer.parseInt(sc.nextLine());	
 		
-		Users users = new Users(userTel, userName, userPwd);
-		UsersController.registor(users);
+		UsersDTO usersDTO = new UsersDTO(userTel, userName, userPwd);
+		UsersController.userInsert(usersDTO);
 	}
 	
 	//회원으로 로그인해야보이는 화면
@@ -123,8 +123,8 @@ public class MenuView {
 		System.out.print("변결할비밀번호 : ");
 		int userPwd = Integer.parseInt(sc.nextLine());
 		
-		Users users = new Users(userTel, null, userPwd);
-		UsersController.pwdUpdate(users);
+		UsersDTO usersDTO = new UsersDTO(userTel, null, userPwd);
+		UsersController.pwdUpdate(usersDTO);
 	}
 	
 	//비회원이 보는 화면
@@ -200,7 +200,7 @@ public class MenuView {
 			System.out.println("▶ 0 : 접수대기 | 1 : 주문접수 | 2 : 상품 준비중 | 3 : 상품 준비 완료 | 4 : 픽업완료 | 5 : 주문취소");
 			System.out.println("▶ 변경할 주문상태코드 : ");
 			int stateCode = Integer.parseInt(sc.nextLine());
-			OrdersController.orderStateUpdate(new Orders(orderNum, stateCode));
+			OrdersController.orderStateUpdate(new OrdersDTO(orderNum, stateCode));
 			break;
 		case 5 :
 			break;

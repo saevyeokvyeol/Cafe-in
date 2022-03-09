@@ -2,50 +2,45 @@ package cafe.mvc.model.dto;
 
 import java.util.List;
 
-public class Users{
+public class UsersDTO{
 	private String userTel; //회원전화번호
     private String userName; //이름
     private int userPoint; //적립금
     private int userPwd; //비밀번호
     private String regDate;
     
-    private List<Orders> orderList;
+    private List<OrdersDTO> orderList;
    
-    public Users() {}
-
-    public Users(String userTel, String userName, int userPoint, String regDate) {
-	    this.userTel = userTel;
-		this.userName = userName;
-		this.userPoint = userPoint;
-		this.regDate = regDate;
-    }
-
-    public Users(String userTel, String userName, int userPoint, int userPwd) {
-	    this.userTel = userTel;
-		this.userName = userName;
-		this.userPoint = userPoint;
-		this.userPwd = userPwd;
-    }
+    public UsersDTO() {}
     
-    public Users(String userTel, String userName, int userPoint, String regDate, int userPwd) {
-	    this.userTel = userTel;
-		this.userName = userName;
-		this.userPoint = userPoint;
-		this.regDate = regDate;
-		this.userPwd = userPwd;
-    }
-    
-	public Users(String userTel, String userName, int userPwd) {
+
+    public UsersDTO(String userTel, String userName, int userPwd) {
 		super();
 		this.userTel = userTel;
 		this.userName = userName;
 		this.userPwd = userPwd;
 	}
-	
-	public Users(int userPwd) {
+    
+    public UsersDTO(String userTel, String userName, int userPoint, int userPwd) {
+    	this(userTel, userName, userPwd);
+		this.userPoint = userPoint;
+    }
+    
+    public UsersDTO(String userTel, String userName, int userPoint, String regDate) {
+	    this.userTel = userTel;
+		this.userName = userName;
+		this.userPoint = userPoint;
+		this.regDate = regDate;
+    }
+    
+    public UsersDTO(String userTel, String userName, int userPoint, String regDate, int userPwd) {
+	    this(userTel, userName, userPoint, regDate);
 		this.userPwd = userPwd;
-	}
-
+    }
+    
+	
+	
+	
 	public String getUserTel() {
 		return userTel;
 	}
@@ -86,11 +81,11 @@ public class Users{
 		this.regDate = regDate;
 	}
 
-	public List<Orders> getOrderList() {
+	public List<OrdersDTO> getOrderList() {
 		return orderList;
 	}
 
-	public void setOrderList(List<Orders> orderList) {
+	public void setOrderList(List<OrdersDTO> orderList) {
 		this.orderList = orderList;
 	}	
   

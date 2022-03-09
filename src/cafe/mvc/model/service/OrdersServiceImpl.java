@@ -8,8 +8,8 @@ import cafe.mvc.exception.ModifyException;
 import cafe.mvc.exception.NotFoundException;
 import cafe.mvc.model.dao.OrdersDAO;
 import cafe.mvc.model.dao.OrdersDAOImpl;
-import cafe.mvc.model.dto.Orders;
-import cafe.mvc.model.dto.Statistics;
+import cafe.mvc.model.dto.OrdersDTO;
+import cafe.mvc.model.dto.StatisticsDTO;
 
 public class OrdersServiceImpl implements OrdersService {
 
@@ -24,8 +24,8 @@ public class OrdersServiceImpl implements OrdersService {
 	 * 5. 디저트 주문이 들어온 경우 stock 감소(update)
 	 * */
 	@Override
-	public void orderInsert(Orders orders) throws SQLException, AddException {
-		int result = ordersDao.orderInsert(orders);
+	public void orderInsert(OrdersDTO ordersDTO) throws SQLException, AddException {
+		int result = ordersDao.orderInsert(ordersDTO);
 		if(result == 0) {
 			throw new AddException("주문이 완료되지 않았습니다.");
 		}
@@ -37,9 +37,9 @@ public class OrdersServiceImpl implements OrdersService {
 	 * : 주문 번호와 상태 코드를 받아서 orders를 생성해 인수로 받음
 	 * */
 	@Override
-	public void orderStateUpdate(Orders orders) throws SQLException, ModifyException, NotFoundException {
+	public void orderStateUpdate(OrdersDTO ordersDTO) throws SQLException, ModifyException, NotFoundException {
 
-		int result = ordersDao.orderStateUpdate(orders);
+		int result = ordersDao.orderStateUpdate(ordersDTO);
 		if(result==0)throw new SQLException("변경을 실패하였습니니다.");
 
 	}
@@ -49,8 +49,8 @@ public class OrdersServiceImpl implements OrdersService {
 	 * : 메소드명 고민중입니다... 다들 아이디어 부탁드려요!
 	 * */
 	@Override
-	public List<Orders> selectOngoingOrder() throws SQLException, NotFoundException {
-		List<Orders> list=ordersDao.selectOnoingOrder();
+	public List<OrdersDTO> selectOngoingOrder() throws SQLException, NotFoundException {
+		List<OrdersDTO> list=ordersDao.selectOnoingOrder();
 		if(list.isEmpty()) throw new SQLException("현재 진행중인 주문이 없습니다..");
 		return list;
 	}
@@ -60,8 +60,8 @@ public class OrdersServiceImpl implements OrdersService {
 	 * : 로그인한 회원의 정보를 통해 회원의 지난 주문 내역 검색
 	 * */
 	@Override
-	public List<Orders> selectByUserTel(String UserTel) throws SQLException, NotFoundException {
-		List<Orders> list=ordersDao.selectByUserTel(UserTel);
+	public List<OrdersDTO> selectByUserTel(String UserTel) throws SQLException, NotFoundException {
+		List<OrdersDTO> list=ordersDao.selectByUserTel(UserTel);
 		
 		if( list.isEmpty() ) throw new SQLException("지난 주문 내역이 없습니다..");
 		return list;
@@ -71,8 +71,8 @@ public class OrdersServiceImpl implements OrdersService {
 	 * 일간 매출 통계 조회
 	 * */
 	@Override
-	public Statistics dailySalesStatistic(String date) throws SQLException, NotFoundException {
-		Statistics statistic = ordersDao.dailySalesStatistic(date);
+	public StatisticsDTO dailySalesStatistic(String date) throws SQLException, NotFoundException {
+		StatisticsDTO statistic = ordersDao.dailySalesStatistic(date);
 		if (statistic == null) {
 			throw new NotFoundException("일간 매출을 검색할 수 없습니다.");
 		}

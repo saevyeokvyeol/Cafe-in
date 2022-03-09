@@ -8,12 +8,12 @@ import java.util.Scanner;
 import cafe.mvc.controller.CartController;
 import cafe.mvc.controller.OrdersController;
 import cafe.mvc.controller.UsersController;
-import cafe.mvc.model.dto.OrderLine;
-import cafe.mvc.model.dto.Orders;
-import cafe.mvc.model.dto.Product;
+import cafe.mvc.model.dto.OrderLineDTO;
+import cafe.mvc.model.dto.OrdersDTO;
+import cafe.mvc.model.dto.ProductDTO;
 import cafe.mvc.session.Session;
 import cafe.mvc.controller.ProductController;
-import cafe.mvc.model.dto.Stock;
+import cafe.mvc.model.dto.StockDTO;
 import cafe.mvc.session.SessionSet;
 
 public class MenuView2 {
@@ -281,17 +281,17 @@ public class MenuView2 {
 		System.out.print("▶ ");
 		int takeout = Integer.parseInt(sc.nextLine());
 		
-		List<OrderLine> list = new ArrayList<OrderLine>();
-		Map<Product, Integer> cart = (Map<Product, Integer>) session.getAttributes("cart");
+		List<OrderLineDTO> list = new ArrayList<OrderLineDTO>();
+		Map<ProductDTO, Integer> cart = (Map<ProductDTO, Integer>) session.getAttributes("cart");
 		
-		for(Product product : cart.keySet()) {
-			list.add(new OrderLine(0, 0, product.getProdCode(), cart.get(product), 0));
+		for(ProductDTO productDTO : cart.keySet()) {
+			list.add(new OrderLineDTO(0, 0, productDTO.getProdCode(), cart.get(productDTO), 0));
 		}
 		
-		Orders orders = new Orders(0, userTel, 0, payMethod, payPoint, 0, null, takeout);
-		orders.setOrderLineList(list);
+		OrdersDTO ordersDTO = new OrdersDTO(0, userTel, 0, payMethod, payPoint, 0, null, takeout);
+		ordersDTO.setOrderLineList(list);
 		
-		OrdersController.orderInsert(orders);
+		OrdersController.orderInsert(ordersDTO);
 		
 	}
 	
@@ -318,12 +318,12 @@ public class MenuView2 {
 		 if(group == 'D') { 
 			 System.out.print("디저트 재고량 ▶ ");
 			 int prodStock = Integer.parseInt(sc.nextLine());
-			 Product product = new Product(prodCode, null, prodName, prodPrice, prodDetail, prodState);
-			 Stock stock = new Stock(prodCode, prodStock);
-			 product.setStock(stock);
-			 ProductController.dessertInsert(product);
+			 ProductDTO productDTO = new ProductDTO(prodCode, null, prodName, prodPrice, prodDetail, prodState);
+			 StockDTO stockDTO = new StockDTO(prodCode, prodStock);
+			 productDTO.setStock(stockDTO);
+			 ProductController.dessertInsert(productDTO);
 		 } else {
-			 ProductController.drinkInsert(new Product(prodCode, null, prodName, prodPrice, prodDetail, prodState));
+			 ProductController.drinkInsert(new ProductDTO(prodCode, null, prodName, prodPrice, prodDetail, prodState));
 		 }
 	
 	}
@@ -348,12 +348,12 @@ public class MenuView2 {
 		 if(group == 'D') { 
 			 System.out.print("디저트 재고량 ▶ ");
 			 int prodStock = Integer.parseInt(sc.nextLine());
-			 Product product = new Product(prodCode, null, null, prodPrice, prodDetail, 0);
-			 Stock stock = new Stock(prodCode, prodStock);
-			 product.setStock(stock);
-			 ProductController.dessertStockUpdate(stock);
+			 ProductDTO productDTO = new ProductDTO(prodCode, null, null, prodPrice, prodDetail, 0);
+			 StockDTO stockDTO = new StockDTO(prodCode, prodStock);
+			 productDTO.setStock(stockDTO);
+			 ProductController.dessertStockUpdate(stockDTO);
 		 } else {
-			 ProductController.productUpdate(new Product(prodCode, null, null, prodPrice, prodDetail, 0));
+			 ProductController.productUpdate(new ProductDTO(prodCode, null, null, prodPrice, prodDetail, 0));
 		 }
 		
 	}

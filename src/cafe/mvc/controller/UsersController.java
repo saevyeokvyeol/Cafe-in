@@ -1,6 +1,6 @@
 package cafe.mvc.controller;
 
-import cafe.mvc.model.dto.Users;
+import cafe.mvc.model.dto.UsersDTO;
 import cafe.mvc.model.service.UsersService;
 import cafe.mvc.model.service.UsersServiceImpl;
 import cafe.mvc.view.FailView;
@@ -17,14 +17,14 @@ public class UsersController {
 	 * */
 	public static void login(String userTel, int userPwd) {
 		try {
-			Users users = usersService.login(userTel, userPwd);
-			if(users.getUserTel().equals("999-9999-9999")) {
-				MenuView2.adminMenu(users.getUserTel());
+			UsersDTO usersDTO = usersService.login(userTel, userPwd);
+			if(usersDTO.getUserTel().equals("999-9999-9999")) {
+				MenuView2.adminMenu(usersDTO.getUserTel());
 			} else {
 				MenuView.printUserMenu(userTel, userTel);
 				//MenuView.userMenu(users.getUserTel());
 			}
-			System.out.println("\n" + users.getUserName() + " 님, 방문해주셔서 감사합니다.");
+			System.out.println("\n" + usersDTO.getUserName() + " 님, 방문해주셔서 감사합니다.");
 		} catch (Exception e) {
 			FailView.errorMessage(e.getMessage());
 
@@ -34,9 +34,9 @@ public class UsersController {
 	/**
 	 * 회원가입
 	 */
-	public static void registor(Users users) {
+	public static void userInsert(UsersDTO usersDTO) {
 		try {
-			usersService.userInsert(users);
+			usersService.userInsert(usersDTO);
 			SuccessView.printMessage("가입완료");
 			//MenuView.menu();
 		}catch (Exception e) {
@@ -50,9 +50,9 @@ public class UsersController {
 	/**
 	 * 비밀번호변경
 	 */
-	public static void pwdUpdate(Users users) {
+	public static void pwdUpdate(UsersDTO usersDTO) {
 		try {
-			usersService.userUpdate(users);
+			usersService.userUpdate(usersDTO);
 			SuccessView.printMessage("변경완료");
 			//MenuView.menu();
 		}catch (Exception e) {
@@ -65,8 +65,8 @@ public class UsersController {
 	 */
 	public static void userPointCh(String userTel) {
 		try {
-			Users users = usersService.userPointCh(userTel);
-			SuccessView.printMessage("적립금 : " + users.getUserPoint() + "원");
+			UsersDTO usersDTO = usersService.userPointCh(userTel);
+			SuccessView.printMessage("적립금 : " + usersDTO.getUserPoint() + "원");
 			//MenuView.menu();
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -95,8 +95,8 @@ public class UsersController {
 	 * */
 	public static void selectByUserTel(String userTel) {
 		try {
-			Users users = usersService.selectByUserTel(userTel);
-			SuccessView.printUsersInfo(users);
+			UsersDTO usersDTO = usersService.selectByUserTel(userTel);
+			SuccessView.printUsersInfo(usersDTO);
 		} catch (Exception e) {
 			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());

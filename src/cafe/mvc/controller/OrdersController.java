@@ -1,7 +1,7 @@
 package cafe.mvc.controller;
 
-import cafe.mvc.model.dto.Orders;
-import cafe.mvc.model.dto.Statistics;
+import cafe.mvc.model.dto.OrdersDTO;
+import cafe.mvc.model.dto.StatisticsDTO;
 import java.util.List;
 import cafe.mvc.model.service.OrdersService;
 import cafe.mvc.model.service.OrdersServiceImpl;
@@ -14,9 +14,9 @@ public class OrdersController {
 	/**
 	 * 주문하기
 	 * */
-	public static void orderInsert(Orders orders) {
+	public static void orderInsert(OrdersDTO ordersDTO) {
 		try {
-			ordersService.orderInsert(orders);
+			ordersService.orderInsert(ordersDTO);
 			SuccessView.printMessage("주문이 완료되었습니다. 잠시만 기다려주세요.");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -26,7 +26,7 @@ public class OrdersController {
 
 	public static void dailySalesStatistic(String date) {
 		try {
-			Statistics statistic = ordersService.dailySalesStatistic(date);
+			StatisticsDTO statistic = ordersService.dailySalesStatistic(date);
 			SuccessView.printStatistics(statistic);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -38,9 +38,9 @@ public class OrdersController {
 	/**
 	 * 주문상태코드변경
 	 */
-	public static void orderStateUpdate(Orders orders) {
+	public static void orderStateUpdate(OrdersDTO ordersDTO) {
 		try {
-			ordersService.orderStateUpdate(orders);
+			ordersService.orderStateUpdate(ordersDTO);
 			SuccessView.printMessage("주문상태코드를 변경하였습니다.");
 		} catch (Exception e) {
 			FailView.errorMessage(e.getMessage());
@@ -52,7 +52,7 @@ public class OrdersController {
 	 */
 	public static void selectOngoingOrder() {
 		try {
-			List<Orders> orderList = ordersService.selectOngoingOrder();
+			List<OrdersDTO> orderList = ordersService.selectOngoingOrder();
 			SuccessView.selectOngoingOrder(orderList);
 
 		} catch (Exception e) {
@@ -66,7 +66,7 @@ public class OrdersController {
 
 		public static void selectByUserTel(String userTel) {
 			try {
-			List<Orders> list =ordersService.selectByUserTel(userTel);
+			List<OrdersDTO> list =ordersService.selectByUserTel(userTel);
 			SuccessView.printSelectByUserTel(list,userTel);
 			}catch(Exception e){
 				FailView.errorMessage(e.getMessage());

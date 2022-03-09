@@ -3,8 +3,8 @@ package cafe.mvc.model.dao;
 import java.sql.SQLException;
 import java.util.List;
 
-import cafe.mvc.model.dto.Orders;
-import cafe.mvc.model.dto.Statistics;
+import cafe.mvc.model.dto.OrdersDTO;
+import cafe.mvc.model.dto.StatisticsDTO;
 
 public interface OrdersDAO {
 	/**
@@ -19,33 +19,33 @@ public interface OrdersDAO {
 	 * 
 	 * @ 자동 커밋 해제할 것!!
 	 * */
-	int orderInsert(Orders orders) throws SQLException;
+	int orderInsert(OrdersDTO ordersDTO) throws SQLException;
 	
 	/**
 	 * 주문 상태 코드 변경
 	 * orders의 주문 상태 코드 update
 	 * : 주문 번호와 상태 코드를 받아서 orders를 생성해 인수로 받음
 	 * */
-	int orderStateUpdate(Orders orders) throws SQLException;
+	int orderStateUpdate(OrdersDTO ordersDTO) throws SQLException;
 	
 	/**
 	 * 현재 진행 중인 주문 검색: 픽업 완료, 주문 취소 상태가 아닌 모든 주문 검색
 	 * : 메소드명 고민중입니다... 다들 아이디어 부탁드려요!
 	 * */
-	List<Orders> selectOnoingOrder() throws SQLException;
+	List<OrdersDTO> selectOnoingOrder() throws SQLException;
 	
 	/**
 	 * 회원의 지난 주문 내역 조회
 	 * : 로그인한 회원의 정보를 통해 회원의 지난 주문 내역 검색
 	 *   주문 상세 메소드를 따로 만들어 상세 내역도 함께 보여주기
 	 * */
-	List<Orders> selectByUserTel(String UserTel) throws SQLException;
+	List<OrdersDTO> selectByUserTel(String UserTel) throws SQLException;
 	
 	/**
 	 * 일간 매출 통계
 	 * : 통계를 어떻게 끌어올까요...(통계용 DTO를 새로 만들어서 가져오기...?)
 	 * */
-	Statistics dailySalesStatistic(String date) throws SQLException;
+	StatisticsDTO dailySalesStatistic(String date) throws SQLException;
 	
 	/**
 	 * 더 필요한 메소드 있을까요?

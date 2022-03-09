@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import cafe.mvc.exception.AddException;
-import cafe.mvc.model.dto.OrderLine;
-import cafe.mvc.model.dto.Orders;
-import cafe.mvc.model.dto.Product;
+import cafe.mvc.model.dto.OrderLineDTO;
+import cafe.mvc.model.dto.OrdersDTO;
+import cafe.mvc.model.dto.ProductDTO;
 import cafe.mvc.model.service.ProductService;
 import cafe.mvc.model.service.ProductServiceImpl;
 import cafe.mvc.session.Session;
@@ -23,15 +23,15 @@ public class CartController {
 	 * */
 	public static void putCart(String userTel, String prodCode, int qty) {
 		try {
-			Product product = productService.selectByProdCode(prodCode); // 상품 번호에 해당하는 상품 검색
+			ProductDTO productDTO = productService.selectByProdCode(prodCode); // 상품 번호에 해당하는 상품 검색
 			
 			if(qty <= 0) {
 				throw new AddException("상품 수량을 1개 이상 입력해주세요.");
 			}
 			
-			if(product.getStock() != null) {
-				if(product.getStock().getProdStock() < qty) {
-					throw new AddException("재고량이 부족해 " + product.getProdName() + " 상품을 담을 수 없습니다.");
+			if(productDTO.getStock() != null) {
+				if(productDTO.getStock().getProdStock() < qty) {
+					throw new AddException("재고량이 부족해 " + productDTO.getProdName() + " 상품을 담을 수 없습니다.");
 				}
 			}
 			
@@ -40,7 +40,7 @@ public class CartController {
 			Session session = ss.get(userTel);
 			
 			// 세션에서 장바구니 정보 가져오기
-			Map<Product, Integer> cart = (Map<Product, Integer>) session.getAttributes("cart");
+			Map<ProductDTO, Integer> cart = (Map<ProductDTO, Integer>) session.getAttributes("cart");
 			
 			// 만일 장바구니 정보가 존재하지 않으면 장바구니 생성
 			if(cart == null) {
@@ -49,12 +49,12 @@ public class CartController {
 			}
 			
 			// 장바구니에서 상품 찾기
-			Integer oldQty = cart.get(product);
+			Integer oldQty = cart.get(productDTO);
 			if(oldQty != null) { // 장바구니에 이미 해당 상품이 있다면
 				qty += oldQty; // 수량을 누적
 			}
 			
-			cart.put(product, qty);
+			cart.put(productDTO, qty);
 			
 			SuccessView.printMessage("장바구니에 상품을 담았습니다.");
 		} catch (Exception e) {
@@ -73,7 +73,7 @@ public class CartController {
 			Session session = ss.get(userTel);
 			
 			// 세션에서 장바구니 정보 가져오기
-			Map<Product, Integer> cart = (Map<Product, Integer>) session.getAttributes("cart");
+			Map<ProductDTO, Integer> cart = (Map<ProductDTO, Integer>) session.getAttributes("cart");
 			
 			if(cart == null || cart.isEmpty()) { // 장바구니에 상품이 없을 경우
 				FailView.errorMessage("장바구니에 상품이 없습니다.");
@@ -96,7 +96,7 @@ public class CartController {
 			Session session = ss.get(userTel);
 			
 			// 세션에서 장바구니 정보 가져오기
-			Map<Product, Integer> cart = (Map<Product, Integer>) session.getAttributes("cart");
+			Map<ProductDTO, Integer> cart = (Map<ProductDTO, Integer>) session.getAttributes("cart");
 			
 			if(cart == null || cart.isEmpty()) { // 장바구니에 상품이 없을 경우
 				FailView.errorMessage("장바구니에 상품이 없습니다.");
@@ -123,7 +123,7 @@ public class CartController {
 			Session session = ss.get(userTel);
 			
 			// 세션에서 장바구니 정보 가져오기
-			Map<Product, Integer> cart = (Map<Product, Integer>) session.getAttributes("cart");
+			Map<ProductDTO, Integer> cart = (Map<ProductDTO, Integer>) session.getAttributes("cart");
 			
 			if(cart == null || cart.isEmpty()) { // 장바구니에 상품이 없을 경우
 				FailView.errorMessage("장바구니에 상품이 없습니다.");

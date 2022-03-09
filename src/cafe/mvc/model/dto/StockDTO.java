@@ -1,11 +1,11 @@
 package cafe.mvc.model.dto;
 
-public class Stock {
+public class StockDTO {
 	private String prodCode;
 	private int prodStock;
 
-	public Stock() {}
-	 public Stock(String prodCode, int prodStock) {
+	public StockDTO() {}
+	 public StockDTO(String prodCode, int prodStock) {
 		super();
 		 this.prodCode= prodCode;
 		 this.prodStock= prodStock;

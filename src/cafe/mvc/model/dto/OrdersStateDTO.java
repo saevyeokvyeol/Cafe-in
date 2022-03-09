@@ -1,11 +1,11 @@
 package cafe.mvc.model.dto;
 
-public class OrdersState {
+public class OrdersStateDTO {
 	 private int stateCode;
 	 private String field;
 
-	public OrdersState() {}
-	  public OrdersState(int stateCode, String field) {
+	public OrdersStateDTO() {}
+	  public OrdersStateDTO(int stateCode, String field) {
 	  this.stateCode= stateCode;
 	  this.field= field;
 	}

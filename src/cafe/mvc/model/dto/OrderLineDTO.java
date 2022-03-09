@@ -1,14 +1,14 @@
 package cafe.mvc.model.dto;
 
-public class OrderLine {
+public class OrderLineDTO {
 		   private int orderLineCode;
 		   private int orderNum;
 		   private String prodCode;
 		   private int qty;
 		   private int priceQty;
 
-		public OrderLine() {}
-		  public OrderLine(int orderLineCode, int orderNum, String prodCode, int qty, int priceQty) {
+		public OrderLineDTO() {}
+		  public OrderLineDTO(int orderLineCode, int orderNum, String prodCode, int qty, int priceQty) {
 		   this.orderLineCode= orderLineCode;
 		   this.orderNum= orderNum;
 		   this.prodCode= prodCode;

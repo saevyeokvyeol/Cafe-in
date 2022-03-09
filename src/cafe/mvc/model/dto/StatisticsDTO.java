@@ -3,15 +3,15 @@ package cafe.mvc.model.dto;
 /**
  * DB에서 select를 통해 매출 통계를 계산한 뒤 그 결과를 Statistics 객체로 만들면 어떨까요?
  * */
-public class Statistics {
+public class StatisticsDTO {
 	private String date;
 	private int dailyOrderTimes;
 	private int dailySalesPrice;
 	private int dailySalesQty;
 
-	public Statistics() {}
+	public StatisticsDTO() {}
 	
-	public Statistics(String date, int dailyOrderTimes, int dailySalesPrice, int dailySalesQty) {
+	public StatisticsDTO(String date, int dailyOrderTimes, int dailySalesPrice, int dailySalesQty) {
 		super();
 		this.date = date;
 		this.dailyOrderTimes = dailyOrderTimes;

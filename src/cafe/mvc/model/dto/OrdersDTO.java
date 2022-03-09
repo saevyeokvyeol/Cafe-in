@@ -2,7 +2,7 @@ package cafe.mvc.model.dto;
 
 import java.util.List;
 
-public class Orders {
+public class OrdersDTO {
 	private int orderNum; // 주문번호
 	private String userTel; // 전화번호
 	private int stateCode; // 주문상태코드
@@ -12,21 +12,20 @@ public class Orders {
 	private String orderDate; // 주문일자
 	private int takeOut; // 테이크아웃여부
 
-	private List<OrderLine> orderLineList;
+	private List<OrderLineDTO> orderLineList;
 
-	public Orders() {
+	public OrdersDTO() {
 	}
 
-	public Orders(int orderNum, int stateCode) {
+	public OrdersDTO(int orderNum, int stateCode) {
 		this.orderNum = orderNum;
 		this.stateCode = stateCode;
 	}
 
-	public Orders(int orderNum, String userTel, int stateCode, String payMethod, int payPoint, int totalPrice,
+	public OrdersDTO(int orderNum, String userTel, int stateCode, String payMethod, int payPoint, int totalPrice,
 			String orderDate, int takeOut) {
-		this.orderNum = orderNum;
+		this(orderNum, stateCode);
 		this.userTel = userTel;
-		this.stateCode = stateCode;
 		this.payMethod = payMethod;
 		this.payPoint = payPoint;
 		this.totalPrice = totalPrice;
@@ -100,11 +99,11 @@ public class Orders {
 		this.takeOut = takeOut;
 	}
 
-	public List<OrderLine> getOrderLineList() {
+	public List<OrderLineDTO> getOrderLineList() {
 		return orderLineList;
 	}
 
-	public void setOrderLineList(List<OrderLine> orderLineList) {
+	public void setOrderLineList(List<OrderLineDTO> orderLineList) {
 		this.orderLineList = orderLineList;
 	}
 

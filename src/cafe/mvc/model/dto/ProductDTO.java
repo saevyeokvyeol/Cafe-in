@@ -1,6 +1,6 @@
 package cafe.mvc.model.dto;
 
-public class Product {
+public class ProductDTO {
 	   private String prodCode;
 	   private String prodGroup;
 	   private String prodName;
@@ -9,10 +9,10 @@ public class Product {
 	   private int prodState; //soldOut에서 변경!
 	   
 	   // 재고가 있는 디저트의 경우 1:1의 관계로 stock을 가지고 있음
-	   private Stock stock;
+	   private StockDTO stockDTO;
 
-	public Product() {}
-	  public Product(String prodCode, String prodGroup, String prodName, int prodPrice, String prodDetail, int prodState) {
+	public ProductDTO() {}
+	  public ProductDTO(String prodCode, String prodGroup, String prodName, int prodPrice, String prodDetail, int prodState) {
 	   this.prodCode= prodCode;
 	   this.prodGroup= prodGroup;
 	   this.prodName= prodName;
@@ -56,11 +56,11 @@ public class Product {
 	public void setProdState(int prodState) {
 		this.prodState = prodState;
 	}
-	public Stock getStock() {
-		return stock;
+	public StockDTO getStock() {
+		return stockDTO;
 	}
-	public void setStock(Stock stock) {
-		this.stock = stock;
+	public void setStock(StockDTO stockDTO) {
+		this.stockDTO = stockDTO;
 	}
 	  
 }

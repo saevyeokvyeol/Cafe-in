@@ -2,8 +2,8 @@ package cafe.mvc.controller;
 
 import java.sql.SQLException;
 import java.util.List;
-import cafe.mvc.model.dto.Product;
-import cafe.mvc.model.dto.Stock;
+import cafe.mvc.model.dto.ProductDTO;
+import cafe.mvc.model.dto.StockDTO;
 import cafe.mvc.model.service.ProductService;
 import cafe.mvc.model.service.ProductServiceImpl;
 import cafe.mvc.view.FailView;
@@ -15,9 +15,9 @@ public class ProductController {
 	/**
 	 * 음료 메뉴 등록
 	 */
-	public static void drinkInsert(Product product) {
+	public static void drinkInsert(ProductDTO productDTO) {
 		try {
-			productService.drinkInsert(product);
+			productService.drinkInsert(productDTO);
 			SuccessView.printMessage("음료 등록 완료");
 		} catch (Exception e) {
 			// e.printStackTrace();
@@ -28,9 +28,9 @@ public class ProductController {
 	/**
 	 * 디저트 메뉴등록
 	 */
-	public static void dessertInsert(Product product) {
+	public static void dessertInsert(ProductDTO productDTO) {
 		try {
-			productService.dessertInsert(product);
+			productService.dessertInsert(productDTO);
 			SuccessView.printMessage("디저트 등록 완료");
 		} catch (Exception e) {
 			// e.printStackTrace();
@@ -41,9 +41,9 @@ public class ProductController {
 	/**
 	 * 메뉴수정(디저트 & 음료정보)
 	 */
-	public static void productUpdate(Product product) {
+	public static void productUpdate(ProductDTO productDTO) {
 		try {
-			productService.productUpdate(product);
+			productService.productUpdate(productDTO);
 			SuccessView.printMessage("정보 수정 완료");
 		} catch (Exception e) {
 			// e.printStackTrace();
@@ -72,9 +72,9 @@ public class ProductController {
 	/**
 	 * 디저트 재고 수정
 	 */
-	public static void dessertStockUpdate(Stock stock) {
+	public static void dessertStockUpdate(StockDTO stockDTO) {
 		try {
-			productService.dessertStockUpdate(stock);
+			productService.dessertStockUpdate(stockDTO);
 			SuccessView.printMessage("디저트 재고 수정 완료");
 		} catch (Exception e) {
 			// e.printStackTrace();
@@ -88,8 +88,8 @@ public class ProductController {
 
 	public static void selectByProdCode(String prodCode) {
 		try {
-			Product product = productService.selectByProdCode(prodCode);
-			SuccessView.printSelectProduct(product);
+			ProductDTO productDTO = productService.selectByProdCode(prodCode);
+			SuccessView.printSelectProduct(productDTO);
 		} catch (Exception e) {
 			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
@@ -102,7 +102,7 @@ public class ProductController {
 	public static void selectByGroup(String groupCode) {
 
 		try {
-			List<Product> list = productService.selectByGroup(groupCode);
+			List<ProductDTO> list = productService.selectByGroup(groupCode);
 			SuccessView.printByCategory(list);
 
 		} catch (Exception e) {
@@ -115,7 +115,7 @@ public class ProductController {
 	 */
 	public static void selectAll() {
 		try {
-			List<Product> list = productService.selectAll();
+			List<ProductDTO> list = productService.selectAll();
 			SuccessView.printSelectAll(list);
 		} catch (Exception e) {
 			FailView.errorMessage(e.getMessage());

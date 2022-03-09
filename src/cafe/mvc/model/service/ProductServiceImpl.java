@@ -9,8 +9,8 @@ import cafe.mvc.exception.ModifyException;
 import cafe.mvc.exception.NotFoundException;
 import cafe.mvc.model.dao.ProductDAO;
 import cafe.mvc.model.dao.ProductDAOImpl;
-import cafe.mvc.model.dto.Product;
-import cafe.mvc.model.dto.Stock;
+import cafe.mvc.model.dto.ProductDTO;
+import cafe.mvc.model.dto.StockDTO;
 
 public class ProductServiceImpl implements ProductService {
 
@@ -20,8 +20,8 @@ public class ProductServiceImpl implements ProductService {
 	 * 음료 등록: product 테이블 레코드 insert 등록하기 전에, 음료코드 중복체크 - selectByProdCode
 	 */
 	@Override
-	public void drinkInsert(Product product) throws SQLException, AddException, DuplicatedException {
-		int result = productDao.drinkInsert(product);
+	public void drinkInsert(ProductDTO productDTO) throws SQLException, AddException, DuplicatedException {
+		int result = productDao.drinkInsert(productDTO);
 		if (result == 0)
 			throw new SQLException("등록 실패");
 	}
@@ -30,8 +30,8 @@ public class ProductServiceImpl implements ProductService {
 	 * 디저트 등록: product 테이블, stock 테이블 레코드 insert
 	 */
 	@Override
-	public void dessertInsert(Product product) throws SQLException, AddException, DuplicatedException {
-		int result = productDao.dessertInsert(product);
+	public void dessertInsert(ProductDTO productDTO) throws SQLException, AddException, DuplicatedException {
+		int result = productDao.dessertInsert(productDTO);
 		if (result == 0)
 			throw new SQLException("등록 실패");
 	}
@@ -40,8 +40,8 @@ public class ProductServiceImpl implements ProductService {
 	 * 상품 수정: product 테이블 레코드 update(판매 가격, 상세 정보, 품절 여부)
 	 */
 	@Override
-	public void productUpdate(Product product) throws SQLException, ModifyException, NotFoundException {
-		int result = productDao.productUpdate(product);
+	public void productUpdate(ProductDTO productDTO) throws SQLException, ModifyException, NotFoundException {
+		int result = productDao.productUpdate(productDTO);
 		if (result == 0)
 			throw new SQLException("수정 실패");
 	}
@@ -51,8 +51,8 @@ public class ProductServiceImpl implements ProductService {
 	 * 0 이하로 내려가지 못하도록 하고 stock 테이블 재고 수량이 0일 때 자동으로 디저트 품절 여부가 yes가 되도록...?
 	 */
 	@Override
-	public void dessertStockUpdate(Stock stock) throws SQLException, ModifyException, NotFoundException {
-		int result = productDao.dessertStockUpdate(stock);
+	public void dessertStockUpdate(StockDTO stockDTO) throws SQLException, ModifyException, NotFoundException {
+		int result = productDao.dessertStockUpdate(stockDTO);
 		if (result == 0)
 			throw new SQLException("수정 실패");
 
@@ -93,8 +93,8 @@ public class ProductServiceImpl implements ProductService {
 	 * 전체상품검색
 	 */
 	@Override
-	public List<Product> selectAll() throws SQLException, NotFoundException {
-		List<Product> list = productDao.selectAll();
+	public List<ProductDTO> selectAll() throws SQLException, NotFoundException {
+		List<ProductDTO> list = productDao.selectAll();
 		if (list.size() == 0)
 			throw new NotFoundException("현재 상품이 없습니다.");
 		return list;
@@ -105,21 +105,21 @@ public class ProductServiceImpl implements ProductService {
 	 */
 	// List<Product>
 	@Override
-	public List<Product> selectByGroup(String groupCode) throws SQLException, NotFoundException {
-		List<Product> productList = productDao.selectByGroup(groupCode);
+	public List<ProductDTO> selectByGroup(String groupCode) throws SQLException, NotFoundException {
+		List<ProductDTO> productList = productDao.selectByGroup(groupCode);
 		return productList;
 	}
 
 	/**
 	 * 상품 코드로 상품 검색
 	 */
-	public Product selectByProdCode(String prodCode) throws SQLException, NotFoundException {
-		Product product = productDao.selectByProdCode(prodCode);
+	public ProductDTO selectByProdCode(String prodCode) throws SQLException, NotFoundException {
+		ProductDTO productDTO = productDao.selectByProdCode(prodCode);
 
-		if (product == null) {
+		if (productDTO == null) {
 			throw new NotFoundException(prodCode + " 상품을 찾을 수 없습니다.");
 		}
 
-		return product;
+		return productDTO;
 	}
 }
