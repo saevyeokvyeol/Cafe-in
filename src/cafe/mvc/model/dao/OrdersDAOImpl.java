@@ -190,7 +190,7 @@ public class OrdersDAOImpl implements OrdersDAO {
 		try {
 			ps = con.prepareStatement(sql);
 			for(OrderLineDTO orderLineDTO : ordersDTO.getOrderLineList()) {
-				ProductDTO productDTO = productDao.selectByProdCode(orderLineDTO.getProdCode()); // 코드로 상품 정보 끌어오기 
+				ProductDTO productDTO = productDao.productSelectByProdCode(orderLineDTO.getProdCode()); // 코드로 상품 정보 끌어오기 
 				ps.setString(1, productDTO.getProdCode());
 				ps.setInt(2, orderLineDTO.getQty());
 				ps.setInt(3, (productDTO.getProdPrice() * orderLineDTO.getQty()));
@@ -214,7 +214,7 @@ public class OrdersDAOImpl implements OrdersDAO {
 		int result = 0;
 		
 		try {
-			ProductDTO productDTO = productDao.selectByProdCode(orderLineDTO.getProdCode());
+			ProductDTO productDTO = productDao.productSelectByProdCode(orderLineDTO.getProdCode());
 			if(productDTO.getProdCode().substring(0, 1).equals("D") && productDTO.getStock().getProdStock() < orderLineDTO.getQty()) {
 				throw new SQLException("재고량이 부족해 결제를 실패했습니다.");
 			}
@@ -238,7 +238,7 @@ public class OrdersDAOImpl implements OrdersDAO {
 		List<OrderLineDTO> orderLineList = ordersDTO.getOrderLineList();
 		int total = 0;
 		for(OrderLineDTO orderline : orderLineList) {
-			ProductDTO productDTO = productDao.selectByProdCode(orderline.getProdCode());
+			ProductDTO productDTO = productDao.productSelectByProdCode(orderline.getProdCode());
 			if(productDTO == null) {
 				throw new SQLException("상품 번호에 오류가 발생해 결제를 실패했습니다.");
 			}
