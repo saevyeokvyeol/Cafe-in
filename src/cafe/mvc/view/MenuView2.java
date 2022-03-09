@@ -252,7 +252,7 @@ public class MenuView2 {
      * */
 	public static void cartMenu(String userTel) {
 		while(true) {
-			System.out.println("\n" + "[ 1. 결제  |  2. 장바구니 상품 삭제  |  3. 장바구니 전체 삭제  |  9. 뒤로 가기  |  0. 종료 ]");
+			System.out.println("\n" + "[ 1. 결제  |  2. 장바구니 조회  |  3. 장바구니 상품 삭제  |  4. 장바구니 전체 삭제  |  9. 뒤로 가기  |  0. 종료 ]");
 			System.out.print("▶ ");
 			int menu = Integer.parseInt(sc.nextLine());
 			switch(menu) {
@@ -260,9 +260,12 @@ public class MenuView2 {
 				MenuView2.orderInsert(userTel);
 				return;
 			case 2 :
-				MenuView2.deleteCartByCode(userTel);
+				CartController.viewCart(userTel);
 				break;
 			case 3 :
+				MenuView2.deleteCartByCode(userTel);
+				break;
+			case 4 :
 				CartController.deleteCartAll(userTel);
 				break;
 			case 9 : 
