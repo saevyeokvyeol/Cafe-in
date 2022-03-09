@@ -28,7 +28,7 @@ public interface UsersService {
 	/**
 	 * 적립금 확인: user 테이블 select
 	 * */
-	void userPointCh(Users users) throws SQLException, ModifyException, NotFoundException;
+	Users userPointCh(String userTel) throws SQLException, ModifyException, NotFoundException;
 	
 	/**
 	 * 전화번호로 유저 검색

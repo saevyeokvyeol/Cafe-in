@@ -21,7 +21,8 @@ public class UsersController {
 			if(users.getUserTel().equals("999-9999-9999")) {
 				MenuView2.adminMenu(users.getUserTel());
 			} else {
-				MenuView2.userMenu(users.getUserTel());
+				MenuView.printUserMenu(userTel, userTel);
+				//MenuView.userMenu(users.getUserTel());
 			}
 			System.out.println("\n" + users.getUserName() + " 님, 방문해주셔서 감사합니다.");
 		} catch (Exception e) {
@@ -35,7 +36,7 @@ public class UsersController {
 	 */
 	public static void registor(Users users) {
 		try {
-			usersService.userUpdate(users);
+			usersService.userInsert(users);
 			SuccessView.printMessage("가입완료");
 			//MenuView.menu();
 		}catch (Exception e) {
@@ -62,10 +63,10 @@ public class UsersController {
 	/**
 	 * 적립금확인
 	 */
-	public static void userPointCh(Users users) {
+	public static void userPointCh(String userTel) {
 		try {
-			usersService.userPointCh(users);
-			SuccessView.printMessage("적립금확인완료");
+			Users users = usersService.userPointCh(userTel);
+			SuccessView.printMessage("적립금 : " + users.getUserPoint() + "원");
 			//MenuView.menu();
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -77,17 +78,17 @@ public class UsersController {
 	/**
 	 * 쿠폰확인
 	 */
-	public static void userCouponCh(Users users) {
-		try {
-			usersService.userPointCh(users);
-			SuccessView.printMessage("쿠폰확인완료");
-			//MenuView.menu();
-		}catch (Exception e) {
-			e.printStackTrace();
-			FailView.errorMessage(e.getMessage());
-		}
-		
-	}
+//	public static void userCouponCh(Users users) {
+//		try {
+//			usersService.userPointCh(users);
+//			SuccessView.printMessage("쿠폰확인완료");
+//			//MenuView.menu();
+//		}catch (Exception e) {
+//			e.printStackTrace();
+//			FailView.errorMessage(e.getMessage());
+//		}
+//		
+//	}
 	
 	/**
 	 * 전화번호로 유저 검색

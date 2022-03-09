@@ -58,7 +58,7 @@ public class MenuView {
 		System.out.println("1. 회원가입   |   2. 회원주문   |  3. 비회원주문  |  4. 관리자설정  |  9. 종료");
 	}
 	
-	public static void register() {
+	public static void register() {//userinsert변경
 		System.out.print("전화번호 ex)010-1111-1111 : ");
 		String userTel = sc.nextLine();
 		
@@ -106,20 +106,19 @@ public class MenuView {
 					break;
 				case 7 :
 					//쿠폰확인
-					MenuView.userCouponCh(userTel);
+					//MenuView.userCouponCh(userTel);
 					break;
 				}
 		}
 		
 	}
 	public static void userPointCh(String userTel) {
-		Users users = new Users(userTel, null, 0);
-		UsersController.userPointCh(users);
+		UsersController.userPointCh(userTel);
 	}
-	public static void userCouponCh(String userTel) {
-		Users users = new Users(userTel, null, 0);
-		UsersController.userCouponCh(users);
-	}
+//	public static void userCouponCh(String userTel) {
+//		Users users = new Users(userTel, null, 0);
+//		UsersController.userCouponCh(users);
+//	}
 	public static void pwdUpdate(String userTel) {
 		System.out.print("변결할비밀번호 : ");
 		int userPwd = Integer.parseInt(sc.nextLine());
