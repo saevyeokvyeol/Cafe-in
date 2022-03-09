@@ -129,6 +129,7 @@ public class MenuView2 {
 			int menu = Integer.parseInt(sc.nextLine());
 			switch(menu) {
 			case 1 :
+				ProductController.selectAll();
 				break;
 			case 2 :
 				productInsert();

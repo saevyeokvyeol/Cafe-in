@@ -92,7 +92,7 @@ public class MenuView {
 					break;
 				case 3 : 
 					//메뉴보기(카테고리 형식)
-					MenuView.category();
+
 					break;
 				case 4 :
 					//OrderStart();
@@ -137,7 +137,7 @@ public class MenuView {
 			switch(menu) {
 				case 1 :
 					//메뉴보기
-					MenuView.category();
+					MenuView.categoryMenu();
 					break;
 				case 2 :
 					//OrderStart();
@@ -245,7 +245,7 @@ public class MenuView {
 //	}
 //	 
 //	//카테고리별 메뉴보기
-    public static void category() {
+    public static void categoryMenu() {
     	while(true) {
 			System.out.println("  1.커피 |  2.티  |  3.스무디  |  4.디저트 | 5. 뒤로 가기 ");
 			int menu =Integer.parseInt( sc.nextLine());
@@ -253,7 +253,7 @@ public class MenuView {
 				case 1 :
 					//커피메뉴띄어주는....
 					String coffeeGroup = "C";
-					List<Product>list = ProductController.selectByGroup(coffeeGroup);
+					ProductController.selectByGroup(coffeeGroup);
 					System.out.println();
 					//MenuView.getMenu(productListC);
 					break;
@@ -281,21 +281,9 @@ public class MenuView {
 				}
 		}
     }
-//카테고리 검색 for
+//카테고리 검색
 
-    public static void getMenu(List<Product> productList) {
-	for(Product p : productList) {
-		System.out.println(
-				p.getProdName()  + "|" +
-				p.getProdPrice() + "|" +
-
-
-				p.getProdDetail() + "|" +
-				p.getProdState());
-
-	}
-}
-    
+ 
 //전체 상품조회
     public static void selectAll(String groupCode)  {
     	ProductController.selectByGroup(groupCode);
