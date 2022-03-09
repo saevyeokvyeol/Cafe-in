@@ -12,14 +12,9 @@ import cafe.mvc.model.dto.StockDTO;
 
 public interface ProductService {
 	/**
-	 * 음료 등록: product 테이블 레코드 insert
+	 * 상품 등록: product 테이블 레코드 insert
 	 */
-	void drinkInsert(ProductDTO productDTO) throws SQLException, AddException, DuplicatedException;
-
-	/**
-	 * 디저트 등록: product 테이블, stock 테이블 레코드 insert
-	 */
-	void dessertInsert(ProductDTO productDTO) throws SQLException, AddException, DuplicatedException;
+	void productInsert(ProductDTO product) throws SQLException, AddException, DuplicatedException;
 
 	/**
 	 * 상품 수정: product 테이블 레코드 update(판매 가격, 상세 정보, 품절 여부)
@@ -32,16 +27,7 @@ public interface ProductService {
 	 */
 	void dessertStockUpdate(StockDTO stockDTO) throws SQLException, ModifyException, NotFoundException;
 
-	/**
-	 * 음료 삭제: product 테이블 레코드 delete
-	 */
-	void productDelete(String prodCode) throws SQLException, ModifyException, NotFoundException;
-
-	/**
-	 * 디저트 재고 삭제: product 테이블, stock 테이블 레코드 delete
-	 */
-	void stockDelete(String prodCode) throws SQLException, ModifyException, NotFoundException;
-
+	
 	/**
 	 * 상품상태변경
 	 */
@@ -50,17 +36,19 @@ public interface ProductService {
 	/**
 	 * 카테고리별 상품 보기 : 상품분류코드를 통해 각 카테고리에 맞는 상품만 조회
 	 */
-	List<ProductDTO> selectByGroup(String groupCode) throws SQLException, NotFoundException;
+
+	List<ProductDTO> productSelectByGroup(String groupCode) throws SQLException, NotFoundException;
 
 	/**
 	 * 전체상품 메뉴보기(커피/티/스무디/디저트 순서로 나옴)
 	 */
+	List<ProductDTO> productSelectAll() throws SQLException, NotFoundException;
 
-	List<ProductDTO> selectAll() throws SQLException, NotFoundException;
 
 	/**
-	 * 전체상품 메뉴보기(커피/티/스무디/디저트 순서로 나옴)
+	 * 검색한 상품 메뉴보기
 	 */
-	ProductDTO selectByProdCode(String prodCode) throws SQLException, NotFoundException;
+	ProductDTO productSelectByProdCode(String prodCode) throws SQLException, NotFoundException;
+
 
 }

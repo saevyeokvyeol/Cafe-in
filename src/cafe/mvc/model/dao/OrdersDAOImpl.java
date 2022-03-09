@@ -5,13 +5,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
-
 import cafe.mvc.model.dto.OrderLineDTO;
 import cafe.mvc.model.dto.OrdersDTO;
 import cafe.mvc.model.dto.ProductDTO;
 import cafe.mvc.model.dto.StatisticsDTO;
+import cafe.mvc.exception.NotFoundException;
 import cafe.mvc.util.DbUtil;
 
 public class OrdersDAOImpl implements OrdersDAO {
@@ -30,8 +32,9 @@ public class OrdersDAOImpl implements OrdersDAO {
 	 * 코드가 너무 길어지면 메소드를 적당히 나누기
 	 * 
 	 * @ 자동 커밋 해제할 것!!
+	 * 
+	 * 만약 재고가 모자라서 못 사면 몇 개 남았다고 알려주기
 	 * */
-	
 	@Override
 	public int orderInsert(OrdersDTO ordersDTO) throws SQLException {
 		Connection con = null;
@@ -191,7 +194,6 @@ public class OrdersDAOImpl implements OrdersDAO {
 				ps.setString(1, productDTO.getProdCode());
 				ps.setInt(2, orderLineDTO.getQty());
 				ps.setInt(3, (productDTO.getProdPrice() * orderLineDTO.getQty()));
-				
 				ps.addBatch(); // 배치에 추가
 				ps.clearParameters(); // 파라미터 지우기
 			}
@@ -235,7 +237,6 @@ public class OrdersDAOImpl implements OrdersDAO {
 	public int getToTalPrice(OrdersDTO ordersDTO) throws SQLException{
 		List<OrderLineDTO> orderLineList = ordersDTO.getOrderLineList();
 		int total = 0;
-		
 		for(OrderLineDTO orderline : orderLineList) {
 			ProductDTO productDTO = productDao.selectByProdCode(orderline.getProdCode());
 			if(productDTO == null) {
@@ -260,11 +261,8 @@ public class OrdersDAOImpl implements OrdersDAO {
 		String sql = "update orders set state_code =? where order_num=?";
 		int result=0;
 	
-		
 		try {
-			
 			con = DbUtil.getConnection();
-			con.setAutoCommit(false);
 			
 			ps=con.prepareStatement(sql);
 			int stateCode = ordersDTO.getStateCode();
@@ -275,7 +273,7 @@ public class OrdersDAOImpl implements OrdersDAO {
 			result = ps.executeUpdate();
 			if(result==0) {
 				con.rollback();
-				throw new SQLException("주문상태코드변경 실패..");
+				throw new SQLException("상태 코드 변경에 실패했습니다.");
 			}
 			
 		}finally {
@@ -302,7 +300,7 @@ public class OrdersDAOImpl implements OrdersDAO {
 			con = DbUtil.getConnection();
 			ps= con.prepareStatement(sql);
 			ps.setString(1, UserTel);
-			rs= ps.executeQuery();
+			rs = ps.executeQuery();
 			//selectByUserTelOrderLine(con,orders.getOrderNum());
 			
 			while(rs.next()) {
@@ -323,7 +321,6 @@ public class OrdersDAOImpl implements OrdersDAO {
 		return orderList;
 	}
 	
-
 	/**
 	 * 주문상세
 	 * */
@@ -352,8 +349,6 @@ public class OrdersDAOImpl implements OrdersDAO {
 		return list;
 	}
 
-	
-
 	/**
 	 * 현재 진행 중인 주문 검색: 픽업 완료, 주문 취소 상태가 아닌 모든 주문 검색
 	 * : 메소드명 고민중입니다... 다들 아이디어 부탁드려요!
@@ -373,11 +368,15 @@ public class OrdersDAOImpl implements OrdersDAO {
 			rs=ps.executeQuery();
 			
 			while(rs.next()) {
-				OrdersDTO ordersDTO = new OrdersDTO( rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getString(7), rs.getInt(8) );
-				list.add(ordersDTO);
-			
+
+				OrdersDTO orders = new OrdersDTO( rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getString(7), rs.getInt(8));
+
+				List<OrderLineDTO> orderLineList = selectByUserTelOrderLine(con, orders.getOrderNum());
+				orders.setOrderLineList(orderLineList);
+				
+				list.add(orders);
+
 			}
-			
 			
 		} finally {
 			DbUtil.close(con, ps, rs);
@@ -385,20 +384,21 @@ public class OrdersDAOImpl implements OrdersDAO {
 		return list;
 	}
 
-
 	/**
 	 * 일간 매출 통계
 	 * : 통계를 어떻게 끌어올까요...(통계용 DTO를 새로 만들어서 가져오기...?)
 	 * */
 	@Override
-	public StatisticsDTO dailySalesStatistic(String date) throws SQLException {
+
+	public Map<String, Integer> dailySalesStatistic(String date) throws SQLException {
 		// con, ps, rs, 리턴값 생성, sql문 긁어오기
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
-		StatisticsDTO statisticsDTO = null;
+		Map<String, Integer> statisticMap = new HashMap<String, Integer>();
 		String sql = proFile.getProperty("statistic.dailyStatistic");
+		// select order_num, prod_code, qty, price_qty from orders join order_line using(order_num) where to_char(order_date, 'yymmdd') = ? order by order_num
 		
 		try {
 			con = DbUtil.getConnection();
@@ -407,28 +407,63 @@ public class OrdersDAOImpl implements OrdersDAO {
 			
 			rs = ps.executeQuery();
 			
-			int dailyOrderTimes = 0;
-			int dailySalesPrice = 0;
-			int dailySalesQty = 0;
+			int orderTimes = 0;
+			int salesPrice = 0;
+			int dessertSalesQty = 0; // 디저트
+			int drinkSalesQty = 0; // 음료
 			int orderNum = 0;
 			while(rs.next()) {
 				
 				if(orderNum != rs.getInt(1)) { // 주문 번호가 다르면 총 주문 횟수++
-					dailyOrderTimes++;
+					orderTimes++;
 					orderNum = rs.getInt(1);
 				}
 				
-				dailySalesPrice += rs.getInt(5);
-				dailySalesQty += rs.getInt(4);
+				salesPrice += rs.getInt(4);
+				if(rs.getString(2).substring(0, 1).equals("D")) {
+					dessertSalesQty += rs.getInt(3);
+				} else {
+					drinkSalesQty += rs.getInt(3);
+				}
 			}
+
+			statisticMap.put("date", Integer.parseInt(date));
+			statisticMap.put("orderTimes", orderTimes);
+			statisticMap.put("salesPrice", salesPrice);
+			statisticMap.put("dessertSalesQty", dessertSalesQty);
+			statisticMap.put("drinkSalesQty", drinkSalesQty);
 			
-			statisticsDTO = new StatisticsDTO(date, dailyOrderTimes, dailySalesPrice, dailySalesQty); 
 		} finally {
 			DbUtil.close(con, ps, rs);
 		}
 		
+		return statisticMap;
+	}
+	
+	/**
+	 * 메뉴별 판매 통계: 현재까지 팔린 메뉴 
+	 * */
+	@Override
+	public List<StatisticsDTO> productSalesStatistic() throws SQLException, NotFoundException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<StatisticsDTO> list = new ArrayList<StatisticsDTO>();
+		String sql = proFile.getProperty("order.productSalesStatistic");
 		
-		return statisticsDTO;
+		try {
+			con = DbUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				StatisticsDTO statistics = new StatisticsDTO(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4), (rs.getInt(3)*rs.getInt(4)));
+				list.add(statistics);
+			}
+		} finally {
+			DbUtil.close(con, ps, rs);
+		}
+		return list;
 	}
 
 }

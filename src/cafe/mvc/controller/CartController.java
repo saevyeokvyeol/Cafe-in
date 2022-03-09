@@ -23,7 +23,9 @@ public class CartController {
 	 * */
 	public static void putCart(String userTel, String prodCode, int qty) {
 		try {
-			ProductDTO productDTO = productService.selectByProdCode(prodCode); // 상품 번호에 해당하는 상품 검색
+
+			//ProductDTO productDTO = productService.selectByProdCode(prodCode); // 상품 번호에 해당하는 상품 검색
+
 			
 			if(qty <= 0) {
 				throw new AddException("상품 수량을 1개 이상 입력해주세요.");

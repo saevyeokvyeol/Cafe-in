@@ -2,6 +2,7 @@ package cafe.mvc.model.service;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import cafe.mvc.exception.AddException;
 import cafe.mvc.exception.ModifyException;
@@ -71,12 +72,25 @@ public class OrdersServiceImpl implements OrdersService {
 	 * 일간 매출 통계 조회
 	 * */
 	@Override
-	public StatisticsDTO dailySalesStatistic(String date) throws SQLException, NotFoundException {
-		StatisticsDTO statistic = ordersDao.dailySalesStatistic(date);
-		if (statistic == null) {
+
+	public Map<String, Integer> dailySalesStatistic(String date) throws SQLException, NotFoundException {
+		Map<String, Integer> map = ordersDao.dailySalesStatistic(date);
+		if (map == null) {
 			throw new NotFoundException("일간 매출을 검색할 수 없습니다.");
 		}
-		return statistic;
+		return map;
+	}
+	
+	/**
+	 * 메뉴별 판매 통계: 현재까지 팔린 메뉴 
+	 * */
+	@Override
+	public List<StatisticsDTO> productSalesStatistic() throws SQLException, NotFoundException {
+		List<StatisticsDTO> list = ordersDao.productSalesStatistic();
+		if (list == null) {
+			throw new NotFoundException("판매 통계를 검색할 수 없습니다.");
+		}
+		return list;
 	}
 
 }

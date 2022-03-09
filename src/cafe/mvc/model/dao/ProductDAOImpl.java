@@ -17,17 +17,18 @@ public class ProductDAOImpl implements ProductDAO {
 	ProductDTO productDTO = new ProductDTO();
 
 	/**
-	 * 음료 등록: product 테이블 레코드 insert
+	 * 상품 등록: product 테이블 레코드 insert
 	 */
 	@Override
-	public int drinkInsert(ProductDTO productDTO) throws SQLException {
+	public int productInsert(ProductDTO product) throws SQLException {
 
 		Connection con = null;
 		PreparedStatement ps = null;
 		int result = 0;
-		String sql = profile.getProperty("product.drinkInsert");
+		String sql = profile.getProperty("product.productInsert");
 		try {
 			con = DbUtil.getConnection();
+			con.setAutoCommit(false);
 			ps = con.prepareStatement(sql);
 			ps.setString(1, productDTO.getProdCode());
 			ps.setString(2, productDTO.getProdCode().substring(0, 1));
@@ -37,36 +38,15 @@ public class ProductDAOImpl implements ProductDAO {
 			ps.setInt(6, productDTO.getProdState());
 
 			result = ps.executeUpdate();
+			
+			con.commit();
+			
 		} finally {
+			con.commit();
 			DbUtil.close(con, ps);
 		}
 		return result;
 	}
-
-	/**
-	 * 디저트 등록: product 테이블, stock 테이블 레코드 insert
-	 */
-	@Override
-	public int dessertInsert(ProductDTO productDTO) throws SQLException {
-		Connection con = null;
-		PreparedStatement ps = null;
-		int result = 0;
-		String sql = profile.getProperty("product.dessertInsert");
-		try {
-			con = DbUtil.getConnection();
-			ps = con.prepareStatement(sql);
-			drinkInsert(productDTO);
-			ps.setString(1, productDTO.getProdCode());
-			ps.setInt(2, productDTO.getStock().getProdStock());
-
-			result = ps.executeUpdate();
-		} finally {
-			DbUtil.close(con, ps);
-		}
-
-		return result;
-	}
-
 	/**
 	 * 상품 수정: product 테이블 레코드 update(판매 가격, 상세 정보, 품절 여부..?)
 	 */
@@ -75,7 +55,7 @@ public class ProductDAOImpl implements ProductDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		int result = 0;
-		String sql = profile.getProperty("product.update");
+		String sql = profile.getProperty("product.productUpdate");
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
@@ -89,6 +69,28 @@ public class ProductDAOImpl implements ProductDAO {
 		}
 		return result;
 	}
+	
+	/**
+	 * 디저트 재고 등록
+	 */
+	@Override
+	public int dessertStockInsert(StockDTO stock) throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		int result = 0;
+		String sql = profile.getProperty("product.dessertStockInsert");
+		try {
+			con = DbUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, stock.getProdStock());
+			ps.setString(2, stock.getProdCode());
+			result = ps.executeUpdate();
+		} finally {
+			DbUtil.close(con, ps);
+		}
+		return result;
+	}
+
 
 	/**
 	 * 디저트 재고 수정
@@ -111,56 +113,37 @@ public class ProductDAOImpl implements ProductDAO {
 		}
 		return result;
 	}
-
+	
 	/**
-	 * 상품 삭제: product 테이블 레코드 delete
+	 * 디저트 재고 조회
 	 */
-	@Override
-	public int productDelete(String prodCode) throws SQLException {
+	public StockDTO selectStock(Connection con, String prodCode) throws SQLException {
+		String sql = profile.getProperty("product.selectStock");
 
-		Connection con = null;
 		PreparedStatement ps = null;
-		int result = 0;
-		String sql = profile.getProperty("product.delete");
+		ResultSet rs = null;
+
+		StockDTO stock = null;
+
 		try {
-			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setString(1, prodCode);
+			rs = ps.executeQuery();
 
-			result = ps.executeUpdate();
+			if (rs.next()) {
+				stock = new StockDTO(prodCode, rs.getInt(1));
+			}
 		} finally {
-			DbUtil.close(con, ps);
+			DbUtil.close(null, ps, rs);
 		}
-		return result;
+		return stock;
 	}
 
-	/**
-	 * 디저트 재고 삭제: product 테이블, stock 테이블 레코드 delete
-	 */
-	@Override
-	public int stockDelete(String prodCode) throws SQLException {
-		productDelete(prodCode);
-		Connection con = null;
-		PreparedStatement ps = null;
-		int result = 0;
-		String sql = profile.getProperty("product.dessertStockDelete");
-		try {
-			con = DbUtil.getConnection();
-			ps = con.prepareStatement(sql);
-			ps.setString(1, productDTO.getProdCode());
-			result = ps.executeUpdate();
-		} finally {
-			DbUtil.close(con, ps);
-		}
-
-		return result;
-	}
 
 	/**
 	 * 디저트의 재고가 0이면 상품상태 0(판매중지)만들기
 	 */
 	public int dessertsoldOutUpdate(String prodCode) throws SQLException {
-		productDelete(prodCode);
 		Connection con = null;
 		PreparedStatement ps = null;
 		int result = 0;
@@ -197,15 +180,16 @@ public class ProductDAOImpl implements ProductDAO {
 	}
 
 	/**
-	 * 전체 상품 보기 : (카테고리 구분 X)
+	 * 전체 상품 보기 : (카테고리 구분 X) <productSelectAll>
 	 */
 	@Override
-	public List<ProductDTO> selectAll() throws SQLException {
+
+	public List<ProductDTO> productSelectAll() throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<ProductDTO> list = new ArrayList<>();
-		String sql = profile.getProperty("product.selectAll");
+		String sql = profile.getProperty("product.productSelectAll");
 
 		try {
 			con = DbUtil.getConnection();
@@ -224,6 +208,7 @@ public class ProductDAOImpl implements ProductDAO {
 		}
 		return list;
 	}
+
 
 	/**
 	 * 상품에 스톡 입력
@@ -250,30 +235,37 @@ public class ProductDAOImpl implements ProductDAO {
 		return stockDTO;
 	}
 
+
 	/**
 	 * 카테고리별 상품 보기 : 상품분류코드를 통해 각 카테고리에 맞는 상품만 조회
 	 */
 	@Override
-	public List<ProductDTO> selectByGroup(String groupCode) throws SQLException {
-		Connection conn = null;
+
+	public List<ProductDTO> productSelectByGroup(String groupCode) throws SQLException {
+		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<ProductDTO> productList = new ArrayList<>();
+		String sql = profile.getProperty("product.productSelectByGroup");
+
 
 		try {
-			conn = DbUtil.getConnection();
-			String sql = profile.getProperty("product.selectByGroup");
-			ps = conn.prepareStatement(sql);
+			con = DbUtil.getConnection();
+			ps = con.prepareStatement(sql);
 			ps.setString(1, groupCode);
 			rs = ps.executeQuery();
 
-			while (rs.next()) {
-				ProductDTO productDTO = new ProductDTO(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4),
+			while (rs.next()) { 
+				ProductDTO product = new ProductDTO(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4),
 						rs.getString(5), rs.getInt(6));
+				if (product.getProdCode().substring(0, 1).equals("D")) {
+					product.setStock(selectStock(con, product.getProdCode()));
+				}
 				productList.add(productDTO);
+
 			}
 		} finally {
-			DbUtil.close(conn, ps, rs);
+			DbUtil.close(con, ps, rs);
 		}
 		return productList;
 	}
@@ -282,8 +274,9 @@ public class ProductDAOImpl implements ProductDAO {
 	 * 상품 코드로 상품 검색
 	 */
 	@Override
-	public ProductDTO selectByProdCode(String prodCode) throws SQLException {
-		String sql = profile.getProperty("product.selectByProdCode");
+	public ProductDTO productSelectByProdCode(String prodCode) throws SQLException {
+
+		String sql = profile.getProperty("product.productSelectByProdCode");
 
 		Connection con = null;
 		PreparedStatement ps = null;

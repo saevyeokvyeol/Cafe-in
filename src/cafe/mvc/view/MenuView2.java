@@ -126,13 +126,40 @@ public class MenuView2 {
      * */
 	public static void adminMenu(String userTel) {
 		while(true) {
-			System.out.println("\n" + "관리자 메뉴");
-			System.out.println("[ 1. 상품 조회  |  2. 상품 등록  |  3. 상품 수정  | 4. 상품 상태 변경  |  5. 회원 정보 수정  |  6. 현재 주문 조회  |  7. 주문 상태 변경  |  8. 일간 매출 통계  |  9. 로그아웃  |  0. 종료 ]");
+			System.out.println("\n" + "[ 관리자 메뉴 ]");
+			System.out.println("[ 1. 상품 관리  |  2. 회원 관리  |  3. 주문 관리  |  9. 로그아웃  |  0. 종료 ]");
 			System.out.print("▶ ");
 			int menu = Integer.parseInt(sc.nextLine());
 			switch(menu) {
 			case 1 :
-				ProductController.selectAll();
+				MenuView2.prodManageMenu(userTel);
+				break;
+			case 2 :
+				MenuView2.usersManageMenu(userTel);
+				break;
+			case 3 :
+				MenuView2.ordersManageMenu(userTel);
+				break;
+			case 9 : 
+				MenuView2.logout(userTel);
+				return;
+			case 0 : 
+				System.exit(0);
+			}
+		}
+	}
+	
+	/**
+	 * 상품 관리 메뉴
+	 * */
+	public static void prodManageMenu(String userTel) {
+		while(true) {
+			System.out.println("[ 1. 상품 조회  |  2. 상품 등록  |  3. 상품 수정  | 4. 상품 상태 변경  |  9. 뒤로 가기  |  0. 종료 ]");
+			System.out.print("▶ ");
+			int menu = Integer.parseInt(sc.nextLine());
+			switch(menu) {
+			case 1 :
+				ProductController.productSelectAll();
 				break;
 			case 2 :
 				productInsert();
@@ -143,13 +170,57 @@ public class MenuView2 {
 			case 4 :
 				productStateUpdate();
 				break;
-			case 5 :
+			case 9 : 
+				return;
+			case 0 : 
+				System.exit(0);
+			}
+		}
+	}
+	
+	/**
+	 * 회원 관리 메뉴
+	 * */
+	public static void usersManageMenu(String userTel) {
+		while(true) {
+			System.out.println("[ 1. 전체 회원 조회  |  2. 회원 정보 검색  |  9. 뒤로 가기  |  0. 종료 ]");
+			System.out.print("▶ ");
+			int menu = Integer.parseInt(sc.nextLine());
+			switch(menu) {
+			case 1 :
+				ProductController.productSelectAll();
 				break;
-			case 6 :
+			case 2 :
+				productInsert();
 				break;
-			case 7 :
+			case 9 : 
+				return;
+			case 0 : 
+				System.exit(0);
+			}
+		}
+	}
+	
+	/**
+	 * 주문 관리 메뉴
+	 * */
+	public static void ordersManageMenu(String userTel) {
+		while(true) {
+			System.out.println("[ 1. 현재 주문 조회  |  2. 주문 상태 변경  |  3. 일간 매출 통계  |  4. 제품별 판매 통계  |  9. 뒤로 가기  |  0. 종료 ]");
+			System.out.print("▶ ");
+			int menu = Integer.parseInt(sc.nextLine());
+			switch(menu) {
+			case 1 :
+				ProductController.productSelectAll();
 				break;
-			case 8 :
+			case 2 :
+				productInsert();
+				break;
+			case 3 :
+				productUpdate();
+				break;
+			case 4 :
+				productStateUpdate();
 				break;
 			case 9 : 
 				return;
@@ -197,7 +268,15 @@ public class MenuView2 {
 		
 		System.out.println("비밀번호를 입력해주세요");
 		System.out.print("▶ ");
-		int userPwd = Integer.parseInt(sc.nextLine());
+		String stringPwd = sc.nextLine();
+		int userPwd = 0;
+		
+		if(stringPwd.matches("[+-]?\\d*(\\.\\d+)?")) {
+			userPwd = Integer.parseInt(stringPwd);
+		} else {
+			System.out.println("비밀번호는 숫자만 입력해주세요");
+			return;
+		}
 		
 		UsersController.login(userTel, userPwd);
 	}
@@ -286,13 +365,14 @@ public class MenuView2 {
 		
 		for(ProductDTO productDTO : cart.keySet()) {
 			list.add(new OrderLineDTO(0, 0, productDTO.getProdCode(), cart.get(productDTO), 0));
+
 		}
 		
 		OrdersDTO ordersDTO = new OrdersDTO(0, userTel, 0, payMethod, payPoint, 0, null, takeout);
 		ordersDTO.setOrderLineList(list);
 		
 		OrdersController.orderInsert(ordersDTO);
-		
+
 	}
 	
 	/**
@@ -301,6 +381,7 @@ public class MenuView2 {
 	public static void productInsert() {
 		 System.out.print("상품코드 ▶ ");
 		 String prodCode = sc.nextLine();
+		 //잘맞게 들어왔는지 체크 '알파벳 숫자 숫자'
 		 
 		 System.out.print("상품이름 ▶ ");
 		 String prodName = sc.nextLine();
@@ -313,18 +394,19 @@ public class MenuView2 {
 		 
 		 System.out.print("상품상태 ▶ ");
 		 int prodState = Integer.parseInt(sc.nextLine());
+
+		 ProductDTO product = new ProductDTO(prodCode, null, prodName, prodPrice, prodDetail, prodState);
 		 
 		 char group = prodCode.charAt(0);
 		 if(group == 'D') { 
 			 System.out.print("디저트 재고량 ▶ ");
 			 int prodStock = Integer.parseInt(sc.nextLine());
-			 ProductDTO productDTO = new ProductDTO(prodCode, null, prodName, prodPrice, prodDetail, prodState);
-			 StockDTO stockDTO = new StockDTO(prodCode, prodStock);
-			 productDTO.setStock(stockDTO);
-			 ProductController.dessertInsert(productDTO);
-		 } else {
-			 ProductController.drinkInsert(new ProductDTO(prodCode, null, prodName, prodPrice, prodDetail, prodState));
+			 StockDTO stock = new StockDTO(prodCode, prodStock);
+			 product.setStock(stock);
+
 		 }
+
+		 ProductController.productInsert(product);
 	
 	}
 	
@@ -341,9 +423,7 @@ public class MenuView2 {
 		 System.out.print("상품소개 ▶ ");
 		 String prodDetail = sc.nextLine();
 	
-		 
-		 
-		 //디저트재고량
+		 //디저트재고량 수정
 		 char group = prodCode.charAt(0);
 		 if(group == 'D') { 
 			 System.out.print("디저트 재고량 ▶ ");
