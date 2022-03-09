@@ -257,7 +257,7 @@ public class OrdersDAOImpl implements OrdersDAO {
 	public int orderStateUpdate(OrdersDTO ordersDTO) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
-		String sql = "update orders set state_code =? where order_num=?";
+		String sql = proFile.getProperty("order.orderStateUpdate");
 		int result=0;
 	
 		try {
@@ -293,7 +293,7 @@ public class OrdersDAOImpl implements OrdersDAO {
 		ResultSet rs = null;
 		//Orders orders = null;
 		List<OrdersDTO> orderList = new ArrayList<>();
-		String sql = "select*from orders join order_line using(order_num) where user_tel =?";
+		String sql = proFile.getProperty("order.selectByUserTel");
 		//int주문상태코드, String이름, String상품명,int 수량, int판매가격, int가격*주문수량 
 		try {
 			con = DbUtil.getConnection();
@@ -328,7 +328,7 @@ public class OrdersDAOImpl implements OrdersDAO {
 		ResultSet rs = null;
 		List<OrderLineDTO> list = new ArrayList<OrderLineDTO>();
 		
-		String sql = "select*from order_line where order_num=?";
+		String sql = proFile.getProperty("order.selectByUserTelOrderLine");
 		
 
 		try {
@@ -350,7 +350,6 @@ public class OrdersDAOImpl implements OrdersDAO {
 
 	/**
 	 * 현재 진행 중인 주문 검색: 픽업 완료, 주문 취소 상태가 아닌 모든 주문 검색
-	 * : 메소드명 고민중입니다... 다들 아이디어 부탁드려요!
 	 * */
 	@Override
 	public List<OrdersDTO> selectOnoingOrder() throws SQLException {

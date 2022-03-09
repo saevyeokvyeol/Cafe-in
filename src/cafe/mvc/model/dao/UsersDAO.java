@@ -1,7 +1,9 @@
 package cafe.mvc.model.dao;
 
 import java.sql.SQLException;
+import java.util.List;
 
+import cafe.mvc.exception.NotFoundException;
 import cafe.mvc.model.dto.UsersDTO;
 // user
 public interface UsersDAO {
@@ -24,6 +26,11 @@ public interface UsersDAO {
 	 * 적립금 확인: user 테이블 select
 	 * */
 	UsersDTO userPointCh(String userTel) throws SQLException;
+	
+	/**
+	 * 전체 유저 검색
+	 * */
+	List<UsersDTO> userSelectAll() throws SQLException, NotFoundException;
 	
 	/**
 	 * 전화번호로 유저 검색

@@ -1,6 +1,8 @@
 package cafe.mvc.view;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -26,7 +28,7 @@ public class MenuView2 {
 	 * */
 	public static void mainMenu() {
 		while(true) {
-			System.out.println("[ 1. 회원가입  |  2. 로그인  |  3. 비회원주문  |  0. 종료 ]");
+			System.out.println("\n" + "[ 1. 회원가입  |  2. 로그인  |  3. 비회원주문  |  0. 종료 ]");
 			System.out.print("▶ ");
 			int menu = Integer.parseInt(sc.nextLine());
 			switch(menu) {
@@ -87,13 +89,20 @@ public class MenuView2 {
 			int menu =Integer.parseInt( sc.nextLine());
 			switch(menu) {
 				case 1 :
-					putCart(userTel);
+					ProductController.selectByGroup("C");
+					MenuView2.categoryMenu(userTel);
 					break;
 				case 2 :
+					ProductController.selectByGroup("S");
+					MenuView2.categoryMenu(userTel);
 					break;
 				case 3 :
+					ProductController.selectByGroup("T");
+					MenuView2.categoryMenu(userTel);
 					break;
 				case 4 :
+					ProductController.selectByGroup("D");
+					MenuView2.categoryMenu(userTel);
 					break;
 				case 5 :
 					MenuView2.cartMenu(userTel);
@@ -162,7 +171,7 @@ public class MenuView2 {
 	 * */
 	public static void prodManageMenu(String userTel) {
 		while(true) {
-			System.out.println("[ 1. 상품 조회  |  2. 상품 등록  |  3. 상품 수정  | 4. 상품 상태 변경  |  9. 뒤로 가기  |  0. 종료 ]");
+			System.out.println("\n" + "[ 1. 상품 조회  |  2. 상품 등록  |  3. 상품 수정  | 4. 상품 상태 변경  |  9. 뒤로 가기  |  0. 종료 ]");
 			System.out.print("▶ ");
 			int menu = Integer.parseInt(sc.nextLine());
 			switch(menu) {
@@ -191,12 +200,12 @@ public class MenuView2 {
 	 * */
 	public static void usersManageMenu(String userTel) {
 		while(true) {
-			System.out.println("[ 1. 전체 회원 조회  |  2. 회원 정보 검색  |  9. 뒤로 가기  |  0. 종료 ]");
+			System.out.println("\n" + "[ 1. 전체 회원 조회  |  2. 회원 정보 검색  |  9. 뒤로 가기  |  0. 종료 ]");
 			System.out.print("▶ ");
 			int menu = Integer.parseInt(sc.nextLine());
 			switch(menu) {
 			case 1 :
-				
+				UsersController.userSelectAll();
 				break;
 			case 2 :
 				MenuView2.userSelectByUserTel();
@@ -214,7 +223,7 @@ public class MenuView2 {
 	 * */
 	public static void ordersManageMenu(String userTel) {
 		while(true) {
-			System.out.println("[ 1. 현재 주문 조회  |  2. 주문 상태 변경  |  3. 일간 매출 통계  |  4. 제품별 판매 통계  |  9. 뒤로 가기  |  0. 종료 ]");
+			System.out.println("\n" + "[ 1. 현재 주문 조회  |  2. 주문 상태 변경  |  3. 일간 매출 통계  |  4. 제품별 판매 통계  |  9. 뒤로 가기  |  0. 종료 ]");
 			System.out.print("▶ ");
 			int menu = Integer.parseInt(sc.nextLine());
 			switch(menu) {
@@ -225,7 +234,7 @@ public class MenuView2 {
 				MenuView2.orderStateUpdate();
 				break;
 			case 3 :
-//				OrdersController.dailySalesStatistic();
+				OrdersController.dailySalesStatistic(new SimpleDateFormat("yyMMdd").format(new Date()));
 				break;
 			case 4 :
 //				OrdersController.productSalesStatistic();
@@ -243,7 +252,7 @@ public class MenuView2 {
      * */
 	public static void cartMenu(String userTel) {
 		while(true) {
-			System.out.println("\n" + "[ 1. 결제  |  2. 장바구니 상품 삭제  |  3. 장바구니 전체 삭제  |  9. 뒤로 가기  |  0. 종료 ]");
+			System.out.println("\n" + "[ 1. 결제  |  2. 장바구니 조회  |  3. 장바구니 상품 삭제  |  4. 장바구니 전체 삭제  |  9. 뒤로 가기  |  0. 종료 ]");
 			System.out.print("▶ ");
 			int menu = Integer.parseInt(sc.nextLine());
 			switch(menu) {
@@ -251,14 +260,17 @@ public class MenuView2 {
 				MenuView2.orderInsert(userTel);
 				return;
 			case 2 :
-				MenuView2.deleteCartByCode(userTel);
+				CartController.viewCart(userTel);
 				break;
 			case 3 :
+				MenuView2.deleteCartByCode(userTel);
+				break;
+			case 4 :
 				CartController.deleteCartAll(userTel);
 				break;
 			case 9 : 
 				return;
-			case 0 : 
+			case 0 :
 				System.exit(0);
 			}
 		}
@@ -313,17 +325,29 @@ public class MenuView2 {
 	 * 회원가입 메소드
 	 */
 	public static void userInsert() {
-		System.out.print("전화번호 ex)010-1111-1111 : ");
-		String userTel = sc.nextLine();
-		
-		System.out.print("이름 : ");
-		String userName = sc.nextLine();
-		 
-		System.out.print("비밀번호 : ");
-		int userPwd = Integer.parseInt(sc.nextLine());	
-		
-		UsersDTO usersDTO = new UsersDTO(userTel, userName, userPwd);
-		UsersController.userInsert(usersDTO);
+		try {
+			System.out.print("전화번호 ex)010-1111-1111 : ");
+			String userTel = sc.nextLine();
+			
+			System.out.print("이름 : ");
+			String userName = sc.nextLine();
+			
+			System.out.print("비밀번호 : ");
+			int userPwd = Integer.parseInt(sc.nextLine());	
+			
+			UsersDTO usersDTO = new UsersDTO(userTel, userName, userPwd);
+			UsersController.userInsert(usersDTO);
+		} catch (NumberFormatException e) {
+			System.out.println("비밀번호는 숫자만 입력해주세요");
+			System.out.print("다시 시도하시려면 \"yes\"를 입력해주세요 : ");
+			String choice = sc.nextLine();
+			if(choice.equals("yes")){
+				userInsert();
+			}else {
+				mainMenu();
+			}
+		}
+	
 	}
 	
 	/**
@@ -399,31 +423,36 @@ public class MenuView2 {
 		 System.out.print("상품코드 ▶ ");
 		 String prodCode = sc.nextLine();
 		 //잘맞게 들어왔는지 체크 '알파벳 숫자 숫자'
-		 
-		 System.out.print("상품이름 ▶ ");
-		 String prodName = sc.nextLine();
-		 
-		 System.out.print("상품가격 ▶ ");
-		 int prodPrice = Integer.parseInt(sc.nextLine());
-		 
-		 System.out.print("상품소개 ▶ ");
-		 String prodDetail = sc.nextLine();
-		 
-		 System.out.print("상품상태 ▶ ");
-		 int prodState = Integer.parseInt(sc.nextLine());
+		 if (prodCode.matches("^[C][0-9][0-9]*$")|| prodCode.matches("^[T][0-9][0-9]*$") || prodCode.matches("^[S][0-9][0-9]*$") | prodCode.matches("^[D][0-9][0-9]*$")){
+			 System.out.print("상품이름 ▶ ");
+			 String prodName = sc.nextLine();
+			 
+			 System.out.print("상품가격 ▶ ");
+			 int prodPrice = Integer.parseInt(sc.nextLine());
+			 
+			 System.out.print("상품소개 ▶ ");
+			 String prodDetail = sc.nextLine();
+			 
+			 System.out.print("상품상태 ▶ ");
+			 int prodState = Integer.parseInt(sc.nextLine());
 
-		 ProductDTO product = new ProductDTO(prodCode, null, prodName, prodPrice, prodDetail, prodState);
-		 
-		 char group = prodCode.charAt(0);
-		 if(group == 'D') { 
-			 System.out.print("디저트 재고량 ▶ ");
-			 int prodStock = Integer.parseInt(sc.nextLine());
-			 StockDTO stock = new StockDTO(prodCode, prodStock);
-			 product.setStock(stock);
+			 ProductDTO product = new ProductDTO(prodCode, null, prodName, prodPrice, prodDetail, prodState);
+			 
+			 if(prodCode.substring(0, 1).equals("D")) { 
+				 System.out.print("디저트 재고량 ▶ ");
+				 int prodStock = Integer.parseInt(sc.nextLine());
+				 StockDTO stock = new StockDTO(prodCode, prodStock);
+				 product.setStock(stock);
 
+			 }
+
+			 ProductController.productInsert(product);
+		 }else {
+			 System.out.println("상품코드는 알파벳1개(C,T,S,D 중) 숫자2개로 입력해주세요.");
+			 return;
 		 }
-
-		 ProductController.productInsert(product);
+		 
+		
 	
 	}
 	
@@ -452,7 +481,6 @@ public class MenuView2 {
 		 } else {
 			 ProductController.productUpdate(new ProductDTO(prodCode, null, null, prodPrice, prodDetail, 0));
 		 }
-		
 	}
 	
 	/**
@@ -495,6 +523,10 @@ public class MenuView2 {
 	 * 회원 정보 검색
 	 * */
 	public static void userSelectByUserTel() {
+		System.out.println("검색할 회원의 전화번호를 입력해주세요.");
+		System.out.print("▶ ");
+		String userTel = sc.nextLine();
 		
+		UsersController.selectByUserTel(userTel);
 	}
 }

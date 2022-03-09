@@ -1,6 +1,7 @@
 package cafe.mvc.model.service;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import cafe.mvc.exception.AddException;
 import cafe.mvc.exception.DuplicatedException;
@@ -29,6 +30,11 @@ public interface UsersService {
 	 * 적립금 확인: user 테이블 select
 	 * */
 	UsersDTO userPointCh(String userTel) throws SQLException, ModifyException, NotFoundException;
+	
+	/**
+	 * 전체 유저 검색
+	 * */
+	List<UsersDTO> userSelectAll() throws SQLException, NotFoundException;
 	
 	/**
 	 * 전화번호로 유저 검색

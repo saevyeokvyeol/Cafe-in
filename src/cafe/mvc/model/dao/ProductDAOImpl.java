@@ -30,12 +30,12 @@ public class ProductDAOImpl implements ProductDAO {
 			con = DbUtil.getConnection();
 			con.setAutoCommit(false);
 			ps = con.prepareStatement(sql);
-			ps.setString(1, productDTO.getProdCode());
-			ps.setString(2, productDTO.getProdCode().substring(0, 1));
-			ps.setString(3, productDTO.getProdName());
-			ps.setInt(4, productDTO.getProdPrice());
-			ps.setString(5, productDTO.getProdDetail());
-			ps.setInt(6, productDTO.getProdState());
+			ps.setString(1, product.getProdCode());
+			ps.setString(2, product.getProdCode().substring(0, 1));
+			ps.setString(3, product.getProdName());
+			ps.setInt(4, product.getProdPrice());
+			ps.setString(5, product.getProdDetail());
+			ps.setInt(6, product.getProdState());
 
 			result = ps.executeUpdate();
 			
@@ -234,7 +234,7 @@ public class ProductDAOImpl implements ProductDAO {
 				if (product.getProdCode().substring(0, 1).equals("D")) {
 					product.setStock(selectStock(con, product.getProdCode()));
 				}
-				productList.add(productDTO);
+				productList.add(product);
 
 			}
 		} finally {

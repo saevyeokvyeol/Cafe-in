@@ -1,12 +1,12 @@
 package cafe.mvc.controller;
 
-import java.sql.SQLException;
 import java.util.List;
 import cafe.mvc.model.dto.ProductDTO;
 import cafe.mvc.model.dto.StockDTO;
 import cafe.mvc.model.service.ProductService;
 import cafe.mvc.model.service.ProductServiceImpl;
 import cafe.mvc.view.FailView;
+import cafe.mvc.view.MenuView2;
 import cafe.mvc.view.SuccessView;
 
 public class ProductController {
@@ -20,12 +20,10 @@ public class ProductController {
 			productService.productInsert(product);
 			SuccessView.printMessage("상품 등록 완료");
 		} catch (Exception e) {
-			// e.printStackTrace();
+			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
 		}
 	}
-
-
 
 	/**
 	 * 메뉴수정(디저트 & 음료정보)
@@ -38,7 +36,6 @@ public class ProductController {
 			// e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
 		}
-
 	}
 
 	/**
@@ -63,7 +60,6 @@ public class ProductController {
 
 			ProductDTO productDTO = productService.productSelectByProdCode(prodCode);
 			SuccessView.printSelectProduct(productDTO);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
