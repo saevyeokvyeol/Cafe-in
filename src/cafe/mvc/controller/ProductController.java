@@ -20,7 +20,7 @@ public class ProductController {
 			productService.productInsert(product);
 			SuccessView.printMessage("상품 등록 완료");
 		} catch (Exception e) {
-			// e.printStackTrace();
+			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
 		}
 	}
