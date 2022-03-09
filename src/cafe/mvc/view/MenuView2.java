@@ -31,7 +31,7 @@ public class MenuView2 {
 			int menu = Integer.parseInt(sc.nextLine());
 			switch(menu) {
 			case 1 :
-				MenuView2.registor();
+				MenuView2.userInsert();
 				break;
 			case 2 :
 				// 관리자 아이디로 로그인 할 경우 관리자 메뉴로 이동함
@@ -51,22 +51,27 @@ public class MenuView2 {
 	 * */
 	public static void userMenu(String userTel) {
 		while(true) {
-			System.out.println("[ 1. 주문하기  |  2. 지난 주문 내역  |  3. 적립금 확인  |  9. 로그아웃  |  0. 종료 ]");
+			System.out.println("[ 1. 주문하기  |  2. 지난 주문 내역  |  3. 적립금 확인  |  4. 비밀번호 변경  |  9. 로그아웃  |  0. 종료 ]");
 			System.out.print("▶ ");
 			int menu =Integer.parseInt( sc.nextLine());
 			switch(menu) {
 				case 1 :
-					MenuView2.orderInsert(userTel);
+					MenuView2.orderMenu(userTel);
 					break;
 				case 2 :
+					OrdersController.selectByUserTel(userTel);
 					break;
 				case 3 :
+					UsersController.userPointCh(userTel);
+					break;
+				case 4 :
+					MenuView2.userPwdUpdate(userTel);
 					break;
 				case 9 :
 					MenuView2.logout(userTel);
 					return;
 				case 0 : 
-					CartController.deleteCartAll(userTel);
+					System.exit(0);
 			}
 		}
 		
@@ -82,6 +87,7 @@ public class MenuView2 {
 			int menu =Integer.parseInt( sc.nextLine());
 			switch(menu) {
 				case 1 :
+					putCart(userTel);
 					break;
 				case 2 :
 					break;
@@ -91,13 +97,14 @@ public class MenuView2 {
 					break;
 				case 5 :
 					MenuView2.cartMenu(userTel);
+					break;
 				case 9 :
 					if(userTel.equals(guestId)) {
 						MenuView2.logout(userTel);
 					}
 					return;
 				case 0 :
-					//종료
+					System.exit(0);
 			}
 		}
 	}
@@ -117,7 +124,7 @@ public class MenuView2 {
 				case 9 :
 					return;
 				case 0 :
-					//종료
+					System.exit(0);
 			}
 		}
 	}
@@ -163,13 +170,13 @@ public class MenuView2 {
 				ProductController.productSelectAll();
 				break;
 			case 2 :
-				productInsert();
+				MenuView2.productInsert();
 				break;
 			case 3 :
-				productUpdate();
+				MenuView2.productUpdate();
 				break;
 			case 4 :
-				productStateUpdate();
+				MenuView2.productStateUpdate();
 				break;
 			case 9 : 
 				return;
@@ -189,10 +196,10 @@ public class MenuView2 {
 			int menu = Integer.parseInt(sc.nextLine());
 			switch(menu) {
 			case 1 :
-				ProductController.productSelectAll();
+				
 				break;
 			case 2 :
-				productInsert();
+				MenuView2.userSelectByUserTel();
 				break;
 			case 9 : 
 				return;
@@ -212,16 +219,16 @@ public class MenuView2 {
 			int menu = Integer.parseInt(sc.nextLine());
 			switch(menu) {
 			case 1 :
-				ProductController.productSelectAll();
+				OrdersController.selectOngoingOrder();
 				break;
 			case 2 :
-				productInsert();
+				MenuView2.orderStateUpdate();
 				break;
 			case 3 :
-				productUpdate();
+//				OrdersController.dailySalesStatistic();
 				break;
 			case 4 :
-				productStateUpdate();
+				OrdersController.productSalesStatistic();
 				break;
 			case 9 : 
 				return;
@@ -242,7 +249,7 @@ public class MenuView2 {
 			switch(menu) {
 			case 1 :
 				MenuView2.orderInsert(userTel);
-				break;
+				return;
 			case 2 :
 				MenuView2.deleteCartByCode(userTel);
 				break;
@@ -290,7 +297,6 @@ public class MenuView2 {
 		SessionSet sessionSet = SessionSet.getInstance();
 		sessionSet.add(session);
 		
-//		MenuView2.orderInsert(guestId);
 		MenuView2.userMenu(guestId);
 	}
 
@@ -305,9 +311,19 @@ public class MenuView2 {
 	
 	/**
 	 * 회원가입 메소드
-	 * */
-	public static void registor() {
+	 */
+	public static void userInsert() {
+		System.out.print("전화번호 ex)010-1111-1111 : ");
+		String userTel = sc.nextLine();
 		
+		System.out.print("이름 : ");
+		String userName = sc.nextLine();
+		 
+		System.out.print("비밀번호 : ");
+		int userPwd = Integer.parseInt(sc.nextLine());	
+		
+		UsersDTO usersDTO = new UsersDTO(userTel, userName, userPwd);
+		UsersController.userInsert(usersDTO);
 	}
 	
 	/**
@@ -450,44 +466,29 @@ public class MenuView2 {
 		 int prodState = Integer.parseInt(sc.nextLine());
 		 ProductController.productStateUpdate(prodCode, prodState);
 	}
-	/**
-	 * 회원가입 메소드
-	 */
-	public static void userInsert() {
-		System.out.print("전화번호 ex)010-1111-1111 : ");
-		String userTel = sc.nextLine();
-		
-		System.out.print("이름 : ");
-		String userName = sc.nextLine();
-		 
-		System.out.print("비밀번호 : ");
-		int userPwd = Integer.parseInt(sc.nextLine());	
-		
-		UsersDTO usersDTO = new UsersDTO(userTel, userName, userPwd);
-		UsersController.userInsert(usersDTO);
-	}
 	
 	/**
 	 * 회원 비밀번호 수정 메소드
 	 * */
 	public static void userPwdUpdate(String userTel) {
-		System.out.print("변결할비밀번호 : ");
+		System.out.print("변경할 비밀번호 : ");
 		int userPwd = Integer.parseInt(sc.nextLine());
 		
 		UsersDTO usersDTO = new UsersDTO(userTel, null, userPwd);
 		UsersController.userPwdUpdate(usersDTO);
-	}
-	/**
-	 * 회원 적립금 확인 메소드
-	 */
-	public static void userPointCh(String userTel) {
-		UsersController.userPointCh(userTel);
 	}
 	
 	/**
 	 * 주문 상태 변경 메소드
 	 * */
 	public static void orderStateUpdate() {
+		
+	}
+	
+	/**
+	 * 회원 정보 검색
+	 * */
+	public static void userSelectByUserTel() {
 		
 	}
 }

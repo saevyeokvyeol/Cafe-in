@@ -29,28 +29,28 @@ public class OrdersController {
 	/**
 	 * 일간 판매 통계 검색
 	 * */
-//	public static void dailySalesStatistic(String date) {
-//		try {
-//			Map<String, Integer> map = ordersService.dailySalesStatistic(date);
-//			SuccessView.printDailyStatistics(map);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			FailView.errorMessage(e.getMessage());
-//		}
-//	}
-//
-//	/**
-//	 * 제품별 판매 통계 검색
-//	 * */
-//	public static void productSalesStatistic() {
-//		try {
-//			List<StatisticsDTO> list = ordersService.productSalesStatistic();
-//			SuccessView.printProdStatistics(list);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			FailView.errorMessage(e.getMessage());
-//		}
-//	}
+	public static void dailySalesStatistic(String date) {
+		try {
+			Map<String, Integer> map = ordersService.dailySalesStatistic(date);
+			SuccessView.printDailyStatistics(map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			FailView.errorMessage(e.getMessage());
+		}
+	}
+
+	/**
+	 * 제품별 판매 통계 검색
+	 * */
+	public static void productSalesStatistic() {
+		try {
+			List<StatisticsDTO> list = ordersService.productSalesStatistic();
+			SuccessView.printProdStatistics(list);
+		} catch (Exception e) {
+			e.printStackTrace();
+			FailView.errorMessage(e.getMessage());
+		}
+	}
 
 	/**
 	 * 주문상태코드변경

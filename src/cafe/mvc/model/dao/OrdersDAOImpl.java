@@ -71,7 +71,6 @@ public class OrdersDAOImpl implements OrdersDAO {
 			ps.setInt(3, payPoint);
 			ps.setInt(4, totalPrice);
 			ps.setInt(5, ordersDTO.getTakeOut());
-			ps.setInt(6, ordersDTO.getTakeOut());
 			
 			result = ps.executeUpdate();
 			
