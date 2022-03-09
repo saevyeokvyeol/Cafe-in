@@ -53,11 +53,11 @@ public interface ProductDAO {
 	/**
 	 * 카테고리별 상품 보기 : 상품분류코드를 통해 각 카테고리에 맞는 상품만 조회
 	 */
-	List<Product> selectByGroup(String groupCode) throws SQLException;
+	List<Product> productSelectByGroup(String groupCode) throws SQLException;
 
 	/**
 	 * 상품 코드로 상품 검색
 	 */
-	Product selectByProdCode(String prodCode) throws SQLException;
+	Product productSelectByProdCode(String prodCode) throws SQLException;
 
 }

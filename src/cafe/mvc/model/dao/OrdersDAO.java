@@ -2,7 +2,9 @@ package cafe.mvc.model.dao;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
+import cafe.mvc.exception.NotFoundException;
 import cafe.mvc.model.dto.Orders;
 import cafe.mvc.model.dto.Statistics;
 
@@ -43,9 +45,13 @@ public interface OrdersDAO {
 	
 	/**
 	 * 일간 매출 통계
-	 * : 통계를 어떻게 끌어올까요...(통계용 DTO를 새로 만들어서 가져오기...?)
 	 * */
-	Statistics dailySalesStatistic(String date) throws SQLException;
+	Map<String, Integer> dailySalesStatistic(String date) throws SQLException;
+	
+	/**
+	 * 제품별 판매 통계
+	 * */
+	List<Statistics> productSalesStatistic() throws SQLException, NotFoundException;
 	
 	/**
 	 * 더 필요한 메소드 있을까요?

@@ -50,7 +50,7 @@ public interface ProductService {
 	/**
 	 * 카테고리별 상품 보기 : 상품분류코드를 통해 각 카테고리에 맞는 상품만 조회
 	 */
-	List<Product> selectByGroup(String groupCode) throws SQLException, NotFoundException;
+	List<Product> productSelectByGroup(String groupCode) throws SQLException, NotFoundException;
 
 	/**
 	 * 전체상품 메뉴보기(커피/티/스무디/디저트 순서로 나옴)
@@ -61,6 +61,6 @@ public interface ProductService {
 	/**
 	 * 전체상품 메뉴보기(커피/티/스무디/디저트 순서로 나옴)
 	 */
-	Product selectByProdCode(String prodCode) throws SQLException, NotFoundException;
+	Product productSelectByProdCode(String prodCode) throws SQLException, NotFoundException;
 
 }

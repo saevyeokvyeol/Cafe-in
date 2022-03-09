@@ -58,7 +58,7 @@ public class ProductController {
 	public static void productDelete(String prodCode) {
 		try {
 			productService.productDelete(prodCode);
-			if (productService.selectByProdCode(prodCode).getStock().getProdStock() == 0) {
+			if (productService.productSelectByProdCode(prodCode).getStock().getProdStock() == 0) {
 				productService.stockDelete(prodCode);
 			}
 			SuccessView.printMessage("상품 삭제 완료");
@@ -88,7 +88,7 @@ public class ProductController {
 
 	public static void selectByProdCode(String prodCode) {
 		try {
-			Product product = productService.selectByProdCode(prodCode);
+			Product product = productService.productSelectByProdCode(prodCode);
 			SuccessView.printSelectProduct(product);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -102,7 +102,7 @@ public class ProductController {
 	public static void selectByGroup(String groupCode) {
 
 		try {
-			List<Product> list = productService.selectByGroup(groupCode);
+			List<Product> list = productService.productSelectByGroup(groupCode);
 			SuccessView.printByCategory(list);
 
 		} catch (Exception e) {
@@ -113,7 +113,7 @@ public class ProductController {
 	/**
 	 * 전체 상품 조회
 	 */
-	public static void selectAll() {
+	public static void productSelectAll() {
 		try {
 			List<Product> list = productService.selectAll();
 			SuccessView.printSelectAll(list);

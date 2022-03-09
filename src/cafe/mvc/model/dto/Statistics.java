@@ -4,52 +4,61 @@ package cafe.mvc.model.dto;
  * DB에서 select를 통해 매출 통계를 계산한 뒤 그 결과를 Statistics 객체로 만들면 어떨까요?
  * */
 public class Statistics {
-	private String date;
-	private int dailyOrderTimes;
-	private int dailySalesPrice;
-	private int dailySalesQty;
-
+	private String prodCode;
+	private String prodName;
+	private int prodPrice;
+	private int salesQty;
+	private int salesPrice;
+	
 	public Statistics() {}
-	
-	public Statistics(String date, int dailyOrderTimes, int dailySalesPrice, int dailySalesQty) {
+
+	public Statistics(String prodCode, String prodName, int prodPrice, int salesQty, int salesPrice) {
 		super();
-		this.date = date;
-		this.dailyOrderTimes = dailyOrderTimes;
-		this.dailySalesPrice = dailySalesPrice;
-		this.dailySalesQty = dailySalesQty;
+		this.prodCode = prodCode;
+		this.prodName = prodName;
+		this.prodPrice = prodPrice;
+		this.salesQty = salesQty;
+		this.salesPrice = salesPrice;
 	}
 
-	public String getDate() {
-		return date;
+	public String getProdCode() {
+		return prodCode;
 	}
 
-	public void setDate(String date) {
-		this.date = date;
+	public void setProdCode(String prodCode) {
+		this.prodCode = prodCode;
 	}
 
-	public int getDailyOrderTimes() {
-		return dailyOrderTimes;
+	public String getProdName() {
+		return prodName;
 	}
 
-	public void setDailyOrderTimes(int dailyOrderTimes) {
-		this.dailyOrderTimes = dailyOrderTimes;
+	public void setProdName(String prodName) {
+		this.prodName = prodName;
 	}
 
-	public int getDailySalesPrice() {
-		return dailySalesPrice;
+	public int getProdPrice() {
+		return prodPrice;
 	}
 
-	public void setDailySalesPrice(int dailySalesPrice) {
-		this.dailySalesPrice = dailySalesPrice;
+	public void setProdPrice(int prodPrice) {
+		this.prodPrice = prodPrice;
 	}
 
-	public int getDailySalesQty() {
-		return dailySalesQty;
+	public int getSalesQty() {
+		return salesQty;
 	}
 
-	public void setDailySalesQty(int dailySalesQty) {
-		this.dailySalesQty = dailySalesQty;
+	public void setSalesQty(int salesQty) {
+		this.salesQty = salesQty;
 	}
-	
+
+	public int getSalesPrice() {
+		return salesPrice;
+	}
+
+	public void setSalesPrice(int salesPrice) {
+		this.salesPrice = salesPrice;
+	}
 	
 }

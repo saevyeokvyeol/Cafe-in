@@ -2,6 +2,7 @@ package cafe.mvc.model.service;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import cafe.mvc.exception.AddException;
 import cafe.mvc.exception.ModifyException;
@@ -42,7 +43,12 @@ public interface OrdersService {
 	/**
 	 * 일간 매출 통계 조회
 	 * */
-	Statistics dailySalesStatistic(String date) throws SQLException, NotFoundException;
+	Map<String, Integer> dailySalesStatistic(String date) throws SQLException, NotFoundException;
+	
+	/**
+	 * 제품별 판매 통계
+	 * */
+	List<Statistics> productSalesStatistic() throws SQLException, NotFoundException;
 	
 	/**
 	 * 더 필요한 메소드 있을까요?

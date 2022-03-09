@@ -105,16 +105,16 @@ public class ProductServiceImpl implements ProductService {
 	 */
 	// List<Product>
 	@Override
-	public List<Product> selectByGroup(String groupCode) throws SQLException, NotFoundException {
-		List<Product> productList = productDao.selectByGroup(groupCode);
+	public List<Product> productSelectByGroup(String groupCode) throws SQLException, NotFoundException {
+		List<Product> productList = productDao.productSelectByGroup(groupCode);
 		return productList;
 	}
 
 	/**
 	 * 상품 코드로 상품 검색
 	 */
-	public Product selectByProdCode(String prodCode) throws SQLException, NotFoundException {
-		Product product = productDao.selectByProdCode(prodCode);
+	public Product productSelectByProdCode(String prodCode) throws SQLException, NotFoundException {
+		Product product = productDao.productSelectByProdCode(prodCode);
 
 		if (product == null) {
 			throw new NotFoundException(prodCode + " 상품을 찾을 수 없습니다.");

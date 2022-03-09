@@ -12,16 +12,32 @@ import cafe.mvc.model.dto.Statistics;
 import cafe.mvc.model.dto.Users;
 
 public class SuccessView {
-
-	public static void printStatistics(Statistics statistic) {
-		System.out.println("***** " + statistic.getDate() + " 일간 매출 *****");
-		System.out.println("총 주문 횟수 : " + statistic.getDailyOrderTimes() + "건");
-		System.out.println("판매 상품 수 : " + statistic.getDailySalesQty() + "개");
+	/**
+	 * 일간 판매 통계 출력
+	 * */
+	public static void printDailyStatistics(Map<String, Integer> map) {
+		System.out.println("***** " + map.get("date") + " 일간 판매 통계 *****");
+		System.out.println("판매 음료 수 : " + map.get("drinkSalesQty") + "개");
+		System.out.println("판매 디저트 수 : " + map.get("dessertSalesQty") + "개");
+		System.out.println("총 주문 횟수 : " + (map.get("orderTimes")) + "건");
 		System.out.print("일간 총 매출 : ");
-		System.out.printf("%,d", statistic.getDailySalesPrice());
+		System.out.printf("%,d", map.get("salesPrice"));
 		System.out.println("원");
 	}
+	
+	/**
+	 * 제품별 판매 통계 출력
+	 * */
+	public static void printProdStatistics(List<Statistics> list) {
+		System.out.println("***** 제품별 판매 통계 *****");
+		for(Statistics statistics : list) {
+			System.out.println(statistics.getProdCode() + " | " + statistics.getProdName() + " | " + statistics.getProdPrice() + " | " + statistics.getSalesQty() + " | " + statistics.getSalesPrice());
+		}
+	}
 
+	/**
+	 * 장바구니 출력
+	 * */
 	public static void printCart(String userTel, Map<Product, Integer> cart) {
 		System.out.println("***** " + userTel + " 님의 장바구니 *****");
 		int totalPrice = 0;
@@ -32,8 +48,7 @@ public class SuccessView {
 			int qty = cart.get(prod);
 			totalPrice += (prodPrice * qty);
 
-			System.out
-					.println(prodCode + " | " + prodName + " | " + prodPrice + " | " + qty + " | " + (prodPrice * qty));
+			System.out.println(prodCode + " | " + prodName + " | " + prodPrice + " | " + qty + " | " + (prodPrice * qty));
 		}
 
 		System.out.println("총 가격 : " + totalPrice);
@@ -117,12 +132,6 @@ public class SuccessView {
 	public static void printSelectAll(List<Product> list) {
 		System.out.println("*********상품 " + list.size() + "개*********");
 		for (Product product : list) {
-			String prodCode = product.getProdCode();
-			String prodGroup = product.getProdGroup();
-			String prodName = product.getProdName();
-			int prodPrice = product.getProdPrice();
-			String prodDetail = product.getProdDetail();
-			int prodState = product.getProdState();
 
 			if (product.getStock() == null) {
 				System.out.println(product.getProdCode() + " | " + product.getProdGroup() + " | "
@@ -145,7 +154,7 @@ public class SuccessView {
 
 	public static void printByCategory(List<Product> productList) {
 		for (Product p : productList) {
-			System.out.println(p.getProdCode() + " | " + p.getProdGroup() + " | " + p.getProdName() + " | "
+			System.out.println(p.getProdCode() + " | " + p.getProdName() + " | "
 					+ p.getProdPrice() + " | " + p.getProdDetail());
 		}
 	}

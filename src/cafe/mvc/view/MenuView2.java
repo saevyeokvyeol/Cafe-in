@@ -126,13 +126,40 @@ public class MenuView2 {
      * */
 	public static void adminMenu(String userTel) {
 		while(true) {
-			System.out.println("\n" + "관리자 메뉴");
-			System.out.println("[ 1. 상품 조회  |  2. 상품 등록  |  3. 상품 수정  | 4. 상품 상태 변경  |  5. 회원 정보 수정  |  6. 현재 주문 조회  |  7. 주문 상태 변경  |  8. 일간 매출 통계  |  9. 로그아웃  |  0. 종료 ]");
+			System.out.println("\n" + "[ 관리자 메뉴 ]");
+			System.out.println("[ 1. 상품 관리  |  2. 회원 관리  |  3. 주문 관리  |  9. 로그아웃  |  0. 종료 ]");
 			System.out.print("▶ ");
 			int menu = Integer.parseInt(sc.nextLine());
 			switch(menu) {
 			case 1 :
-				ProductController.selectAll();
+				MenuView2.prodManageMenu(userTel);
+				break;
+			case 2 :
+				MenuView2.usersManageMenu(userTel);
+				break;
+			case 3 :
+				MenuView2.ordersManageMenu(userTel);
+				break;
+			case 9 : 
+				MenuView2.logout(userTel);
+				return;
+			case 0 : 
+				System.exit(0);
+			}
+		}
+	}
+	
+	/**
+	 * 상품 관리 메뉴
+	 * */
+	public static void prodManageMenu(String userTel) {
+		while(true) {
+			System.out.println("[ 1. 상품 조회  |  2. 상품 등록  |  3. 상품 수정  | 4. 상품 상태 변경  |  9. 뒤로 가기  |  0. 종료 ]");
+			System.out.print("▶ ");
+			int menu = Integer.parseInt(sc.nextLine());
+			switch(menu) {
+			case 1 :
+				ProductController.productSelectAll();
 				break;
 			case 2 :
 				productInsert();
@@ -143,13 +170,57 @@ public class MenuView2 {
 			case 4 :
 				productStateUpdate();
 				break;
-			case 5 :
+			case 9 : 
+				return;
+			case 0 : 
+				System.exit(0);
+			}
+		}
+	}
+	
+	/**
+	 * 회원 관리 메뉴
+	 * */
+	public static void usersManageMenu(String userTel) {
+		while(true) {
+			System.out.println("[ 1. 전체 회원 조회  |  2. 회원 정보 검색  |  9. 뒤로 가기  |  0. 종료 ]");
+			System.out.print("▶ ");
+			int menu = Integer.parseInt(sc.nextLine());
+			switch(menu) {
+			case 1 :
+				ProductController.productSelectAll();
 				break;
-			case 6 :
+			case 2 :
+				productInsert();
 				break;
-			case 7 :
+			case 9 : 
+				return;
+			case 0 : 
+				System.exit(0);
+			}
+		}
+	}
+	
+	/**
+	 * 주문 관리 메뉴
+	 * */
+	public static void ordersManageMenu(String userTel) {
+		while(true) {
+			System.out.println("[ 1. 현재 주문 조회  |  2. 주문 상태 변경  |  3. 일간 매출 통계  |  4. 제품별 판매 통계  |  9. 뒤로 가기  |  0. 종료 ]");
+			System.out.print("▶ ");
+			int menu = Integer.parseInt(sc.nextLine());
+			switch(menu) {
+			case 1 :
+				ProductController.productSelectAll();
 				break;
-			case 8 :
+			case 2 :
+				productInsert();
+				break;
+			case 3 :
+				productUpdate();
+				break;
+			case 4 :
+				productStateUpdate();
 				break;
 			case 9 : 
 				return;
@@ -197,7 +268,15 @@ public class MenuView2 {
 		
 		System.out.println("비밀번호를 입력해주세요");
 		System.out.print("▶ ");
-		int userPwd = Integer.parseInt(sc.nextLine());
+		String stringPwd = sc.nextLine();
+		int userPwd = 0;
+		
+		if(stringPwd.matches("[+-]?\\d*(\\.\\d+)?")) {
+			userPwd = Integer.parseInt(stringPwd);
+		} else {
+			System.out.println("비밀번호는 숫자만 입력해주세요");
+			return;
+		}
 		
 		UsersController.login(userTel, userPwd);
 	}
@@ -284,6 +363,7 @@ public class MenuView2 {
 		List<OrderLine> list = new ArrayList<OrderLine>();
 		Map<Product, Integer> cart = (Map<Product, Integer>) session.getAttributes("cart");
 		
+//		if(cart)
 		for(Product product : cart.keySet()) {
 			list.add(new OrderLine(0, 0, product.getProdCode(), cart.get(product), 0));
 		}
@@ -292,7 +372,6 @@ public class MenuView2 {
 		orders.setOrderLineList(list);
 		
 		OrdersController.orderInsert(orders);
-		
 	}
 	
 	/**

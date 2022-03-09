@@ -3,6 +3,8 @@ package cafe.mvc.controller;
 import cafe.mvc.model.dto.Orders;
 import cafe.mvc.model.dto.Statistics;
 import java.util.List;
+import java.util.Map;
+
 import cafe.mvc.model.service.OrdersService;
 import cafe.mvc.model.service.OrdersServiceImpl;
 import cafe.mvc.view.FailView;
@@ -20,20 +22,35 @@ public class OrdersController {
 			SuccessView.printMessage("주문이 완료되었습니다. 잠시만 기다려주세요.");
 		} catch (Exception e) {
 			e.printStackTrace();
-//			FailView.errorMessage(e.getMessage());
+			FailView.errorMessage(e.getMessage());
 		}
 	}
 
+	/**
+	 * 일간 판매 통계 검색
+	 * */
 	public static void dailySalesStatistic(String date) {
 		try {
-			Statistics statistic = ordersService.dailySalesStatistic(date);
-			SuccessView.printStatistics(statistic);
+			Map<String, Integer> map = ordersService.dailySalesStatistic(date);
+			SuccessView.printDailyStatistics(map);
 		} catch (Exception e) {
 			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
 		}
 	}
-	// 주문하기, 주문내역보기
+
+	/**
+	 * 제품별 판매 통계 검색
+	 * */
+	public static void productSalesStatistic() {
+		try {
+			List<Statistics> list = ordersService.productSalesStatistic();
+			SuccessView.printProdStatistics(list);
+		} catch (Exception e) {
+			e.printStackTrace();
+			FailView.errorMessage(e.getMessage());
+		}
+	}
 
 	/**
 	 * 주문상태코드변경
@@ -61,17 +78,17 @@ public class OrdersController {
 	}
 
 	/**
-		 * 회원의 지난 주문 내역 조회
-		 * */
+	 * 회원의 지난 주문 내역 조회
+	 * */
 
-		public static void selectByUserTel(String userTel) {
-			try {
-			List<Orders> list =ordersService.selectByUserTel(userTel);
-			SuccessView.printSelectByUserTel(list,userTel);
-			}catch(Exception e){
-				FailView.errorMessage(e.getMessage());
-			}
+	public static void selectByUserTel(String userTel) {
+		try {
+		List<Orders> list =ordersService.selectByUserTel(userTel);
+		SuccessView.printSelectByUserTel(list,userTel);
+		}catch(Exception e){
+			FailView.errorMessage(e.getMessage());
 		}
+	}
 
 	
 }
