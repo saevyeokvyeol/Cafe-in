@@ -18,7 +18,7 @@ public interface UsersService {
 	/**
 	 * 회원 정보 수정: user 테이블 update(전화번호/이름/적립금...?)
 	 * */
-	void userUpdate(UsersDTO usersDTO) throws SQLException, ModifyException, NotFoundException;
+	void userPwdUpdate(UsersDTO usersDTO) throws SQLException, ModifyException, NotFoundException;
 	
 	/**
 	 * 로그인

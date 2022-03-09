@@ -13,7 +13,7 @@ public interface UsersDAO {
 	/**
 	 * 회원 정보 수정: user 테이블 update(전화번호/이름/적립금...?)
 	 * */
-	int userUpdate(UsersDTO usersDTO) throws SQLException;
+	int userPwdUpdate(UsersDTO usersDTO) throws SQLException;
 	
 	/**
 	 * 로그인

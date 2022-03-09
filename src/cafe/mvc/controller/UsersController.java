@@ -50,9 +50,9 @@ public class UsersController {
 	/**
 	 * 비밀번호변경
 	 */
-	public static void pwdUpdate(UsersDTO usersDTO) {
+	public static void userPwdUpdate(UsersDTO usersDTO) {
 		try {
-			usersService.userUpdate(usersDTO);
+			usersService.userPwdUpdate(usersDTO);
 			SuccessView.printMessage("변경완료");
 			//MenuView.menu();
 		}catch (Exception e) {

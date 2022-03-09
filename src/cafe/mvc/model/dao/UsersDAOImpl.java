@@ -42,7 +42,7 @@ public class UsersDAOImpl implements UsersDAO{
 	 * */
 
 	@Override
-	public int userUpdate(UsersDTO usersDTO) throws SQLException {
+	public int userPwdUpdate(UsersDTO usersDTO) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		int result = 0;

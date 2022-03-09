@@ -88,7 +88,7 @@ public class MenuView {
 					return;
 				case 2 :
 					//마이페이지(적립금확인,지난주문내역)
-					MenuView.pwdUpdate(userTel);
+					MenuView.userPwdUpdate(userTel);
 					break;
 				case 3 : 
 					//메뉴보기(카테고리 형식)
@@ -119,12 +119,12 @@ public class MenuView {
 //		Users users = new Users(userTel, null, 0);
 //		UsersController.userCouponCh(users);
 //	}
-	public static void pwdUpdate(String userTel) {
+	public static void userPwdUpdate(String userTel) {
 		System.out.print("변결할비밀번호 : ");
 		int userPwd = Integer.parseInt(sc.nextLine());
 		
 		UsersDTO usersDTO = new UsersDTO(userTel, null, userPwd);
-		UsersController.pwdUpdate(usersDTO);
+		UsersController.userPwdUpdate(usersDTO);
 	}
 	
 	//비회원이 보는 화면

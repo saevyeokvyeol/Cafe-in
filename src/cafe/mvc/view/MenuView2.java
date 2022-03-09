@@ -14,6 +14,7 @@ import cafe.mvc.model.dto.ProductDTO;
 import cafe.mvc.session.Session;
 import cafe.mvc.controller.ProductController;
 import cafe.mvc.model.dto.StockDTO;
+import cafe.mvc.model.dto.UsersDTO;
 import cafe.mvc.session.SessionSet;
 
 public class MenuView2 {
@@ -449,12 +450,38 @@ public class MenuView2 {
 		 int prodState = Integer.parseInt(sc.nextLine());
 		 ProductController.productStateUpdate(prodCode, prodState);
 	}
+	/**
+	 * 회원가입 메소드
+	 */
+	public static void userInsert() {
+		System.out.print("전화번호 ex)010-1111-1111 : ");
+		String userTel = sc.nextLine();
+		
+		System.out.print("이름 : ");
+		String userName = sc.nextLine();
+		 
+		System.out.print("비밀번호 : ");
+		int userPwd = Integer.parseInt(sc.nextLine());	
+		
+		UsersDTO usersDTO = new UsersDTO(userTel, userName, userPwd);
+		UsersController.userInsert(usersDTO);
+	}
 	
 	/**
 	 * 회원 비밀번호 수정 메소드
 	 * */
-	public static void userUpdate() {
+	public static void userPwdUpdate(String userTel) {
+		System.out.print("변결할비밀번호 : ");
+		int userPwd = Integer.parseInt(sc.nextLine());
 		
+		UsersDTO usersDTO = new UsersDTO(userTel, null, userPwd);
+		UsersController.userPwdUpdate(usersDTO);
+	}
+	/**
+	 * 회원 적립금 확인 메소드
+	 */
+	public static void userPointCh(String userTel) {
+		UsersController.userPointCh(userTel);
 	}
 	
 	/**

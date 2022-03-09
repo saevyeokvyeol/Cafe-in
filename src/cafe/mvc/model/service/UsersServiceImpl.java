@@ -37,8 +37,8 @@ public class UsersServiceImpl implements UsersService{
 	 * 회원 정보 수정: user 테이블 update(전화번호/이름/적립금...?)
 	 * */
 	@Override
-	public void userUpdate(UsersDTO usersDTO) throws SQLException, ModifyException, NotFoundException {
-		int result = usersDAO.userUpdate(usersDTO);
+	public void userPwdUpdate(UsersDTO usersDTO) throws SQLException, ModifyException, NotFoundException {
+		int result = usersDAO.userPwdUpdate(usersDTO);
 		if(result==0)throw new SQLException("등록되지않았습니다.^^");
 		
 	}
