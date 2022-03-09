@@ -7,9 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.Scanner;
 
-import cafe.mvc.controller.ProductController;
 import cafe.mvc.model.dto.Product;
 import cafe.mvc.model.dto.Stock;
 import cafe.mvc.util.DbUtil;
@@ -305,11 +303,39 @@ public class ProductDAOImpl implements ProductDAO {
 			
 			if(rs.next()) {
 				product = new Product(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getInt(6));
-				
+			}
+			
+			if(prodCode.substring(0, 1).equals("D")) {
+				product.setStock(selectStock(con, prodCode));
 			}
 		} finally {
 			DbUtil.close(con, ps, rs);
 		}
 		return product;
+	}
+	
+	/**
+	 * 상품에 스톡 입력
+	 * */
+	public Stock selectStock(Connection con, String prodCode) throws SQLException {
+		String sql = profile.getProperty("product.selectStock");
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		Stock stock = null;
+		
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setString(1, prodCode);
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				stock = new Stock(prodCode, rs.getInt(1));
+			}
+		} finally {
+			DbUtil.close(null, ps, rs);
+		}
+		return stock;
 	}
 }

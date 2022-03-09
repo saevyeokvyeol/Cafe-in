@@ -12,7 +12,7 @@ public class Orders {
 	private String orderDate; // 주문일자
 	private int takeOut; // 테이크아웃여부
 
-	private List<OrderLine> ordelLineList;
+	private List<OrderLine> orderLineList;
 
 	public Orders() {
 	}
@@ -100,12 +100,12 @@ public class Orders {
 		this.takeOut = takeOut;
 	}
 
-	public List<OrderLine> getOrdelLineList() {
-		return ordelLineList;
+	public List<OrderLine> getOrderLineList() {
+		return orderLineList;
 	}
 
-	public void setOrdelLineList(List<OrderLine> ordelLineList) {
-		this.ordelLineList = ordelLineList;
+	public void setOrderLineList(List<OrderLine> orderLineList) {
+		this.orderLineList = orderLineList;
 	}
 
 	

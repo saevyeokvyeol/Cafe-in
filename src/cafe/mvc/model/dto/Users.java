@@ -13,6 +13,13 @@ public class Users{
    
     public Users() {}
 
+    public Users(String userTel, String userName, int userPoint, String regDate) {
+	    this.userTel = userTel;
+		this.userName = userName;
+		this.userPoint = userPoint;
+		this.regDate = regDate;
+    }
+
     public Users(String userTel, String userName, int userPoint, int userPwd) {
 	    this.userTel = userTel;
 		this.userName = userName;
@@ -20,7 +27,7 @@ public class Users{
 		this.userPwd = userPwd;
     }
     
-    public Users(String userTel, String userName, int userPoint,String regDate, int userPwd) {
+    public Users(String userTel, String userName, int userPoint, String regDate, int userPwd) {
 	    this.userTel = userTel;
 		this.userName = userName;
 		this.userPoint = userPoint;

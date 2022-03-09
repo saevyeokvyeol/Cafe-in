@@ -117,6 +117,30 @@ public class UsersDAOImpl implements UsersDAO{
 		return users;
 	}
 
-	
+	/**
+	 * 전화번호로 유저 검색
+	 * */
+	@Override
+	public Users selectByUserTel(String userTel) throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Users users = null;
+		String sql = proFile.getProperty("order.selectByUserTel");		
+		try {
+			con = DbUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setString(1, userTel);
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				users = new Users(userTel, rs.getString(2), rs.getInt(3), rs.getString(4));
+			}
+		} finally {
+			DbUtil.close(con, ps, rs);
+		}
+		
+		return users;
+	}
 
 }

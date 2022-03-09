@@ -26,6 +26,11 @@ public interface UsersDAO {
 	int userPointCh(Users users) throws SQLException;
 	
 	/**
+	 * 전화번호로 유저 검색
+	 * */
+	Users selectByUserTel(String userTel) throws SQLException;
+	
+	/**
 	 * 더 필요한 메소드 있을까요?
 	 * */
 }

@@ -18,6 +18,7 @@ import cafe.mvc.session.SessionSet;
 
 public class MenuView2 {
 	private static Scanner sc = new Scanner(System.in);
+	static String guestId = "guest";
 	
 	/**
 	 * 메인 메뉴
@@ -29,12 +30,14 @@ public class MenuView2 {
 			int menu = Integer.parseInt(sc.nextLine());
 			switch(menu) {
 			case 1 :
+				MenuView2.registor();
 				break;
 			case 2 :
+				// 관리자 아이디로 로그인 할 경우 관리자 메뉴로 이동함
 				MenuView2.login();
 				break;
-			case 4 : 
-				MenuView2.orderMenu(null, null);
+			case 3 : 
+				MenuView2.guestLogin();
 				break;
 			case 0 : 
 				System.exit(0);
@@ -45,25 +48,21 @@ public class MenuView2 {
 	/**
 	 * 로그인 유저 메뉴
 	 * */
-	public static void userMenu(String userTel, String userName) {
+	public static void userMenu(String userTel) {
 		while(true) {
-			System.out.println("\n" + userName + " 님 어서오세요.");
 			System.out.println("[ 1. 주문하기  |  2. 지난 주문 내역  |  3. 적립금 확인  |  9. 로그아웃  |  0. 종료 ]");
 			System.out.print("▶ ");
 			int menu =Integer.parseInt( sc.nextLine());
 			switch(menu) {
 				case 1 :
 					MenuView2.orderInsert(userTel);
-					// MenuView2.orderMenu(userTel, userName);
 					break;
 				case 2 :
-					MenuView2.putCart(userTel);
 					break;
 				case 3 :
-					CartController.viewCart(userTel);
 					break;
 				case 9 :
-					MenuView2.deleteCartByCode(userTel);
+					MenuView2.logout(userTel);
 					return;
 				case 0 : 
 					CartController.deleteCartAll(userTel);
@@ -75,7 +74,7 @@ public class MenuView2 {
 	/**
 	 * 주문 메뉴
 	 * */
-	public static void orderMenu(String userTel, String userName) {
+	public static void orderMenu(String userTel) {
 		while(true) {
 			System.out.println("\n" + "[ 1. 커피 메뉴 보기  |  2. 스무디 메뉴 보기  |  3. 차 메뉴 보기  |  4. 디저트 메뉴 보기  |  5. 장바구니 보기  |  9. 뒤로 가기  |  0. 종료 ]");
 			System.out.print("▶ ");
@@ -90,8 +89,11 @@ public class MenuView2 {
 				case 4 :
 					break;
 				case 5 :
-					MenuView2.cartMenu(userTel, userName);
+					MenuView2.cartMenu(userTel);
 				case 9 :
+					if(userTel.equals(guestId)) {
+						MenuView2.logout(userTel);
+					}
 					return;
 				case 0 :
 					//종료
@@ -102,13 +104,14 @@ public class MenuView2 {
 	/**
 	 * 카테고리별 상품 페이지
 	 * */
-	public static void categoryMenu(String userTel, String userName) {
+	public static void categoryMenu(String userTel) {
 		while(true) {
 			System.out.println("\n" + "[ 1. 장바구니에 상품 담기  |  9. 뒤로 가기  |  0. 종료 ]");
 			System.out.print("▶ ");
 			int menu =Integer.parseInt( sc.nextLine());
 			switch(menu) {
 				case 1 :
+					MenuView2.putCart(userTel);
 					break;
 				case 9 :
 					return;
@@ -121,7 +124,7 @@ public class MenuView2 {
     /**
      * 관리자 메뉴
      * */
-	public static void adminMenu(String userTel, String userName) {
+	public static void adminMenu(String userTel) {
 		while(true) {
 			System.out.println("\n" + "관리자 메뉴");
 			System.out.println("[ 1. 상품 조회  |  2. 상품 등록  |  3. 상품 수정  | 4. 상품 상태 변경  |  5. 회원 정보 수정  |  6. 현재 주문 조회  |  7. 주문 상태 변경  |  8. 일간 매출 통계  |  9. 로그아웃  |  0. 종료 ]");
@@ -158,17 +161,20 @@ public class MenuView2 {
     /**
      * 장바구니 메뉴
      * */
-	public static void cartMenu(String userTel, String userName) {
+	public static void cartMenu(String userTel) {
 		while(true) {
 			System.out.println("\n" + "[ 1. 결제  |  2. 장바구니 상품 삭제  |  3. 장바구니 전체 삭제  |  9. 뒤로 가기  |  0. 종료 ]");
 			System.out.print("▶ ");
 			int menu = Integer.parseInt(sc.nextLine());
 			switch(menu) {
 			case 1 :
+				MenuView2.orderInsert(userTel);
 				break;
 			case 2 :
+				MenuView2.deleteCartByCode(userTel);
 				break;
 			case 3 :
+				CartController.deleteCartAll(userTel);
 				break;
 			case 9 : 
 				return;
@@ -196,23 +202,30 @@ public class MenuView2 {
 	}
 	
 	/**
-	 * 관리자 로그인 메소드
+	 * 비회원 임시 로그인 메소드
 	 * */
-	public static void adminLogin() {
+	public static void guestLogin() {
+		Session session = new Session(guestId);
+		SessionSet sessionSet = SessionSet.getInstance();
+		sessionSet.add(session);
 		
+//		MenuView2.orderInsert(guestId);
+		MenuView2.userMenu(guestId);
 	}
 
 	/**
 	 * 로그아웃 메소드
 	 * */
-	public static void logout() {
-		
+	public static void logout(String userTel) {
+		Session session = new Session(userTel);
+		SessionSet ss = SessionSet.getInstance();
+		ss.remove(session);
 	}
 	
 	/**
 	 * 회원가입 메소드
 	 * */
-	public static void 회원가입() {
+	public static void registor() {
 		
 	}
 	
@@ -251,7 +264,7 @@ public class MenuView2 {
 		
 		int payPoint = 0;
 		
-		if(userTel != null) {
+		if(!userTel.equals(guestId)) {
 			System.out.println("사용하실 적립금 액수를 입력해주세요.");
 			System.out.print("▶ ");
 			payPoint = Integer.parseInt(sc.nextLine());
@@ -270,8 +283,12 @@ public class MenuView2 {
 		List<OrderLine> list = new ArrayList<OrderLine>();
 		Map<Product, Integer> cart = (Map<Product, Integer>) session.getAttributes("cart");
 		
+		for(Product product : cart.keySet()) {
+			list.add(new OrderLine(0, 0, product.getProdCode(), cart.get(product), 0));
+		}
+		
 		Orders orders = new Orders(0, userTel, 0, payMethod, payPoint, 0, null, takeout);
-		orders.setOrdelLineList(list);
+		orders.setOrderLineList(list);
 		
 		OrdersController.orderInsert(orders);
 		

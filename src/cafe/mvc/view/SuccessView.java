@@ -7,6 +7,7 @@ import cafe.mvc.model.dto.OrderLine;
 import cafe.mvc.model.dto.Orders;
 import cafe.mvc.model.dto.Product;
 import cafe.mvc.model.dto.Statistics;
+import cafe.mvc.model.dto.Users;
 
 public class SuccessView {
 
@@ -60,7 +61,7 @@ public class SuccessView {
 //			System.out.println(
 //					"〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓|");
 //			
-			for(OrderLine orderline : orders.getOrdelLineList()) {
+			for(OrderLine orderline : orders.getOrderLineList()) {
 				System.out.println("\t*********주문 상세*********");
 				
 				int orderLineCode = orderline.getOrderLineCode();
@@ -130,6 +131,10 @@ public class SuccessView {
 							   p.getProdPrice()+ " | " + 
 							   p.getProdDetail());
 		}
+	}
+	
+	public static void printUsersInfo(Users users) {
+		System.out.println(users.getUserName() + " | " + users.getUserTel() + " | " + users.getUserPoint() + " | " + users.getRegDate());
 	}
 	
 }
