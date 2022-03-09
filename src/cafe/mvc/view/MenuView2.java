@@ -87,13 +87,21 @@ public class MenuView2 {
 			int menu =Integer.parseInt( sc.nextLine());
 			switch(menu) {
 				case 1 :
-					putCart(userTel);
+					String coffeeGroup = "C";
+					ProductController.selectByGroup(coffeeGroup);
+					System.out.println();
 					break;
 				case 2 :
+					String teaGroup = "T";
+					ProductController.selectByGroup(teaGroup);
 					break;
 				case 3 :
+					String SmoothieGroup = "S";
+					ProductController.selectByGroup(SmoothieGroup);
 					break;
 				case 4 :
+					String dessertGroup = "D";
+					ProductController.selectByGroup(dessertGroup);
 					break;
 				case 5 :
 					MenuView2.cartMenu(userTel);
