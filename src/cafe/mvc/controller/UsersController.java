@@ -1,5 +1,7 @@
 package cafe.mvc.controller;
 
+import java.util.List;
+
 import cafe.mvc.model.dto.UsersDTO;
 import cafe.mvc.model.service.UsersService;
 import cafe.mvc.model.service.UsersServiceImpl;
@@ -21,10 +23,9 @@ public class UsersController {
 			if(users.getUserTel().equals("999-9999-9999")) {
 				MenuView2.adminMenu(users.getUserTel());
 			} else {
-//				MenuView.printUserMenu(userTel, userTel);
+				System.out.println("\n" + users.getUserName() + " 님, 방문해주셔서 감사합니다.");
 				MenuView2.userMenu(users.getUserTel());
 			}
-			System.out.println("\n" + users.getUserName() + " 님, 방문해주셔서 감사합니다.");
 		} catch (Exception e) {
 			FailView.errorMessage(e.getMessage());
 
@@ -42,8 +43,6 @@ public class UsersController {
 		}catch (Exception e) {
 			//e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
-			
-
 		}
 	}
 	
@@ -73,6 +72,18 @@ public class UsersController {
 			FailView.errorMessage(e.getMessage());
 		}
 		
+	}
+	
+	/**
+	 * 전체 회원 조회(관리자 제외)
+	 * */
+	public static void userSelectAll() {
+		try {
+			List<UsersDTO> list = usersService.userSelectAll();
+			SuccessView.printUserSelectAll(list);
+		} catch (Exception e) {
+			FailView.errorMessage(e.getMessage());
+		}
 	}
 	
 	/**

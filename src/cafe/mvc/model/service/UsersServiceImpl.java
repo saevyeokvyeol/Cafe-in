@@ -77,6 +77,19 @@ public class UsersServiceImpl implements UsersService{
 	}
 	
 	/**
+	 * 전체 유저 검색
+	 * */
+	@Override
+	public List<UsersDTO> userSelectAll() throws SQLException, NotFoundException {
+		List<UsersDTO> list = usersDAO.userSelectAll();
+		
+		if(list == null) {
+			throw new NotFoundException("회원 리스트를 가져올 수 없습니다.");
+		}
+		return list;
+	}
+	
+	/**
 	 * 전화번호로 유저 검색
 	 * */
 	@Override

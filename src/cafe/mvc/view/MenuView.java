@@ -253,7 +253,6 @@ public class MenuView {
 					//커피메뉴띄어주는....
 					String coffeeGroup = "C";
 					ProductController.selectByGroup(coffeeGroup);
-					System.out.println();
 					//MenuView.getMenu(productListC);
 					break;
 				case 2 :

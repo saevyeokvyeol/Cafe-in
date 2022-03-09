@@ -47,7 +47,6 @@ public class OrdersServiceImpl implements OrdersService {
 
 	/**
 	 * 현재 진행 중인 주문 검색: 픽업 완료, 주문 취소 상태가 아닌 모든 주문 검색
-	 * : 메소드명 고민중입니다... 다들 아이디어 부탁드려요!
 	 * */
 	@Override
 	public List<OrdersDTO> selectOngoingOrder() throws SQLException, NotFoundException {
