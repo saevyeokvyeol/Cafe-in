@@ -270,7 +270,7 @@ public class MenuView2 {
 				break;
 			case 9 : 
 				return;
-			case 0 : 
+			case 0 :
 				System.exit(0);
 			}
 		}
@@ -325,17 +325,29 @@ public class MenuView2 {
 	 * 회원가입 메소드
 	 */
 	public static void userInsert() {
-		System.out.print("전화번호 ex)010-1111-1111 : ");
-		String userTel = sc.nextLine();
-		
-		System.out.print("이름 : ");
-		String userName = sc.nextLine();
-		 
-		System.out.print("비밀번호 : ");
-		int userPwd = Integer.parseInt(sc.nextLine());	
-		
-		UsersDTO usersDTO = new UsersDTO(userTel, userName, userPwd);
-		UsersController.userInsert(usersDTO);
+		try {
+			System.out.print("전화번호 ex)010-1111-1111 : ");
+			String userTel = sc.nextLine();
+			
+			System.out.print("이름 : ");
+			String userName = sc.nextLine();
+			
+			System.out.print("비밀번호 : ");
+			int userPwd = Integer.parseInt(sc.nextLine());	
+			
+			UsersDTO usersDTO = new UsersDTO(userTel, userName, userPwd);
+			UsersController.userInsert(usersDTO);
+		} catch (NumberFormatException e) {
+			System.out.println("비밀번호는 숫자만 입력해주세요");
+			System.out.print("다시 시도하시려면 \"yes\"를 입력해주세요 : ");
+			String choice = sc.nextLine();
+			if(choice.equals("yes")){
+				userInsert();
+			}else {
+				mainMenu();
+			}
+		}
+	
 	}
 	
 	/**
