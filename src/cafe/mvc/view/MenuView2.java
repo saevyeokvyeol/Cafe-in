@@ -409,31 +409,36 @@ public class MenuView2 {
 		 System.out.print("상품코드 ▶ ");
 		 String prodCode = sc.nextLine();
 		 //잘맞게 들어왔는지 체크 '알파벳 숫자 숫자'
-		 
-		 System.out.print("상품이름 ▶ ");
-		 String prodName = sc.nextLine();
-		 
-		 System.out.print("상품가격 ▶ ");
-		 int prodPrice = Integer.parseInt(sc.nextLine());
-		 
-		 System.out.print("상품소개 ▶ ");
-		 String prodDetail = sc.nextLine();
-		 
-		 System.out.print("상품상태 ▶ ");
-		 int prodState = Integer.parseInt(sc.nextLine());
+		 if (prodCode.matches("^[C][0-9][0-9]*$")|| prodCode.matches("^[T][0-9][0-9]*$") || prodCode.matches("^[S][0-9][0-9]*$") | prodCode.matches("^[D][0-9][0-9]*$")){
+			 System.out.print("상품이름 ▶ ");
+			 String prodName = sc.nextLine();
+			 
+			 System.out.print("상품가격 ▶ ");
+			 int prodPrice = Integer.parseInt(sc.nextLine());
+			 
+			 System.out.print("상품소개 ▶ ");
+			 String prodDetail = sc.nextLine();
+			 
+			 System.out.print("상품상태 ▶ ");
+			 int prodState = Integer.parseInt(sc.nextLine());
 
-		 ProductDTO product = new ProductDTO(prodCode, null, prodName, prodPrice, prodDetail, prodState);
-		 
-		 char group = prodCode.charAt(0);
-		 if(group == 'D') { 
-			 System.out.print("디저트 재고량 ▶ ");
-			 int prodStock = Integer.parseInt(sc.nextLine());
-			 StockDTO stock = new StockDTO(prodCode, prodStock);
-			 product.setStock(stock);
+			 ProductDTO product = new ProductDTO(prodCode, null, prodName, prodPrice, prodDetail, prodState);
+			 
+			 if(prodCode.substring(0, 1).equals("D")) { 
+				 System.out.print("디저트 재고량 ▶ ");
+				 int prodStock = Integer.parseInt(sc.nextLine());
+				 StockDTO stock = new StockDTO(prodCode, prodStock);
+				 product.setStock(stock);
 
+			 }
+
+			 ProductController.productInsert(product);
+		 }else {
+			 System.out.println("상품코드는 알파벳1개(C,T,S,D 중) 숫자2개로 입력해주세요.");
+			 return;
 		 }
-
-		 ProductController.productInsert(product);
+		 
+		
 	
 	}
 	
