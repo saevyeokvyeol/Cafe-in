@@ -375,6 +375,7 @@ public class MenuView2 {
 		Session session = new Session(userTel);
 		SessionSet ss = SessionSet.getInstance();
 		ss.remove(session);
+		MenuView2.mainMenu();
 	}
 	
 	/**

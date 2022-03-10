@@ -28,7 +28,12 @@ public class OrdersController {
 			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
 		} finally {
-			MenuView2.userMenu(orders.getUserTel());
+			String userTel = orders.getUserTel();
+			if(userTel.equals("guest")) {
+				MenuView2.mainMenu();
+			} else {
+				MenuView2.userMenu(userTel);
+			}
 		}
 	}
 
