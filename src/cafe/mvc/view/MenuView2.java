@@ -63,7 +63,7 @@ public class MenuView2 {
 	public static void userMenu(String userTel) {
 		while(true) {
 			try {
-				System.out.println("[ 1. 주문하기  |  2. 지난 주문 내역  |  3. 적립금 확인  |  4. 비밀번호 변경  |  9. 로그아웃  |  0. 종료 ]");
+				System.out.println("\n[ 1. 주문하기  |  2. 지난 주문 내역  |  3. 적립금 확인  |  4. 비밀번호 변경  |  9. 로그아웃  |  0. 종료 ]");
 				System.out.print("▶ ");
 				int menu =Integer.parseInt( sc.nextLine());
 				switch(menu) {
@@ -561,11 +561,13 @@ public class MenuView2 {
 	 * 주문 상태 변경 메소드
 	 * */
 	public static void orderStateUpdate() {
-		System.out.println("▶ 변경할 주문번호 :");
-		
+		System.out.println("변경할 주문번호");
+		System.out.println("▶ ");
 		int orderNum = Integer.parseInt(sc.nextLine());
-		System.out.println("▶ 0 : 접수대기 | 1 : 주문접수 | 2 : 상품 준비중 | 3 : 상품 준비 완료 | 4 : 픽업완료 | 5 : 주문취소");
-		System.out.println("▶ 변경할 주문상태코드 : ");
+		
+		System.out.println("변경할 주문번호");
+		System.out.println("[ 0 : 접수대기 | 1 : 주문접수 | 2 : 상품 준비중 | 3 : 상품 준비 완료 | 4 : 픽업완료 | 5 : 주문취소 ]");
+		System.out.print("▶ ");
 		int stateCode = Integer.parseInt(sc.nextLine());
 		OrdersController.orderStateUpdate(new OrdersDTO(orderNum, stateCode));
 	}

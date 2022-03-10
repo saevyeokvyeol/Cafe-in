@@ -34,7 +34,6 @@ public class CartController {
 			if(qty <= 0) {
 				throw new AddException("상품 수량을 1개 이상 입력해주세요.");
 			}
-			
 			if(product.getStock() != null) {
 				if(product.getStock().getProdStock() < qty) {
 					throw new AddException("재고량이 부족해 " + product.getProdName() + " 상품을 담을 수 없습니다.");
@@ -46,7 +45,7 @@ public class CartController {
 			Session session = ss.get(userTel);
 			
 			// 세션에서 장바구니 정보 가져오기
-			Map<ProductDTO, Integer> cart = (Map<ProductDTO, Integer>) session.getAttributes("cart");
+			Map<ProductDTO, Integer> cart = (Map<ProductDTO, Integer>)session.getAttributes("cart");
 			
 			// 만일 장바구니 정보가 존재하지 않으면 장바구니 생성
 			if(cart == null) {
@@ -55,6 +54,12 @@ public class CartController {
 			}
 			
 			// 장바구니에서 상품 찾기
+			for(ProductDTO oldProd : cart.keySet()) {
+				if(oldProd.getProdCode().equals(product.getProdCode())) {
+					product = oldProd;
+				}
+			}
+			
 			Integer oldQty = cart.get(product);
 			if(oldQty != null) { // 장바구니에 이미 해당 상품이 있다면
 				qty += oldQty; // 수량을 누적
@@ -114,9 +119,16 @@ public class CartController {
 			
 			ProductDTO product = new ProductServiceImpl().productSelectByProdCode(prodCode);
 			
+			// 장바구니에서 상품 찾기
+			for(ProductDTO oldProd : cart.keySet()) {
+				if(oldProd.getProdCode().equals(product.getProdCode())) {
+					product = oldProd;
+				}
+			}
+			
 			Object deleteValue = cart.remove(product);
 			if(deleteValue == null) {
-				FailView.errorMessage("장바구니에 " + prodCode + "상품이 없습니다.");
+				throw new Exception("장바구니에 " + prodCode + "상품이 없습니다.");
 			}
 			SuccessView.printMessage(prodCode + " 상품을 장바구니에서 제거했습니다.");
 		} catch (Exception e) {
