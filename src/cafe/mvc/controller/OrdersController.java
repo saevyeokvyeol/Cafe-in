@@ -11,7 +11,7 @@ import cafe.mvc.model.service.OrdersServiceImpl;
 import cafe.mvc.model.service.UsersService;
 import cafe.mvc.model.service.UsersServiceImpl;
 import cafe.mvc.view.FailView;
-import cafe.mvc.view.MenuView2;
+import cafe.mvc.view.MenuView;
 import cafe.mvc.view.SuccessView;
 
 public class OrdersController {
@@ -30,9 +30,9 @@ public class OrdersController {
 		} finally {
 			String userTel = orders.getUserTel();
 			if(userTel.equals("guest")) {
-				MenuView2.mainMenu();
+				MenuView.mainMenu();
 			} else {
-				MenuView2.userMenu(userTel);
+				MenuView.userMenu(userTel);
 			}
 		}
 	}

@@ -39,10 +39,16 @@ public class ProductDAOImpl implements ProductDAO {
 
 			result = ps.executeUpdate();
 			
+			StockDTO stock = product.getStock();
+			
+			if(product.getProdCode().substring(0, 1).equals("D")) {
+				dessertStockInsert(con, stock);
+			}
+			
 			con.commit();
 			
 		} finally {
-			con.commit();
+			con.rollback();
 			DbUtil.close(con, ps);
 		}
 		return result;
@@ -74,19 +80,17 @@ public class ProductDAOImpl implements ProductDAO {
 	 * 디저트 재고 등록
 	 */
 	@Override
-	public int dessertStockInsert(StockDTO stock) throws SQLException {
-		Connection con = null;
+	public int dessertStockInsert(Connection con, StockDTO stock) throws SQLException {
 		PreparedStatement ps = null;
 		int result = 0;
 		String sql = profile.getProperty("product.dessertStockInsert");
 		try {
-			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
-			ps.setInt(1, stock.getProdStock());
-			ps.setString(2, stock.getProdCode());
+			ps.setString(1, stock.getProdCode());
+			ps.setInt(2, stock.getProdStock());
 			result = ps.executeUpdate();
 		} finally {
-			DbUtil.close(con, ps);
+			DbUtil.close(null, ps);
 		}
 		return result;
 	}
@@ -103,12 +107,23 @@ public class ProductDAOImpl implements ProductDAO {
 		String sql = profile.getProperty("product.dessertStockUpdate");
 		try {
 			con = DbUtil.getConnection();
+			con.setAutoCommit(false);
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, stockDTO.getProdStock());
 			ps.setString(2, stockDTO.getProdCode());
 
 			result = ps.executeUpdate();
+			
+			if(stockDTO.getProdStock() == 0) {
+				int re = this.dessertSoldoutUpdate(con, stockDTO.getProdCode());
+				if(re == 0) {
+					throw new SQLException("상품을 품절 상태로 만들 수 없습니다.");
+				}
+			}
+			
+			con.commit();
 		} finally {
+			con.rollback();
 			DbUtil.close(con, ps);
 		}
 		return result;
@@ -143,8 +158,7 @@ public class ProductDAOImpl implements ProductDAO {
 	/**
 	 * 디저트의 재고가 0이면 상품상태 0(판매중지)만들기
 	 */
-	public int dessertsoldOutUpdate(String prodCode) throws SQLException {
-		Connection con = null;
+	public int dessertSoldoutUpdate(Connection con, String prodCode) throws SQLException {
 		PreparedStatement ps = null;
 		int result = 0;
 		String sql = profile.getProperty("product.soldout"); // stock 0 ->soldOut

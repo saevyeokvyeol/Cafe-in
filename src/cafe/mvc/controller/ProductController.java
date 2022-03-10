@@ -6,7 +6,7 @@ import cafe.mvc.model.dto.StockDTO;
 import cafe.mvc.model.service.ProductService;
 import cafe.mvc.model.service.ProductServiceImpl;
 import cafe.mvc.view.FailView;
-import cafe.mvc.view.MenuView2;
+import cafe.mvc.view.MenuView;
 import cafe.mvc.view.SuccessView;
 
 public class ProductController {
