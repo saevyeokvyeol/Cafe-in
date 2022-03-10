@@ -165,6 +165,7 @@ public class ProductDAOImpl implements ProductDAO {
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
+			ps.setString(1, prodCode);
 			result = ps.executeUpdate();
 		} finally {
 			DbUtil.close(con, ps);
