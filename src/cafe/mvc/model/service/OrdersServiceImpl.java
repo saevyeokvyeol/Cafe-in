@@ -41,7 +41,7 @@ public class OrdersServiceImpl implements OrdersService {
 	public void orderStateUpdate(OrdersDTO ordersDTO) throws SQLException, ModifyException, NotFoundException {
 
 		int result = ordersDao.orderStateUpdate(ordersDTO);
-		if(result==0)throw new SQLException("변경을 실패하였습니니다.");
+		if(result==0)throw new SQLException("주문 상태 코드를 변경할 수 없습니다.");
 
 	}
 
@@ -51,7 +51,7 @@ public class OrdersServiceImpl implements OrdersService {
 	@Override
 	public List<OrdersDTO> selectOngoingOrder() throws SQLException, NotFoundException {
 		List<OrdersDTO> list=ordersDao.selectOnoingOrder();
-		if(list.isEmpty()) throw new SQLException("현재 진행중인 주문이 없습니다..");
+		if(list.isEmpty()) throw new SQLException("현재 진행중인 주문이 없습니다.");
 		return list;
 	}
 
@@ -63,7 +63,7 @@ public class OrdersServiceImpl implements OrdersService {
 	public List<OrdersDTO> selectByUserTel(String UserTel) throws SQLException, NotFoundException {
 		List<OrdersDTO> list=ordersDao.selectByUserTel(UserTel);
 		
-		if( list.isEmpty() ) throw new SQLException("지난 주문 내역이 없습니다..");
+		if( list.isEmpty() ) throw new SQLException("주문하신 내역이 존재하지 않습니다.");
 		return list;
 	}
 

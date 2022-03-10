@@ -1,12 +1,15 @@
 package cafe.mvc.controller;
 
-import cafe.mvc.model.dto.OrdersDTO;
-import cafe.mvc.model.dto.StatisticsDTO;
 import java.util.List;
 import java.util.Map;
 
+import cafe.mvc.model.dto.OrdersDTO;
+import cafe.mvc.model.dto.StatisticsDTO;
+import cafe.mvc.model.dto.UsersDTO;
 import cafe.mvc.model.service.OrdersService;
 import cafe.mvc.model.service.OrdersServiceImpl;
+import cafe.mvc.model.service.UsersService;
+import cafe.mvc.model.service.UsersServiceImpl;
 import cafe.mvc.view.FailView;
 import cafe.mvc.view.SuccessView;
 
@@ -80,17 +83,14 @@ public class OrdersController {
 	/**
 	 * 회원의 지난 주문 내역 조회
 	 * */
-
-
-		public static void selectByUserTel(String userTel) {
-			try {
-			List<OrdersDTO> list =ordersService.selectByUserTel(userTel);
-			SuccessView.printSelectByUserTel(list,userTel);
-			}catch(Exception e){
-				FailView.errorMessage(e.getMessage());
-			}
-
-
-
+	public static void selectByUserTel(String userTel) {
+		try {
+		List<OrdersDTO> list =ordersService.selectByUserTel(userTel);
+		
+		String userName = new UsersServiceImpl().selectByUserTel(userTel).getUserName();
+		SuccessView.printSelectByUserTel(list, userName);
+		}catch(Exception e){
+			FailView.errorMessage(e.getMessage());
 		}
+	}
 }

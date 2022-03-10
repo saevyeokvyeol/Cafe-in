@@ -44,6 +44,8 @@ public class MenuView2 {
 				break;
 			case 0 : 
 				System.exit(0);
+			default:
+				System.out.println("메뉴를 잘못 선택하셨습니다.");
 			}
 		}
 	}
@@ -74,6 +76,8 @@ public class MenuView2 {
 					return;
 				case 0 : 
 					System.exit(0);
+				default:
+					System.out.println("메뉴를 잘못 선택하셨습니다.");
 			}
 		}
 		
@@ -114,6 +118,8 @@ public class MenuView2 {
 					return;
 				case 0 :
 					System.exit(0);
+				default:
+					System.out.println("메뉴를 잘못 선택하셨습니다.");
 			}
 		}
 	}
@@ -125,15 +131,17 @@ public class MenuView2 {
 		while(true) {
 			System.out.println("\n" + "[ 1. 장바구니에 상품 담기  |  9. 뒤로 가기  |  0. 종료 ]");
 			System.out.print("▶ ");
-			int menu =Integer.parseInt( sc.nextLine());
+			int menu =Integer.parseInt(sc.nextLine());
 			switch(menu) {
 				case 1 :
 					MenuView2.putCart(userTel);
-					break;
+					return;
 				case 9 :
 					return;
 				case 0 :
 					System.exit(0);
+				default:
+					System.out.println("메뉴를 잘못 선택하셨습니다.");
 			}
 		}
 	}
@@ -162,6 +170,8 @@ public class MenuView2 {
 				return;
 			case 0 : 
 				System.exit(0);
+			default:
+				System.out.println("메뉴를 잘못 선택하셨습니다.");
 			}
 		}
 	}
@@ -191,6 +201,8 @@ public class MenuView2 {
 				return;
 			case 0 : 
 				System.exit(0);
+			default:
+				System.out.println("메뉴를 잘못 선택하셨습니다.");
 			}
 		}
 	}
@@ -214,6 +226,8 @@ public class MenuView2 {
 				return;
 			case 0 : 
 				System.exit(0);
+			default:
+				System.out.println("메뉴를 잘못 선택하셨습니다.");
 			}
 		}
 	}
@@ -243,6 +257,8 @@ public class MenuView2 {
 				return;
 			case 0 : 
 				System.exit(0);
+			default:
+				System.out.println("메뉴를 잘못 선택하셨습니다.");
 			}
 		}
 	}
@@ -272,6 +288,8 @@ public class MenuView2 {
 				return;
 			case 0 :
 				System.exit(0);
+			default:
+				System.out.println("메뉴를 잘못 선택하셨습니다.");
 			}
 		}
 	}

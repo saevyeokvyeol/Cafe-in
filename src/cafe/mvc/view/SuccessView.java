@@ -31,15 +31,18 @@ public class SuccessView {
 	public static void printProdStatistics(List<StatisticsDTO> list) {
 		System.out.println("***** 제품별 판매 통계 *****");
 		for(StatisticsDTO statistics : list) {
-			System.out.println(statistics.getProdCode() + " | " + statistics.getProdName() + " | " + statistics.getProdPrice() + " | " + statistics.getSalesQty() + " | " + statistics.getSalesPrice());
+			System.out.print(statistics.getProdCode() + " | " + statistics.getProdName() + " | ￦");
+			System.out.printf("%,d", statistics.getProdPrice());
+			System.out.print(" * " + statistics.getSalesQty() + "개 | ￦");
+			System.out.printf("%,d\n", statistics.getSalesPrice());
 		}
 	}
 
 	/**
 	 * 장바구니 출력
 	 * */
-	public static void printCart(String userTel, Map<ProductDTO, Integer> cart) {
-		System.out.println("***** " + userTel + " 님의 장바구니 *****");
+	public static void printCart(String userName, Map<ProductDTO, Integer> cart) {
+		System.out.println("***** " + userName + " 님의 장바구니 *****");
 		int totalPrice = 0;
 		for (ProductDTO prod : cart.keySet()) {
 			String prodCode = prod.getProdCode();
@@ -50,48 +53,53 @@ public class SuccessView {
 
 			System.out.println(prodCode + " | " + prodName + " | " + prodPrice + " | " + qty + " | " + (prodPrice * qty));
 		}
+		System.out.println("----------------------------------------");
 
-		System.out.println("총 가격 : " + totalPrice);
+		System.out.println("\t\t\t총 가격 : " + totalPrice);
 	}
 
 	/**
 	 * 회원의 지난 주문 내역 조회
 	 */
-	public static void printSelectByUserTel(List<OrdersDTO> list, String userTel) {
-		System.out.println("*********" + userTel + " 회원님의 지난 주문 내역");
-		System.out.println("----*** 0 : eat in  1 : take out ***----");
-		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓|");
+	public static void printSelectByUserTel(List<OrdersDTO> list, String userName) {
+		
+		
+		System.out.println("***** " + userName + " 회원 님의 지난 주문 내역 *****");
+		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 
 		for (OrdersDTO ordersDTO : list) {
 			int orderNum = ordersDTO.getOrderNum();
 			String payMethod = ordersDTO.getPayMethod();
 			int totalPrice = ordersDTO.getTotalPrice();
 			String orderDate = ordersDTO.getOrderDate();
-			int takeOut = ordersDTO.getTakeOut();
+			String takeOut = null;
+			if(ordersDTO.getTakeOut() == 0) {
+				takeOut = "매장";
+			} else {
+				takeOut = "포장";
+			}
 
-			System.out.println("주문번호 : " + orderNum + "번 | take out 여부 : " + takeOut + " 결제방법 : " + payMethod
-					+ " | 주문 일자 : " + orderDate + " | 총 결제금액 : " + totalPrice + "￦");
-//			System.out.println(
-//					"〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓|");
+			System.out.print("주문번호 : " + orderNum + " | " + payMethod + " | " + takeOut + " | " + orderDate + " | ￦");
+			System.out.printf("%,d", totalPrice);
+			System.out.println();
 //			
-			for(OrderLineDTO orderline : ordersDTO.getOrderLineList()) {
-				System.out.println("\t*********주문 상세*********");
+			for(OrderLineDTO orderLine : ordersDTO.getOrderLineList()) {
 
-				int orderLineCode = orderline.getOrderLineCode();
-				String prodCode = orderline.getProdCode();
-				int qty = orderline.getQty();
-				int priceQty = orderline.getPriceQty();
-				System.out.println("주문상세코드 : " + orderLineCode + " | 상품코드 : " + prodCode + " | 수량 : " + qty + " | ");
-				System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓|");
+				String prodCode = orderLine.getProdCode();
+				String prodName = orderLine.getProduct().getProdName();
+				int qty = orderLine.getQty();
+				int prodPrice = orderLine.getProduct().getProdPrice();
+				int priceQty = orderLine.getPriceQty();
+				
+				
+				System.out.print("\t│" + prodCode +  " | " + prodName + " | " + qty + " * ");
+				System.out.printf("%,d", prodPrice);
+				System.out.print(" | ￦");
+				System.out.printf("%,d\n", priceQty);
 
 			}
+			System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 		}
-
-//		Orders orders=new Orders();
-//		for(OrderLine orderLine : orders.getOrdelLineList()) {
-//			int a = orderLine.getOrderLineCode();
-//					System.out.println(a);
-//		}
 	}
 
 	/**
@@ -99,27 +107,39 @@ public class SuccessView {
 	 */
 	public static void selectOngoingOrder(List<OrdersDTO> list) {
 		// int주문상태코드, String이름, String상품명,int수량 int판매가격, int가격*주문수량
-		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓|");
-		System.out.println("0 : 접수대기 | 1 : 주문접수 | 2 : 상품준비중 | 3 : 상품준비완료");
-		System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓|");
-		for (OrdersDTO ordersDTO : list) {
+		for (OrdersDTO orders : list) {
 
-			int orderNum = ordersDTO.getOrderNum();
-			String userTel = ordersDTO.getUserTel();
-			String payMethod = ordersDTO.getPayMethod();
-			int totalPrice = ordersDTO.getTotalPrice();
-			String orderDate = ordersDTO.getOrderDate();
-			int takeOut = ordersDTO.getTakeOut();
-			int stateCode = ordersDTO.getStateCode();
-			System.out.println(
-					"---------------------------------------------------------------------------------------------------------|");
-			if (userTel != null) {
-				System.out.println("주문번호 : "+orderNum+ "번 | 현재 주문 상태 : " + stateCode + " | " + userTel + " 회원님 | 결제방법 : "+payMethod+" | 주문 일자 : "+ orderDate +" | 총 결제 금액 :"+totalPrice+"￦");	
+			int orderNum = orders.getOrderNum();
+			String userTel = orders.getUserTel();
+			String orderDate = orders.getOrderDate();
+			
+			String stateCode = null;
+			if(orders.getStateCode() == 0) {
+				stateCode = "접수 대기";
+			} else if(orders.getStateCode() == 1) {
+				stateCode = "주문 접수";
+			} else if(orders.getStateCode() == 2) {
+				stateCode = "상품 준비 중";
+			} else {
+				stateCode = "상품 준비 완료";
 			}
-		}
+			System.out.println("----------------------------------------------------------------------");
+			System.out.println(stateCode + " | " + orderNum+ " | " + orderDate);
+			
+			for(OrderLineDTO orderLine : orders.getOrderLineList()) {
+				int orderLineCode = orderLine.getOrderLineCode();
+				String prodCode = orderLine.getProdCode();
+				String prodName = orderLine.getProduct().getProdName();
+				int qty = orderLine.getQty();
+				
+				
+				System.out.println("\t" + orderLineCode +  " | " + prodCode + " | " + prodName + " | " + qty + "개");
+			}
+		
+		} 
 
 		System.out.println(
-				"---------------------------------------------------------------------------------------------------------|");
+				"----------------------------------------------------------------------");
 	}
 
 
@@ -127,19 +147,36 @@ public class SuccessView {
 	 * 전체 상품 조회
 	 */
 	public static void printSelectAll(List<ProductDTO> list) {
-		System.out.println("*********상품 " + list.size() + "개*********");
+		System.out.println("***** 총 " + list.size() + "개의 상품이 있습니다 *****");
+
+		String prodGroup = "";
 
 		for (ProductDTO product : list) {
-
-			if (product.getStock() == null) {
-				System.out.println(product.getProdCode() + " | " + product.getProdGroup() + " | "
-						+ product.getProdName() + " | " + product.getProdPrice() + " | " + product.getProdDetail()
-						+ " | " + product.getProdState());
-			} else
-				System.out.println(product.getProdCode() + " | " + product.getProdGroup() + " | "
-						+ product.getProdName() + " | " + product.getProdPrice() + " | " + product.getProdDetail()
-						+ " | " + product.getProdState() + " | " + product.getStock().getProdStock());
+			
+			String prodState = null;
+			if(product.getProdState() == 0) {
+				prodState = "판매 중지";
+			} else if(product.getProdState() == 1) {
+				prodState = "판매중";
+			} else {
+				prodState = "일시 품절";
+			}
+			
+			if(!prodGroup.equals(product.getProdGroup())) {
+				System.out.println();
+				prodGroup = product.getProdGroup();
+			}
+			
+			System.out.print(product.getProdCode() + " | " + product.getProdName() + " | ");
+			System.out.printf("%,d", product.getProdPrice());
+			System.out.print(" | " + prodState);
+			if(product.getStock() != null) {
+				System.out.print(" | 남은 재고 : " + product.getStock().getProdStock());
+			}
+			System.out.println();
+			
 		}
+		
 	}
 
 	public static void printSelectProduct(ProductDTO productDTO) {
@@ -152,10 +189,13 @@ public class SuccessView {
 
 
 	public static void printByCategory(List<ProductDTO> productList) {
-		for (ProductDTO p : productList) {
-			System.out.println(p.getProdCode() + " | " + p.getProdGroup() + " | " + p.getProdName() + " | "
-
-					+ p.getProdPrice() + " | " + p.getProdDetail());
+		for (ProductDTO product : productList) {
+			
+			if(product.getProdState() == 1) {
+				System.out.println(product.getProdCode() + " | " + product.getProdName() + " | " + product.getProdPrice() + " | " + product.getProdDetail());
+			} else {
+				System.out.println(product.getProdCode() + " | " + product.getProdName() + " | 일시 품절");
+			}
 		}
 	}
 	
@@ -167,7 +207,9 @@ public class SuccessView {
 	public static void printUserSelectAll(List<UsersDTO> list) {
 		System.out.println("\n" + "***** 전체 회원 리스트를 조회합니다 *****");
 		for(UsersDTO users : list) {
-			System.out.println(users.getUserTel() + " | " + users.getUserName() + " | " + users.getUserPoint() + " | " + users.getRegDate());
+			System.out.println(users.getUserName() + " | " + users.getUserTel() + " | 적립금 : ");
+			System.out.printf("%,d", users.getUserPoint());
+			System.out.println(" | " + users.getRegDate());
 			
 		}
 	}

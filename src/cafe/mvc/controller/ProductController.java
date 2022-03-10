@@ -58,8 +58,8 @@ public class ProductController {
 	public static void selectByProdCode(String prodCode) {
 		try {
 
-			ProductDTO productDTO = productService.productSelectByProdCode(prodCode);
-			SuccessView.printSelectProduct(productDTO);
+			ProductDTO product = productService.productSelectByProdCode(prodCode);
+			SuccessView.printSelectProduct(product);
 		} catch (Exception e) {
 			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
