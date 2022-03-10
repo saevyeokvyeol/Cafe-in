@@ -28,9 +28,9 @@ public class MenuView2 {
 	 * */
 	public static void mainMenu() {
 		while(true) {
-			try {
+//			try {
 				
-			}
+//			}
 			System.out.println("\n" + "[ 1. 회원가입  |  2. 로그인  |  3. 비회원주문  |  0. 종료 ]");
 			System.out.print("▶ ");
 			int menu = Integer.parseInt(sc.nextLine());
@@ -40,7 +40,7 @@ public class MenuView2 {
 				break;
 			case 2 :
 				// 관리자 아이디로 로그인 할 경우 관리자 메뉴로 이동함
-				MenuView2.login();
+//				MenuView2.login();
 				break;
 			case 3 : 
 				MenuView2.guestLogin();
