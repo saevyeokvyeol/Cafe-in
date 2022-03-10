@@ -356,13 +356,6 @@ public class MenuView2 {
 			UsersController.userInsert(usersDTO);
 		} catch (NumberFormatException e) {
 			System.out.println("비밀번호는 숫자만 입력해주세요");
-			System.out.print("다시 시도하시려면 \"yes\"를 입력해주세요 : ");
-			String choice = sc.nextLine();
-			if(choice.equals("yes")){
-				userInsert();
-			}else {
-				mainMenu();
-			}
 		}
 	
 	}
