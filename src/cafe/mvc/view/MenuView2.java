@@ -527,6 +527,20 @@ public class MenuView2 {
 	}
 	
 	/**
+	 * 디저트 재고 수정 메소드
+	 * */
+	public static void dessertStockUpdate() {
+		System.out.println("디저트 재고량을 수정해주세요.");
+		 System.out.print("상품코드(D+숫자) ▶ ");
+		 String prodCode = sc.nextLine();
+		 
+		 System.out.print("재고량 ▶ ");
+		 int prodStock = Integer.parseInt(sc.nextLine());
+		 StockDTO stock = new StockDTO(prodCode, prodStock);
+		 ProductController.dessertStockUpdate(stock);
+	}
+	
+	/**
 	 * 회원 비밀번호 수정 메소드
 	 * */
 	public static void userPwdUpdate(String userTel) {
@@ -555,4 +569,7 @@ public class MenuView2 {
 		
 		UsersController.selectByUserTel(userTel);
 	}
+	
+	
+	
 }
