@@ -28,6 +28,9 @@ public class MenuView2 {
 	 * */
 	public static void mainMenu() {
 		while(true) {
+			try {
+				
+			}
 			System.out.println("\n" + "[ 1. 회원가입  |  2. 로그인  |  3. 비회원주문  |  0. 종료 ]");
 			System.out.print("▶ ");
 			int menu = Integer.parseInt(sc.nextLine());
@@ -239,25 +242,29 @@ public class MenuView2 {
 			System.out.println("\n" + "[ 1. 현재 주문 조회  |  2. 주문 상태 변경  |  3. 일간 매출 통계  |  4. 제품별 판매 통계  |  9. 뒤로 가기  |  0. 종료 ]");
 			System.out.print("▶ ");
 			int menu = Integer.parseInt(sc.nextLine());
-			switch(menu) {
-			case 1 :
-				OrdersController.selectOngoingOrder();
-				break;
-			case 2 :
-				MenuView2.orderStateUpdate();
-				break;
-			case 3 :
-				OrdersController.dailySalesStatistic(new SimpleDateFormat("yyMMdd").format(new Date()));
-				break;
-			case 4 :
-				OrdersController.productSalesStatistic();
-				break;
-			case 9 : 
-				return;
-			case 0 : 
-				MenuView2.exit();
-			default:
-				System.out.println("메뉴를 잘못 선택하셨습니다.");
+			try {
+				switch(menu) {
+				case 1 :
+					OrdersController.selectOngoingOrder();
+					break;
+				case 2 :
+					MenuView2.orderStateUpdate();
+					break;
+				case 3 :
+					OrdersController.dailySalesStatistic(new SimpleDateFormat("yyMMdd").format(new Date()));
+					break;
+				case 4 :
+					OrdersController.productSalesStatistic();
+					break;
+				case 9 : 
+					return;
+				case 0 : 
+					MenuView2.exit();
+				default:
+					System.out.println("메뉴를 잘못 선택하셨습니다.");
+				}
+			}catch (Exception e) {
+				//sys
 			}
 		}
 	}
@@ -298,7 +305,7 @@ public class MenuView2 {
 	/**
 	 * 로그인 메소드
 	 * */
-	public static void login() {
+	public static void login() throws Exception {
 		System.out.println("전화번호를 입력해주세요.");
 		System.out.print("▶ ");
 		String userTel = sc.nextLine();
@@ -463,9 +470,6 @@ public class MenuView2 {
 			 System.out.println("상품코드는 알파벳1개(C,T,S,D 중) 숫자2개로 입력해주세요.");
 			 return;
 		 }
-		 
-		
-	
 	}
 	
 	/**
