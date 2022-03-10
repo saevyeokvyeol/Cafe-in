@@ -196,12 +196,12 @@ public class ProductDAOImpl implements ProductDAO {
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				ProductDTO productDTO = new ProductDTO(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4),
+				ProductDTO product = new ProductDTO(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4),
 						rs.getString(5), rs.getInt(6));
-				if (productDTO.getProdCode().substring(0, 1).equals("D")) {
-					productDTO.setStock(selectStock(con, productDTO.getProdCode()));
+				if (product.getProdCode().substring(0, 1).equals("D")) {
+					product.setStock(selectStock(con, product.getProdCode()));
 				}
-				list.add(productDTO);
+				list.add(product);
 			}
 		} finally {
 			DbUtil.close(con, ps, rs);

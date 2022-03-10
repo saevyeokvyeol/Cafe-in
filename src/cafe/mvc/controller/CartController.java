@@ -10,6 +10,7 @@ import cafe.mvc.model.dto.OrdersDTO;
 import cafe.mvc.model.dto.ProductDTO;
 import cafe.mvc.model.service.ProductService;
 import cafe.mvc.model.service.ProductServiceImpl;
+import cafe.mvc.model.service.UsersServiceImpl;
 import cafe.mvc.session.Session;
 import cafe.mvc.session.SessionSet;
 import cafe.mvc.view.FailView;
@@ -80,8 +81,9 @@ public class CartController {
 			if(cart == null || cart.isEmpty()) { // 장바구니에 상품이 없을 경우
 				FailView.errorMessage("장바구니에 상품이 없습니다.");
 			}
-			
-			SuccessView.printCart(userTel, cart);
+
+			String userName = new UsersServiceImpl().selectByUserTel(userTel).getUserName();
+			SuccessView.printCart(userName, cart);
 		} catch (Exception e) {
 			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());

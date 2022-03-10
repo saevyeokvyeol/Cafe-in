@@ -155,8 +155,8 @@ public class UsersDAOImpl implements UsersDAO{
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		UsersDTO usersDTO = null;
-		String sql = proFile.getProperty("order.selectByUserTel");		
+		UsersDTO users = null;
+		String sql = proFile.getProperty("user.selectByUserTel");		
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
@@ -164,13 +164,13 @@ public class UsersDAOImpl implements UsersDAO{
 			rs = ps.executeQuery();
 			
 			if(rs.next()) {
-				usersDTO = new UsersDTO(userTel, rs.getString(2), rs.getInt(3), rs.getString(4));
+				users = new UsersDTO(userTel, rs.getString(2), rs.getInt(3), rs.getString(4));
 			}
 		} finally {
 			DbUtil.close(con, ps, rs);
 		}
 		
-		return usersDTO;
+		return users;
 	}
 
 }
