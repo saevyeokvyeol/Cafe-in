@@ -113,7 +113,7 @@ public class CartController {
 			Map<ProductDTO, Integer> cart = (Map<ProductDTO, Integer>) session.getAttributes("cart");
 			
 			if(cart == null || cart.isEmpty()) { // 장바구니에 상품이 없을 경우
-				FailView.errorMessage("장바구니에 상품이 없습니다.");
+				throw new NotFoundException("장바구니에 상품이 없습니다.");
 			}
 			
 			ProductDTO product = new ProductServiceImpl().productSelectByProdCode(prodCode);
@@ -148,7 +148,7 @@ public class CartController {
 			Map<ProductDTO, Integer> cart = (Map<ProductDTO, Integer>) session.getAttributes("cart");
 			
 			if(cart == null || cart.isEmpty()) { // 장바구니에 상품이 없을 경우
-				FailView.errorMessage("장바구니에 상품이 없습니다.");
+				throw new NotFoundException("장바구니에 상품이 없습니다.");
 			}
 			
 			cart.clear();
