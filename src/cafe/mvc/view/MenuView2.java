@@ -28,6 +28,7 @@ public class MenuView2 {
 	 * */
 	public static void mainMenu() {
 		while(true) {
+
 			try {
 				System.out.println("\n" + "[ 1. 회원가입  |  2. 로그인  |  3. 비회원주문  |  0. 종료 ]");
 				System.out.print("▶ ");
@@ -50,9 +51,11 @@ public class MenuView2 {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
+
 			}
 		}
 	}
+
 	
 	/**
 	 * 로그인 유저 메뉴
@@ -555,7 +558,13 @@ public class MenuView2 {
 	 * 주문 상태 변경 메소드
 	 * */
 	public static void orderStateUpdate() {
+		System.out.println("▶ 변경할 주문번호 :");
 		
+		int orderNum = Integer.parseInt(sc.nextLine());
+		System.out.println("▶ 0 : 접수대기 | 1 : 주문접수 | 2 : 상품 준비중 | 3 : 상품 준비 완료 | 4 : 픽업완료 | 5 : 주문취소");
+		System.out.println("▶ 변경할 주문상태코드 : ");
+		int stateCode = Integer.parseInt(sc.nextLine());
+		OrdersController.orderStateUpdate(new OrdersDTO(orderNum, stateCode));
 	}
 	
 	/**
