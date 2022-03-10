@@ -27,6 +27,7 @@ public class UsersController {
 				MenuView2.userMenu(users.getUserTel());
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
 
 		}

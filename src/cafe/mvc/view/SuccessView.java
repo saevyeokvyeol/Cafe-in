@@ -30,7 +30,14 @@ public class SuccessView {
 	 * */
 	public static void printProdStatistics(List<StatisticsDTO> list) {
 		System.out.println("***** 제품별 판매 통계 *****");
+		String prodGroup = "";
 		for(StatisticsDTO statistics : list) {
+			String prodCode = statistics.getProdCode().substring(0, 1);
+			if(!prodGroup.equals(prodCode)) {
+				System.out.println();
+				prodGroup = prodCode;
+			}
+			
 			System.out.print(statistics.getProdCode() + " | " + statistics.getProdName() + " | ￦");
 			System.out.printf("%,d", statistics.getProdPrice());
 			System.out.print(" * " + statistics.getSalesQty() + "개 | ￦");
@@ -92,7 +99,7 @@ public class SuccessView {
 				int priceQty = orderLine.getPriceQty();
 				
 				
-				System.out.print("\t│" + prodCode +  " | " + prodName + " | " + qty + " * ");
+				System.out.print("\t│ " + prodCode +  " | " + prodName + " | " + qty + " * ￦");
 				System.out.printf("%,d", prodPrice);
 				System.out.print(" | ￦");
 				System.out.printf("%,d\n", priceQty);
