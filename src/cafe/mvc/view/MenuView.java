@@ -401,7 +401,7 @@ public class MenuView {
 	 * 장바구니 추가 메소드
 	 * */
 	public static void putCart(String userTel) throws Exception {
-		System.out.println("장바구니에 추가할 상품 코드를 입력해주세요");
+		System.out.println("장바구니에 추가할 상품 코드를 입력해주세요.");
 		System.out.print("▶ ");
 		String prodCode = sc.nextLine();
 		
