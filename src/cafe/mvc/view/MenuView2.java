@@ -334,7 +334,7 @@ public class MenuView2 {
 	/**
 	 * 로그인 메소드
 	 * */
-	public static void login(){
+	public static void login() throws Exception{
 		System.out.println("전화번호를 입력해주세요.");
 		System.out.print("▶ ");
 		String userTel = sc.nextLine();
@@ -357,7 +357,7 @@ public class MenuView2 {
 	/**
 	 * 비회원 임시 로그인 메소드
 	 * */
-	public static void guestLogin() {
+	public static void guestLogin(){
 		Session session = new Session(guestId);
 		SessionSet sessionSet = SessionSet.getInstance();
 		sessionSet.add(session);
@@ -377,8 +377,7 @@ public class MenuView2 {
 	/**
 	 * 회원가입 메소드
 	 */
-	public static void userInsert() {
-		try {
+	public static void userInsert() throws Exception {
 			System.out.print("전화번호 ex)010-1111-1111 ▶ ");
 			String userTel = sc.nextLine();
 			
@@ -390,16 +389,14 @@ public class MenuView2 {
 			
 			UsersDTO usersDTO = new UsersDTO(userTel, userName, userPwd);
 			UsersController.userInsert(usersDTO);
-		} catch (NumberFormatException e) {
-			System.out.println("비밀번호는 숫자만 입력해주세요");
-		}
+		
 	
 	}
 	
 	/**
 	 * 장바구니 추가 메소드
 	 * */
-	public static void putCart(String userTel) {
+	public static void putCart(String userTel) throws Exception {
 		System.out.println("장바구니에 추가할 상품 코드를 입력해주세요");
 		System.out.print("▶ ");
 		String prodCode = sc.nextLine();
@@ -414,7 +411,7 @@ public class MenuView2 {
 	/**
 	 * 장바구니 부분 삭제 메소드
 	 * */
-	public static void deleteCartByCode(String userTel) {
+	public static void deleteCartByCode(String userTel) throws Exception {
 		System.out.println("장바구니에서 제외할 상품 코드를 입력해주세요.");
 		System.out.print("▶ ");
 		String prodCode = sc.nextLine();
@@ -425,7 +422,7 @@ public class MenuView2 {
 	/**
 	 * 결제 메소드
 	 * */
-	public static void orderInsert(String userTel) {
+	public static void orderInsert(String userTel) throws Exception {
 		SessionSet ss = SessionSet.getInstance();
 		Session session = ss.get(userTel);
 		
@@ -466,7 +463,7 @@ public class MenuView2 {
 	/**
 	 * 상품 등록 메소드
 	 * */
-	public static void productInsert() {
+	public static void productInsert() throws Exception {
 		System.out.println("상품을 등록해주세요.");
 		 System.out.print("상품코드 ▶ ");
 		 String prodCode = sc.nextLine();
@@ -504,7 +501,7 @@ public class MenuView2 {
 	/**
 	 * 상품 수정 메소드
 	 * */
-	public static void productUpdate() {
+	public static void productUpdate() throws Exception {
 		System.out.println("상품을 수정해주세요.");
 		 System.out.print("상품코드 ▶ ");
 		 String prodCode = sc.nextLine();
@@ -532,7 +529,7 @@ public class MenuView2 {
 	/**
 	 * 상품 상태 변경 메소드
 	 * */
-	public static void productStateUpdate() {
+	public static void productStateUpdate() throws Exception {
 		 System.out.println("상품 상태를 수정해주세요.");
 		 System.out.print("상품코드 ▶ ");
 		 String prodCode = sc.nextLine();
@@ -545,7 +542,7 @@ public class MenuView2 {
 	/**
 	 * 회원 비밀번호 수정 메소드
 	 * */
-	public static void userPwdUpdate(String userTel) {
+	public static void userPwdUpdate(String userTel) throws Exception {
 		System.out.println("변경할 비밀번호를 입력해주세요.");
 		System.out.print("▶ ");
 		int userPwd = Integer.parseInt(sc.nextLine());
@@ -564,7 +561,7 @@ public class MenuView2 {
 	/**
 	 * 회원 정보 검색
 	 * */
-	public static void userSelectByUserTel() {
+	public static void userSelectByUserTel() throws Exception {
 		System.out.println("검색할 회원의 전화번호를 입력해주세요.");
 		System.out.print("▶ ");
 		String userTel = sc.nextLine();
