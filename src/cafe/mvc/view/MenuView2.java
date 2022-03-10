@@ -544,7 +544,7 @@ public class MenuView2 {
 		 System.out.print("상품코드 ▶ ");
 		 String prodCode = sc.nextLine();
 		 
-		 System.out.print("상품상태 ▶ ");
+		 System.out.print("상품상태(0,1,2) ▶ ");
 		 int prodState = Integer.parseInt(sc.nextLine());
 		 ProductController.productStateUpdate(prodCode, prodState);
 	}

@@ -18,7 +18,7 @@ public interface ProductDAO {
 	/**
 	 * 디저트 재고 등록
 	 * */
-	int dessertStockInsert (StockDTO stock) throws SQLException;
+	int dessertStockInsert (Connection con, StockDTO stock) throws SQLException;
 
 	/**
 	 * 상품 수정: product 테이블 레코드 update(판매 가격, 상세 정보, 품절 여부)

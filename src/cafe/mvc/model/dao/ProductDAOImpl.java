@@ -39,10 +39,16 @@ public class ProductDAOImpl implements ProductDAO {
 
 			result = ps.executeUpdate();
 			
+			StockDTO stock = product.getStock();
+			
+			if(product.getProdCode().substring(0, 1).equals("D")) {
+				dessertStockInsert(con, stock);
+			}
+			
 			con.commit();
 			
 		} finally {
-			con.commit();
+			con.rollback();
 			DbUtil.close(con, ps);
 		}
 		return result;
@@ -74,19 +80,17 @@ public class ProductDAOImpl implements ProductDAO {
 	 * 디저트 재고 등록
 	 */
 	@Override
-	public int dessertStockInsert(StockDTO stock) throws SQLException {
-		Connection con = null;
+	public int dessertStockInsert(Connection con, StockDTO stock) throws SQLException {
 		PreparedStatement ps = null;
 		int result = 0;
 		String sql = profile.getProperty("product.dessertStockInsert");
 		try {
-			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
-			ps.setInt(1, stock.getProdStock());
-			ps.setString(2, stock.getProdCode());
+			ps.setString(1, stock.getProdCode());
+			ps.setInt(2, stock.getProdStock());
 			result = ps.executeUpdate();
 		} finally {
-			DbUtil.close(con, ps);
+			DbUtil.close(null, ps);
 		}
 		return result;
 	}
