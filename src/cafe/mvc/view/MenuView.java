@@ -387,16 +387,20 @@ public class MenuView {
 	public static void userInsert() throws Exception {
 			System.out.print("전화번호 ex)010-1111-1111 ▶ ");
 			String userTel = sc.nextLine();
+			if(userTel.matches("^010-(?:\\d{4})-\\d{4}$")) {
+				System.out.print("이름 ▶ ");
+				String userName = sc.nextLine();
+				
+				System.out.print("비밀번호 ▶ ");
+				int userPwd = Integer.parseInt(sc.nextLine());	
+				
+				UsersDTO usersDTO = new UsersDTO(userTel, userName, userPwd);
+				UsersController.userInsert(usersDTO);
+			}else {
+				System.out.println("전화번호를 확인해주세요.");
+				MenuView.mainMenu();
+			}
 			
-			System.out.print("이름 ▶ ");
-			String userName = sc.nextLine();
-			
-			System.out.print("비밀번호 ▶ ");
-			int userPwd = Integer.parseInt(sc.nextLine());	
-			
-			UsersDTO usersDTO = new UsersDTO(userTel, userName, userPwd);
-			UsersController.userInsert(usersDTO);
-		
 	
 	}
 	
