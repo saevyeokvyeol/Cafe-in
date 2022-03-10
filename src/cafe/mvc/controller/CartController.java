@@ -69,7 +69,6 @@ public class CartController {
 			
 			SuccessView.printMessage("장바구니에 상품을 담았습니다.");
 		} catch (Exception e) {
-			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
 		}
 	}
@@ -132,7 +131,6 @@ public class CartController {
 			}
 			SuccessView.printMessage(prodCode + " 상품을 장바구니에서 제거했습니다.");
 		} catch (Exception e) {
-			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
 		}
 	}
@@ -156,7 +154,6 @@ public class CartController {
 			cart.clear();
 			SuccessView.printMessage("장바구니에 담긴 상품을 모두 삭제했습니다.");
 		} catch (Exception e) {
-			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
 		}
 	}

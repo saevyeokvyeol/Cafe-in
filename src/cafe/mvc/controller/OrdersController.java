@@ -45,7 +45,6 @@ public class OrdersController {
 			Map<String, Integer> map = ordersService.dailySalesStatistic(date);
 			SuccessView.printDailyStatistics(map);
 		} catch (Exception e) {
-			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
 		}
 	}
@@ -58,7 +57,6 @@ public class OrdersController {
 			List<StatisticsDTO> list = ordersService.productSalesStatistic();
 			SuccessView.printProdStatistics(list);
 		} catch (Exception e) {
-			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
 		}
 	}

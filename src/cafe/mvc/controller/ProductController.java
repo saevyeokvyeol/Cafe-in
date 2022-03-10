@@ -20,7 +20,6 @@ public class ProductController {
 			productService.productInsert(product);
 			SuccessView.printMessage("상품 등록 완료");
 		} catch (Exception e) {
-			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
 		}
 	}
@@ -33,7 +32,6 @@ public class ProductController {
 			productService.productUpdate(productDTO);
 			SuccessView.printMessage("정보 수정 완료");
 		} catch (Exception e) {
-			// e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
 		}
 	}
@@ -46,7 +44,6 @@ public class ProductController {
 			productService.dessertStockUpdate(stockDTO);
 			SuccessView.printMessage("디저트 재고 수정 완료");
 		} catch (Exception e) {
-			// e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
 		}
 	}
@@ -61,7 +58,6 @@ public class ProductController {
 			ProductDTO product = productService.productSelectByProdCode(prodCode);
 			SuccessView.printSelectProduct(product);
 		} catch (Exception e) {
-			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
 		}
 	}
@@ -78,7 +74,7 @@ public class ProductController {
 			SuccessView.printByCategory(list);
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			FailView.errorMessage(e.getMessage());
 		}
 	}
 
@@ -102,7 +98,6 @@ public class ProductController {
 			productService.productStateUpdate(prodCode, prodState);
 			SuccessView.printMessage("상품 상태 변경 완료");
 		} catch (Exception e) {
-			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
 		}
 

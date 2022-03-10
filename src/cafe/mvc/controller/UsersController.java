@@ -27,7 +27,6 @@ public class UsersController {
 				MenuView.userMenu(users.getUserTel());
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
 
 		}
@@ -39,10 +38,8 @@ public class UsersController {
 	public static void userInsert(UsersDTO usersDTO) {
 		try {
 			usersService.userInsert(usersDTO);
-			SuccessView.printMessage("가입완료");
-			//MenuView.menu();
+			SuccessView.printMessage("가입이 완료되었습니다.");
 		}catch (Exception e) {
-			//e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
 		}
 	}
@@ -53,10 +50,8 @@ public class UsersController {
 	public static void userPwdUpdate(UsersDTO usersDTO) {
 		try {
 			usersService.userPwdUpdate(usersDTO);
-			SuccessView.printMessage("변경완료");
-			//MenuView.menu();
+			SuccessView.printMessage("비밀번호 변경이 완료되었습니다.");
 		}catch (Exception e) {
-			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
 		}
 	}
@@ -67,9 +62,7 @@ public class UsersController {
 		try {
 			UsersDTO usersDTO = usersService.userPointCh(userTel);
 			SuccessView.printMessage("적립금 : " + usersDTO.getUserPoint() + "원");
-			//MenuView.menu();
 		}catch (Exception e) {
-			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
 		}
 		
@@ -95,7 +88,6 @@ public class UsersController {
 			UsersDTO usersDTO = usersService.selectByUserTel(userTel);
 			SuccessView.printUsersInfo(usersDTO);
 		} catch (Exception e) {
-			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
 		}
 	}

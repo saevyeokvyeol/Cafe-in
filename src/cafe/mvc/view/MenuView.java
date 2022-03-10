@@ -50,7 +50,7 @@ public class MenuView {
 					System.out.println("메뉴를 잘못 선택하셨습니다.");
 				}
 			} catch (Exception e) {
-				FailView.errorMessage(e.getMessage());
+				FailView.errorMessage("오류가 발생했습니다.\n다시 한 번 시도해주세요.");
 
 			}
 		}
@@ -88,7 +88,7 @@ public class MenuView {
 						System.out.println("메뉴를 잘못 선택하셨습니다.");
 				}
 			} catch (Exception e) {
-				FailView.errorMessage(e.getMessage());
+				FailView.errorMessage("오류가 발생했습니다.\n다시 한 번 시도해주세요.");
 			}
 		}
 	}
@@ -133,7 +133,7 @@ public class MenuView {
 						System.out.println("메뉴를 잘못 선택하셨습니다.");
 				}
 			} catch (Exception e) {
-				FailView.errorMessage(e.getMessage());
+				FailView.errorMessage("오류가 발생했습니다.\n다시 한 번 시도해주세요.");
 			}
 		}
 	}
@@ -159,7 +159,7 @@ public class MenuView {
 						System.out.println("메뉴를 잘못 선택하셨습니다.");
 				}
 			} catch (Exception e) {
-				FailView.errorMessage(e.getMessage());
+				FailView.errorMessage("오류가 발생했습니다.\n다시 한 번 시도해주세요.");
 			}
 		}
 	}
@@ -193,7 +193,7 @@ public class MenuView {
 					System.out.println("메뉴를 잘못 선택하셨습니다.");
 				}
 			} catch (Exception e) {
-				FailView.errorMessage(e.getMessage());
+				FailView.errorMessage("오류가 발생했습니다.\n다시 한 번 시도해주세요.");
 			}
 		}
 	}
@@ -228,7 +228,7 @@ public class MenuView {
 					System.out.println("메뉴를 잘못 선택하셨습니다.");
 				}
 			} catch (Exception e) {
-				FailView.errorMessage(e.getMessage());
+				FailView.errorMessage("오류가 발생했습니다.\n다시 한 번 시도해주세요.");
 			}
 		}
 	}
@@ -257,7 +257,7 @@ public class MenuView {
 					System.out.println("메뉴를 잘못 선택하셨습니다.");
 				}
 			} catch (Exception e) {
-				FailView.errorMessage(e.getMessage());
+				FailView.errorMessage("오류가 발생했습니다.\n다시 한 번 시도해주세요.");
 			}
 		}
 	}
@@ -292,7 +292,7 @@ public class MenuView {
 					System.out.println("메뉴를 잘못 선택하셨습니다.");
 				}
 			} catch (Exception e) {
-				FailView.errorMessage(e.getMessage());
+				FailView.errorMessage("오류가 발생했습니다.\n다시 한 번 시도해주세요.");
 			}
 		}
 	}
@@ -327,7 +327,7 @@ public class MenuView {
 					System.out.println("메뉴를 잘못 선택하셨습니다.");
 				}
 			} catch (Exception e) {
-				FailView.errorMessage(e.getMessage());
+				FailView.errorMessage("오류가 발생했습니다.\n다시 한 번 시도해주세요.");
 			}
 		}
 	}
