@@ -250,7 +250,7 @@ public class MenuView2 {
 				OrdersController.dailySalesStatistic(new SimpleDateFormat("yyMMdd").format(new Date()));
 				break;
 			case 4 :
-//				OrdersController.productSalesStatistic();
+				OrdersController.productSalesStatistic();
 				break;
 			case 9 : 
 				return;
