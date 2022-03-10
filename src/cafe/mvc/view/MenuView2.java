@@ -28,59 +28,67 @@ public class MenuView2 {
 	 * */
 	public static void mainMenu() {
 		while(true) {
-//			try {
-				
-//			}
-			System.out.println("\n" + "[ 1. 회원가입  |  2. 로그인  |  3. 비회원주문  |  0. 종료 ]");
-			System.out.print("▶ ");
-			int menu = Integer.parseInt(sc.nextLine());
-			switch(menu) {
-			case 1 :
-				MenuView2.userInsert();
-				break;
-			case 2 :
-				// 관리자 아이디로 로그인 할 경우 관리자 메뉴로 이동함
-//				MenuView2.login();
-				break;
-			case 3 : 
-				MenuView2.guestLogin();
-				break;
-			case 0 : 
-				MenuView2.exit();
-			default:
-				System.out.println("메뉴를 잘못 선택하셨습니다.");
+
+			try {
+				System.out.println("\n" + "[ 1. 회원가입  |  2. 로그인  |  3. 비회원주문  |  0. 종료 ]");
+				System.out.print("▶ ");
+				int menu = Integer.parseInt(sc.nextLine());
+				switch(menu) {
+				case 1 :
+					MenuView2.userInsert();
+					break;
+				case 2 :
+					// 관리자 아이디로 로그인 할 경우 관리자 메뉴로 이동함
+					MenuView2.login();
+					break;
+				case 3 : 
+					MenuView2.guestLogin();
+					break;
+				case 0 : 
+					MenuView2.exit();
+				default:
+					System.out.println("메뉴를 잘못 선택하셨습니다.");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+
 			}
 		}
 	}
+
 	
 	/**
 	 * 로그인 유저 메뉴
 	 * */
 	public static void userMenu(String userTel) {
 		while(true) {
-			System.out.println("[ 1. 주문하기  |  2. 지난 주문 내역  |  3. 적립금 확인  |  4. 비밀번호 변경  |  9. 로그아웃  |  0. 종료 ]");
-			System.out.print("▶ ");
-			int menu =Integer.parseInt( sc.nextLine());
-			switch(menu) {
-				case 1 :
-					MenuView2.orderMenu(userTel);
-					break;
-				case 2 :
-					OrdersController.selectByUserTel(userTel);
-					break;
-				case 3 :
-					UsersController.userPointCh(userTel);
-					break;
-				case 4 :
-					MenuView2.userPwdUpdate(userTel);
-					break;
-				case 9 :
-					MenuView2.logout(userTel);
-					return;
-				case 0 :
-					MenuView2.exit();
-				default:
-					System.out.println("메뉴를 잘못 선택하셨습니다.");
+			try {
+				System.out.println("[ 1. 주문하기  |  2. 지난 주문 내역  |  3. 적립금 확인  |  4. 비밀번호 변경  |  9. 로그아웃  |  0. 종료 ]");
+				System.out.print("▶ ");
+				int menu =Integer.parseInt( sc.nextLine());
+				switch(menu) {
+					case 1 :
+						MenuView2.orderMenu(userTel);
+						break;
+					case 2 :
+						OrdersController.selectByUserTel(userTel);
+						break;
+					case 3 :
+						UsersController.userPointCh(userTel);
+						break;
+					case 4 :
+						MenuView2.userPwdUpdate(userTel);
+						break;
+					case 9 :
+						MenuView2.logout(userTel);
+						return;
+					case 0 :
+						MenuView2.exit();
+					default:
+						System.out.println("메뉴를 잘못 선택하셨습니다.");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -90,38 +98,42 @@ public class MenuView2 {
 	 * */
 	public static void orderMenu(String userTel) {
 		while(true) {
-			System.out.println("\n" + "[ 1. 커피 메뉴 보기  |  2. 스무디 메뉴 보기  |  3. 차 메뉴 보기  |  4. 디저트 메뉴 보기  |  5. 장바구니 보기  |  9. 뒤로 가기  |  0. 종료 ]");
-			System.out.print("▶ ");
-			int menu =Integer.parseInt( sc.nextLine());
-			switch(menu) {
-				case 1 :
-					ProductController.selectByGroup("C");
-					MenuView2.categoryMenu(userTel);
-					break;
-				case 2 :
-					ProductController.selectByGroup("S");
-					MenuView2.categoryMenu(userTel);
-					break;
-				case 3 :
-					ProductController.selectByGroup("T");
-					MenuView2.categoryMenu(userTel);
-					break;
-				case 4 :
-					ProductController.selectByGroup("D");
-					MenuView2.categoryMenu(userTel);
-					break;
-				case 5 :
-					MenuView2.cartMenu(userTel);
-					break;
-				case 9 :
-					if(userTel.equals(guestId)) {
-						MenuView2.logout(userTel);
-					}
-					return;
-				case 0 :
-					MenuView2.exit();
-				default:
-					System.out.println("메뉴를 잘못 선택하셨습니다.");
+			try {
+				System.out.println("\n" + "[ 1. 커피 메뉴 보기  |  2. 스무디 메뉴 보기  |  3. 차 메뉴 보기  |  4. 디저트 메뉴 보기  |  5. 장바구니 보기  |  9. 뒤로 가기  |  0. 종료 ]");
+				System.out.print("▶ ");
+				int menu =Integer.parseInt( sc.nextLine());
+				switch(menu) {
+					case 1 :
+						ProductController.selectByGroup("C");
+						MenuView2.categoryMenu(userTel);
+						break;
+					case 2 :
+						ProductController.selectByGroup("S");
+						MenuView2.categoryMenu(userTel);
+						break;
+					case 3 :
+						ProductController.selectByGroup("T");
+						MenuView2.categoryMenu(userTel);
+						break;
+					case 4 :
+						ProductController.selectByGroup("D");
+						MenuView2.categoryMenu(userTel);
+						break;
+					case 5 :
+						MenuView2.cartMenu(userTel);
+						break;
+					case 9 :
+						if(userTel.equals(guestId)) {
+							MenuView2.logout(userTel);
+						}
+						return;
+					case 0 :
+						MenuView2.exit();
+					default:
+						System.out.println("메뉴를 잘못 선택하셨습니다.");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -131,19 +143,23 @@ public class MenuView2 {
 	 * */
 	public static void categoryMenu(String userTel) {
 		while(true) {
-			System.out.println("\n" + "[ 1. 장바구니에 상품 담기  |  9. 뒤로 가기  |  0. 종료 ]");
-			System.out.print("▶ ");
-			int menu =Integer.parseInt(sc.nextLine());
-			switch(menu) {
-				case 1 :
-					MenuView2.putCart(userTel);
-					return;
-				case 9 :
-					return;
-				case 0 :
-					MenuView2.exit();
-				default:
-					System.out.println("메뉴를 잘못 선택하셨습니다.");
+			try {
+				System.out.println("\n" + "[ 1. 장바구니에 상품 담기  |  9. 뒤로 가기  |  0. 종료 ]");
+				System.out.print("▶ ");
+				int menu =Integer.parseInt(sc.nextLine());
+				switch(menu) {
+					case 1 :
+						MenuView2.putCart(userTel);
+						return;
+					case 9 :
+						return;
+					case 0 :
+						MenuView2.exit();
+					default:
+						System.out.println("메뉴를 잘못 선택하셨습니다.");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -153,27 +169,31 @@ public class MenuView2 {
      * */
 	public static void adminMenu(String userTel) {
 		while(true) {
-			System.out.println("\n" + "[ 관리자 메뉴 ]");
-			System.out.println("[ 1. 상품 관리  |  2. 회원 관리  |  3. 주문 관리  |  9. 로그아웃  |  0. 종료 ]");
-			System.out.print("▶ ");
-			int menu = Integer.parseInt(sc.nextLine());
-			switch(menu) {
-			case 1 :
-				MenuView2.prodManageMenu(userTel);
-				break;
-			case 2 :
-				MenuView2.usersManageMenu(userTel);
-				break;
-			case 3 :
-				MenuView2.ordersManageMenu(userTel);
-				break;
-			case 9 : 
-				MenuView2.logout(userTel);
-				return;
-			case 0 : 
-				MenuView2.exit();
-			default:
-				System.out.println("메뉴를 잘못 선택하셨습니다.");
+			try {
+				System.out.println("\n" + "[ 관리자 메뉴 ]");
+				System.out.println("[ 1. 상품 관리  |  2. 회원 관리  |  3. 주문 관리  |  9. 로그아웃  |  0. 종료 ]");
+				System.out.print("▶ ");
+				int menu = Integer.parseInt(sc.nextLine());
+				switch(menu) {
+				case 1 :
+					MenuView2.prodManageMenu(userTel);
+					break;
+				case 2 :
+					MenuView2.usersManageMenu(userTel);
+					break;
+				case 3 :
+					MenuView2.ordersManageMenu(userTel);
+					break;
+				case 9 : 
+					MenuView2.logout(userTel);
+					return;
+				case 0 : 
+					MenuView2.exit();
+				default:
+					System.out.println("메뉴를 잘못 선택하셨습니다.");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -183,28 +203,32 @@ public class MenuView2 {
 	 * */
 	public static void prodManageMenu(String userTel) {
 		while(true) {
-			System.out.println("\n" + "[ 1. 상품 조회  |  2. 상품 등록  |  3. 상품 수정  | 4. 상품 상태 변경  |  9. 뒤로 가기  |  0. 종료 ]");
-			System.out.print("▶ ");
-			int menu = Integer.parseInt(sc.nextLine());
-			switch(menu) {
-			case 1 :
-				ProductController.productSelectAll();
-				break;
-			case 2 :
-				MenuView2.productInsert();
-				break;
-			case 3 :
-				MenuView2.productUpdate();
-				break;
-			case 4 :
-				MenuView2.productStateUpdate();
-				break;
-			case 9 : 
-				return;
-			case 0 : 
-				MenuView2.exit();
-			default:
-				System.out.println("메뉴를 잘못 선택하셨습니다.");
+			try {
+				System.out.println("\n" + "[ 1. 상품 조회  |  2. 상품 등록  |  3. 상품 수정  | 4. 상품 상태 변경  |  9. 뒤로 가기  |  0. 종료 ]");
+				System.out.print("▶ ");
+				int menu = Integer.parseInt(sc.nextLine());
+				switch(menu) {
+				case 1 :
+					ProductController.productSelectAll();
+					break;
+				case 2 :
+					MenuView2.productInsert();
+					break;
+				case 3 :
+					MenuView2.productUpdate();
+					break;
+				case 4 :
+					MenuView2.productStateUpdate();
+					break;
+				case 9 : 
+					return;
+				case 0 : 
+					MenuView2.exit();
+				default:
+					System.out.println("메뉴를 잘못 선택하셨습니다.");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -214,22 +238,26 @@ public class MenuView2 {
 	 * */
 	public static void usersManageMenu(String userTel) {
 		while(true) {
-			System.out.println("\n" + "[ 1. 전체 회원 조회  |  2. 회원 정보 검색  |  9. 뒤로 가기  |  0. 종료 ]");
-			System.out.print("▶ ");
-			int menu = Integer.parseInt(sc.nextLine());
-			switch(menu) {
-			case 1 :
-				UsersController.userSelectAll();
-				break;
-			case 2 :
-				MenuView2.userSelectByUserTel();
-				break;
-			case 9 : 
-				return;
-			case 0 : 
-				MenuView2.exit();
-			default:
-				System.out.println("메뉴를 잘못 선택하셨습니다.");
+			try {
+				System.out.println("\n" + "[ 1. 전체 회원 조회  |  2. 회원 정보 검색  |  9. 뒤로 가기  |  0. 종료 ]");
+				System.out.print("▶ ");
+				int menu = Integer.parseInt(sc.nextLine());
+				switch(menu) {
+				case 1 :
+					UsersController.userSelectAll();
+					break;
+				case 2 :
+					MenuView2.userSelectByUserTel();
+					break;
+				case 9 : 
+					return;
+				case 0 : 
+					MenuView2.exit();
+				default:
+					System.out.println("메뉴를 잘못 선택하셨습니다.");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -239,10 +267,10 @@ public class MenuView2 {
 	 * */
 	public static void ordersManageMenu(String userTel) {
 		while(true) {
-			System.out.println("\n" + "[ 1. 현재 주문 조회  |  2. 주문 상태 변경  |  3. 일간 매출 통계  |  4. 제품별 판매 통계  |  9. 뒤로 가기  |  0. 종료 ]");
-			System.out.print("▶ ");
-			int menu = Integer.parseInt(sc.nextLine());
 			try {
+				System.out.println("\n" + "[ 1. 현재 주문 조회  |  2. 주문 상태 변경  |  3. 일간 매출 통계  |  4. 제품별 판매 통계  |  9. 뒤로 가기  |  0. 종료 ]");
+				System.out.print("▶ ");
+				int menu = Integer.parseInt(sc.nextLine());
 				switch(menu) {
 				case 1 :
 					OrdersController.selectOngoingOrder();
@@ -263,8 +291,8 @@ public class MenuView2 {
 				default:
 					System.out.println("메뉴를 잘못 선택하셨습니다.");
 				}
-			}catch (Exception e) {
-				//sys
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -274,28 +302,32 @@ public class MenuView2 {
      * */
 	public static void cartMenu(String userTel) {
 		while(true) {
-			System.out.println("\n" + "[ 1. 결제  |  2. 장바구니 조회  |  3. 장바구니 상품 삭제  |  4. 장바구니 전체 삭제  |  9. 뒤로 가기  |  0. 종료 ]");
-			System.out.print("▶ ");
-			int menu = Integer.parseInt(sc.nextLine());
-			switch(menu) {
-			case 1 :
-				MenuView2.orderInsert(userTel);
-				return;
-			case 2 :
-				CartController.viewCart(userTel);
-				break;
-			case 3 :
-				MenuView2.deleteCartByCode(userTel);
-				break;
-			case 4 :
-				CartController.deleteCartAll(userTel);
-				break;
-			case 9 : 
-				return;
-			case 0 :
-				MenuView2.exit();
-			default:
-				System.out.println("메뉴를 잘못 선택하셨습니다.");
+			try {
+				System.out.println("\n" + "[ 1. 결제  |  2. 장바구니 조회  |  3. 장바구니 상품 삭제  |  4. 장바구니 전체 삭제  |  9. 뒤로 가기  |  0. 종료 ]");
+				System.out.print("▶ ");
+				int menu = Integer.parseInt(sc.nextLine());
+				switch(menu) {
+				case 1 :
+					MenuView2.orderInsert(userTel);
+					return;
+				case 2 :
+					CartController.viewCart(userTel);
+					break;
+				case 3 :
+					MenuView2.deleteCartByCode(userTel);
+					break;
+				case 4 :
+					CartController.deleteCartAll(userTel);
+					break;
+				case 9 : 
+					return;
+				case 0 :
+					MenuView2.exit();
+				default:
+					System.out.println("메뉴를 잘못 선택하셨습니다.");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -305,7 +337,7 @@ public class MenuView2 {
 	/**
 	 * 로그인 메소드
 	 * */
-	public static void login() throws Exception {
+	public static void login(){
 		System.out.println("전화번호를 입력해주세요.");
 		System.out.print("▶ ");
 		String userTel = sc.nextLine();
@@ -514,20 +546,6 @@ public class MenuView2 {
 	}
 	
 	/**
-	 * 디저트 재고 수정 메소드
-	 * */
-	public static void dessertStockUpdate() {
-		System.out.println("디저트 재고량을 수정해주세요.");
-		 System.out.print("상품코드(D+숫자) ▶ ");
-		 String prodCode = sc.nextLine();
-		 
-		 System.out.print("재고량 ▶ ");
-		 int prodStock = Integer.parseInt(sc.nextLine());
-		 StockDTO stock = new StockDTO(prodCode, prodStock);
-		 ProductController.dessertStockUpdate(stock);
-	}
-	
-	/**
 	 * 회원 비밀번호 수정 메소드
 	 * */
 	public static void userPwdUpdate(String userTel) {
@@ -562,7 +580,7 @@ public class MenuView2 {
 		
 		UsersController.selectByUserTel(userTel);
 	}
-
+	
 	/**
 	 * 종료 메소드
 	 * */
@@ -570,5 +588,4 @@ public class MenuView2 {
 		System.out.println("다음에 또 이용해주세요.");
 		System.exit(0);
 	}
-
 }
