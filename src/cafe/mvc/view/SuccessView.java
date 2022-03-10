@@ -186,15 +186,23 @@ public class SuccessView {
 		
 	}
 
+	/**
+	 * 코드로 검색한 상품 출력
+	 * */
 	public static void printSelectProduct(ProductDTO productDTO) {
 		System.out.println(productDTO.getProdCode() + " | " + productDTO.getProdName());
 	}
 
+	/**
+	 * 메시지 출력
+	 * */
 	public static void printMessage(String message) {
 		System.out.println(message);
 	}
 
-
+	/**
+	 * 카테고리별 상품 출력
+	 * */
 	public static void printByCategory(List<ProductDTO> productList) {
 		for (ProductDTO product : productList) {
 			
@@ -206,15 +214,21 @@ public class SuccessView {
 		}
 	}
 	
+	/**
+	 * 전화번호로 검색한 회원 정보 출력
+	 * */
 	public static void printUsersInfo(UsersDTO users) {
 		System.out.println("\n" + "***** " + users.getUserName() + " 회원님의 정보를 조회합니다 *****");
 		System.out.println(users.getUserName() + " | " + users.getUserTel() + " | " + users.getUserPoint() + " | " + users.getRegDate());
 	}
 	
+	/**
+	 * 전체 회원 리스트 출력
+	 * */
 	public static void printUserSelectAll(List<UsersDTO> list) {
 		System.out.println("\n" + "***** 전체 회원 리스트를 조회합니다 *****");
 		for(UsersDTO users : list) {
-			System.out.println(users.getUserName() + " | " + users.getUserTel() + " | 적립금 : ");
+			System.out.print(users.getUserName() + " | " + users.getUserTel() + " | 적립금 : ");
 			System.out.printf("%,d", users.getUserPoint());
 			System.out.println(" | " + users.getRegDate());
 			

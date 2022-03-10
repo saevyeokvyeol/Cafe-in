@@ -31,7 +31,7 @@ public class ProductDAOImpl implements ProductDAO {
 			con = DbUtil.getConnection();
 			con.setAutoCommit(false);
 			ps = con.prepareStatement(sql);
-			ps.setString(1, "upper(product.getProdCode())");
+			ps.setString(1, product.getProdCode());
 			ps.setString(2, product.getProdCode().substring(0, 1));
 			ps.setString(3, product.getProdName());
 			ps.setInt(4, product.getProdPrice());
@@ -159,7 +159,6 @@ public class ProductDAOImpl implements ProductDAO {
 		return stock;
 	}
 
-
 	/**
 	 * 디저트의 재고가 0이면 상품상태 0(판매중지)만들기
 	 */
@@ -173,7 +172,7 @@ public class ProductDAOImpl implements ProductDAO {
 			ps.setString(1, prodCode);
 			result = ps.executeUpdate();
 		} finally {
-			DbUtil.close(con, ps);
+			DbUtil.close(null, ps);
 		}
 		return result;
 	}

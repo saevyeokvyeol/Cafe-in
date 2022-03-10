@@ -204,7 +204,7 @@ public class MenuView {
 	public static void prodManageMenu(String userTel) {
 		while(true) {
 			try {
-				System.out.println("\n" + "[ 1. 상품 조회  |  2. 상품 등록  |  3. 상품 수정  | 4. 상품 상태 변경  |  9. 뒤로 가기  |  0. 종료 ]");
+				System.out.println("\n" + "[ 1. 상품 조회  |  2. 상품 등록  |  3. 상품 수정  | 4. 상품 상태 변경  |  5. 상품 재고 변경  |  9. 뒤로 가기  |  0. 종료 ]");
 				System.out.print("▶ ");
 				int menu = Integer.parseInt(sc.nextLine());
 				switch(menu) {
@@ -219,6 +219,9 @@ public class MenuView {
 					break;
 				case 4 :
 					MenuView.productStateUpdate();
+					break;
+				case 5 :
+					MenuView.dessertStockUpdate();
 					break;
 				case 9 : 
 					return;
@@ -401,7 +404,7 @@ public class MenuView {
 	 * 장바구니 추가 메소드
 	 * */
 	public static void putCart(String userTel) throws Exception {
-		System.out.println("장바구니에 추가할 상품 코드를 입력해주세요");
+		System.out.println("장바구니에 추가할 상품 코드를 입력해주세요.");
 		System.out.print("▶ ");
 		String prodCode = sc.nextLine();
 		
@@ -522,18 +525,7 @@ public class MenuView {
 		 System.out.print("상품소개 ▶ ");
 		 String prodDetail = sc.nextLine();
 	
-		 //디저트재고량 수정
-		 char group = prodCode.charAt(0);
-		 if(group == 'D') { 
-			 System.out.print("디저트 재고량 ▶ ");
-			 int prodStock = Integer.parseInt(sc.nextLine());
-			 ProductDTO productDTO = new ProductDTO(prodCode, null, null, prodPrice, prodDetail, 0);
-			 StockDTO stockDTO = new StockDTO(prodCode, prodStock);
-			 productDTO.setStock(stockDTO);
-			 ProductController.dessertStockUpdate(stockDTO);
-		 } else {
-			 ProductController.productUpdate(new ProductDTO(prodCode, null, null, prodPrice, prodDetail, 0));
-		 }
+		 ProductController.productUpdate(new ProductDTO(prodCode, null, null, prodPrice, prodDetail, 0));
 	}
 	
 	/**
@@ -563,9 +555,10 @@ public class MenuView {
 			 StockDTO stockDTO = new StockDTO(prodCode, prodStock);
 			 productDTO.setStock(stockDTO);
 			 ProductController.dessertStockUpdate(stockDTO);
-			 }else
+		 } else {
 				 System.out.println("디저트의 상품코드는 ex)D01 형식입니다.");
 		         dessertStockUpdate();
+		 }
 	}
 	
 	/**
