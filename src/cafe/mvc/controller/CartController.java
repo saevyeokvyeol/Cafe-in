@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import cafe.mvc.exception.AddException;
+import cafe.mvc.exception.NotFoundException;
 import cafe.mvc.model.dto.OrderLineDTO;
 import cafe.mvc.model.dto.OrdersDTO;
 import cafe.mvc.model.dto.ProductDTO;
@@ -27,7 +28,9 @@ public class CartController {
 
 			ProductDTO product = productService.productSelectByProdCode(prodCode); // 상품 번호에 해당하는 상품 검색
 
-			
+			if(product.getProdState() != 1) {
+				throw new AddException("해당 상품은 현재 판매중이 아닙니다.");
+			}
 			if(qty <= 0) {
 				throw new AddException("상품 수량을 1개 이상 입력해주세요.");
 			}
@@ -79,13 +82,16 @@ public class CartController {
 			Map<ProductDTO, Integer> cart = (Map<ProductDTO, Integer>) session.getAttributes("cart");
 			
 			if(cart == null || cart.isEmpty()) { // 장바구니에 상품이 없을 경우
-				FailView.errorMessage("장바구니에 상품이 없습니다.");
+				throw new NotFoundException("장바구니에 상품이 없습니다.");
 			}
-
-			String userName = new UsersServiceImpl().selectByUserTel(userTel).getUserName();
-			SuccessView.printCart(userName, cart);
+			
+			if(!userTel.equals("guest")) {
+				String userName = new UsersServiceImpl().selectByUserTel(userTel).getUserName();
+				SuccessView.printCart(userName, cart);
+			} else {
+				SuccessView.printCart(userTel, cart);
+			}
 		} catch (Exception e) {
-			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
 		}
 	}

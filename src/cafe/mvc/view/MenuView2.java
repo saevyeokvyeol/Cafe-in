@@ -43,8 +43,7 @@ public class MenuView2 {
 				MenuView2.guestLogin();
 				break;
 			case 0 : 
-				System.out.println("다음에 또 이용해주세요.");
-				System.exit(0);
+				MenuView2.exit();
 			default:
 				System.out.println("메뉴를 잘못 선택하셨습니다.");
 			}
@@ -76,13 +75,11 @@ public class MenuView2 {
 					MenuView2.logout(userTel);
 					return;
 				case 0 :
-					System.out.println("다음에 또 이용해주세요.");
-					System.exit(0);
+					MenuView2.exit();
 				default:
 					System.out.println("메뉴를 잘못 선택하셨습니다.");
 			}
 		}
-		
 	}
 	
 	/**
@@ -119,8 +116,7 @@ public class MenuView2 {
 					}
 					return;
 				case 0 :
-					System.out.println("다음에 또 이용해주세요.");
-					System.exit(0);
+					MenuView2.exit();
 				default:
 					System.out.println("메뉴를 잘못 선택하셨습니다.");
 			}
@@ -142,8 +138,7 @@ public class MenuView2 {
 				case 9 :
 					return;
 				case 0 :
-					System.out.println("다음에 또 이용해주세요.");
-					System.exit(0);
+					MenuView2.exit();
 				default:
 					System.out.println("메뉴를 잘못 선택하셨습니다.");
 			}
@@ -173,8 +168,7 @@ public class MenuView2 {
 				MenuView2.logout(userTel);
 				return;
 			case 0 : 
-				System.out.println("다음에 또 이용해주세요.");
-				System.exit(0);
+				MenuView2.exit();
 			default:
 				System.out.println("메뉴를 잘못 선택하셨습니다.");
 			}
@@ -205,8 +199,7 @@ public class MenuView2 {
 			case 9 : 
 				return;
 			case 0 : 
-				System.out.println("다음에 또 이용해주세요.");
-				System.exit(0);
+				MenuView2.exit();
 			default:
 				System.out.println("메뉴를 잘못 선택하셨습니다.");
 			}
@@ -231,8 +224,7 @@ public class MenuView2 {
 			case 9 : 
 				return;
 			case 0 : 
-				System.out.println("다음에 또 이용해주세요.");
-				System.exit(0);
+				MenuView2.exit();
 			default:
 				System.out.println("메뉴를 잘못 선택하셨습니다.");
 			}
@@ -263,8 +255,7 @@ public class MenuView2 {
 			case 9 : 
 				return;
 			case 0 : 
-				System.out.println("다음에 또 이용해주세요.");
-				System.exit(0);
+				MenuView2.exit();
 			default:
 				System.out.println("메뉴를 잘못 선택하셨습니다.");
 			}
@@ -295,8 +286,7 @@ public class MenuView2 {
 			case 9 : 
 				return;
 			case 0 :
-				System.out.println("다음에 또 이용해주세요.");
-				System.exit(0);
+				MenuView2.exit();
 			default:
 				System.out.println("메뉴를 잘못 선택하셨습니다.");
 			}
@@ -554,5 +544,13 @@ public class MenuView2 {
 		String userTel = sc.nextLine();
 		
 		UsersController.selectByUserTel(userTel);
+	}
+	
+	/**
+	 * 종료 메소드
+	 * */
+	public static void exit() {
+		System.out.println("다음에 또 이용해주세요.");
+		System.exit(0);
 	}
 }
