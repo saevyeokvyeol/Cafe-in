@@ -103,12 +103,23 @@ public class ProductDAOImpl implements ProductDAO {
 		String sql = profile.getProperty("product.dessertStockUpdate");
 		try {
 			con = DbUtil.getConnection();
+			con.setAutoCommit(false);
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, stockDTO.getProdStock());
 			ps.setString(2, stockDTO.getProdCode());
 
 			result = ps.executeUpdate();
+			
+			if(stockDTO.getProdStock() == 0) {
+				int re = this.dessertSoldoutUpdate(con, stockDTO.getProdCode());
+				if(re == 0) {
+					throw new SQLException("상품을 품절 상태로 만들 수 없습니다.");
+				}
+			}
+			
+			con.commit();
 		} finally {
+			con.rollback();
 			DbUtil.close(con, ps);
 		}
 		return result;
@@ -143,8 +154,7 @@ public class ProductDAOImpl implements ProductDAO {
 	/**
 	 * 디저트의 재고가 0이면 상품상태 0(판매중지)만들기
 	 */
-	public int dessertsoldOutUpdate(String prodCode) throws SQLException {
-		Connection con = null;
+	public int dessertSoldoutUpdate(Connection con, String prodCode) throws SQLException {
 		PreparedStatement ps = null;
 		int result = 0;
 		String sql = profile.getProperty("product.soldout"); // stock 0 ->soldOut

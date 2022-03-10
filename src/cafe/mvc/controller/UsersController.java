@@ -7,7 +7,7 @@ import cafe.mvc.model.service.UsersService;
 import cafe.mvc.model.service.UsersServiceImpl;
 import cafe.mvc.view.FailView;
 import cafe.mvc.view.MenuView;
-import cafe.mvc.view.MenuView2;
+import cafe.mvc.view.MenuView;
 import cafe.mvc.view.SuccessView;
 
 
@@ -21,10 +21,10 @@ public class UsersController {
 		try {
 			UsersDTO users = usersService.login(userTel, userPwd);
 			if(users.getUserTel().equals("999-9999-9999")) {
-				MenuView2.adminMenu(users.getUserTel());
+				MenuView.adminMenu(users.getUserTel());
 			} else {
 				System.out.println("\n" + users.getUserName() + " 님, 방문해주셔서 감사합니다.");
-				MenuView2.userMenu(users.getUserTel());
+				MenuView.userMenu(users.getUserTel());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

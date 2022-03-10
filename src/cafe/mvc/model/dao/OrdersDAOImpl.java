@@ -231,6 +231,14 @@ public class OrdersDAOImpl implements OrdersDAO {
 			ps.setString(2, orderLineDTO.getProdCode());
 			
 			result = ps.executeUpdate();
+			
+			if(orderLineDTO.getQty() == 0) {
+				int re = new ProductDAOImpl().dessertSoldoutUpdate(con, prodCode);
+				if(re == 0) {
+					throw new SQLException("상품 재고에 문제가 발생해 주문이 완료되지 않았습니다.");
+				}
+			}
+			
 		} finally {
 			DbUtil.close(null, ps);
 		}
