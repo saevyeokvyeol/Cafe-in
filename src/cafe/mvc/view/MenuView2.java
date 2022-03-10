@@ -543,6 +543,25 @@ public class MenuView2 {
 	}
 	
 	/**
+	 * 디저트 재고 변경 메소드
+	 * */
+	public static void dessertStockUpdate() {
+		 System.out.println("디저트 재고 수량을 수정해주세요.");
+		 System.out.print("상품코드 (D+숫자)▶ ");
+		 String prodCode = sc.nextLine();
+		 if (prodCode.matches("^[D][0-9][0-9]*$")){
+			 System.out.print("디저트 재고 수량 ▶ ");
+			 int prodStock = Integer.parseInt(sc.nextLine());
+			 ProductDTO productDTO = new ProductDTO(prodCode, null, null, 0, null, prodStock);
+			 StockDTO stockDTO = new StockDTO(prodCode, prodStock);
+			 productDTO.setStock(stockDTO);
+			 ProductController.dessertStockUpdate(stockDTO);
+			 }else
+				 System.out.println("디저트의 상품코드는 ex)D01 형식입니다.");
+		         dessertStockUpdate();
+	}
+	
+	/**
 	 * 회원 비밀번호 수정 메소드
 	 * */
 	public static void userPwdUpdate(String userTel) throws Exception {
