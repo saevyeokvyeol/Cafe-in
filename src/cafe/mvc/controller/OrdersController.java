@@ -11,6 +11,7 @@ import cafe.mvc.model.service.OrdersServiceImpl;
 import cafe.mvc.model.service.UsersService;
 import cafe.mvc.model.service.UsersServiceImpl;
 import cafe.mvc.view.FailView;
+import cafe.mvc.view.MenuView2;
 import cafe.mvc.view.SuccessView;
 
 public class OrdersController {
@@ -19,13 +20,15 @@ public class OrdersController {
 	/**
 	 * 주문하기
 	 * */
-	public static void orderInsert(OrdersDTO ordersDTO) {
+	public static void orderInsert(OrdersDTO orders) {
 		try {
-			ordersService.orderInsert(ordersDTO);
+			ordersService.orderInsert(orders);
 			SuccessView.printMessage("주문이 완료되었습니다. 잠시만 기다려주세요.");
 		} catch (Exception e) {
 			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
+		} finally {
+			MenuView2.userMenu(orders.getUserTel());
 		}
 	}
 

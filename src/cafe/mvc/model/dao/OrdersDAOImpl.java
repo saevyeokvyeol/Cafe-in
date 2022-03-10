@@ -53,6 +53,10 @@ public class OrdersDAOImpl implements OrdersDAO {
 			int payPoint = orders.getPayPoint();
 			int totalPrice = this.getToTalPrice(con, orders);
 			
+			if(payPoint > totalPrice) {
+				throw new SQLException("적립금을 결제 금액 이상 사용할 수 없습니다.");
+			}
+			
 			ps = con.prepareStatement(sql);
 			
 			if(!userTel.equals("guest")) {
@@ -246,7 +250,7 @@ public class OrdersDAOImpl implements OrdersDAO {
 				throw new SQLException("상품 번호에 오류가 발생해 결제를 실패했습니다.");
 			}
 			
-			total = (orderline.getQty() * productDTO.getProdPrice());
+			total += (orderline.getQty() * productDTO.getProdPrice());
 		}
 		
 		return total;

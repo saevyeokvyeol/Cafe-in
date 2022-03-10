@@ -111,8 +111,10 @@ public class CartController {
 			if(cart == null || cart.isEmpty()) { // 장바구니에 상품이 없을 경우
 				FailView.errorMessage("장바구니에 상품이 없습니다.");
 			}
-					
-			Object deleteValue = cart.remove(prodCode);
+			
+			ProductDTO product = new ProductServiceImpl().productSelectByProdCode(prodCode);
+			
+			Object deleteValue = cart.remove(product);
 			if(deleteValue == null) {
 				FailView.errorMessage("장바구니에 " + prodCode + "상품이 없습니다.");
 			}
