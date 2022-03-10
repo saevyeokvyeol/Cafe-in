@@ -50,7 +50,7 @@ public class MenuView {
 					System.out.println("메뉴를 잘못 선택하셨습니다.");
 				}
 			} catch (Exception e) {
-				FailView.errorMessage("숫자만 입력해주세요.");
+				FailView.errorMessage(e.getMessage());
 
 			}
 		}
@@ -88,7 +88,7 @@ public class MenuView {
 						System.out.println("메뉴를 잘못 선택하셨습니다.");
 				}
 			} catch (Exception e) {
-				FailView.errorMessage("숫자만 입력해주세요.");
+				FailView.errorMessage(e.getMessage());
 			}
 		}
 	}
@@ -133,7 +133,7 @@ public class MenuView {
 						System.out.println("메뉴를 잘못 선택하셨습니다.");
 				}
 			} catch (Exception e) {
-				FailView.errorMessage("숫자만 입력해주세요.");
+				FailView.errorMessage(e.getMessage());
 			}
 		}
 	}
@@ -159,7 +159,7 @@ public class MenuView {
 						System.out.println("메뉴를 잘못 선택하셨습니다.");
 				}
 			} catch (Exception e) {
-				FailView.errorMessage("숫자만 입력해주세요.");
+				FailView.errorMessage(e.getMessage());
 			}
 		}
 	}
@@ -193,7 +193,7 @@ public class MenuView {
 					System.out.println("메뉴를 잘못 선택하셨습니다.");
 				}
 			} catch (Exception e) {
-				FailView.errorMessage("숫자만 입력해주세요.");
+				FailView.errorMessage(e.getMessage());
 			}
 		}
 	}
@@ -228,7 +228,7 @@ public class MenuView {
 					System.out.println("메뉴를 잘못 선택하셨습니다.");
 				}
 			} catch (Exception e) {
-				FailView.errorMessage("숫자만 입력해주세요.");
+				FailView.errorMessage(e.getMessage());
 			}
 		}
 	}
@@ -257,7 +257,7 @@ public class MenuView {
 					System.out.println("메뉴를 잘못 선택하셨습니다.");
 				}
 			} catch (Exception e) {
-				FailView.errorMessage("숫자만 입력해주세요.");
+				FailView.errorMessage(e.getMessage());
 			}
 		}
 	}
@@ -292,7 +292,7 @@ public class MenuView {
 					System.out.println("메뉴를 잘못 선택하셨습니다.");
 				}
 			} catch (Exception e) {
-				FailView.errorMessage("숫자만 입력해주세요.");
+				FailView.errorMessage(e.getMessage());
 			}
 		}
 	}
@@ -327,7 +327,7 @@ public class MenuView {
 					System.out.println("메뉴를 잘못 선택하셨습니다.");
 				}
 			} catch (Exception e) {
-				FailView.errorMessage("숫자만 입력해주세요.");
+				FailView.errorMessage(e.getMessage());
 			}
 		}
 	}
@@ -544,7 +544,7 @@ public class MenuView {
 		 System.out.print("상품코드 ▶ ");
 		 String prodCode = sc.nextLine();
 		 
-		 System.out.print("상품상태 ▶ ");
+		 System.out.print("상품상태(0,1,2) ▶ ");
 		 int prodState = Integer.parseInt(sc.nextLine());
 		 ProductController.productStateUpdate(prodCode, prodState);
 	}
@@ -588,7 +588,7 @@ public class MenuView {
 		System.out.println("▶ ");
 		int orderNum = Integer.parseInt(sc.nextLine());
 		
-		System.out.println("변경할 주문번호");
+		System.out.println("변경할 주문 상태");
 		System.out.println("[ 0 : 접수대기 | 1 : 주문접수 | 2 : 상품 준비중 | 3 : 상품 준비 완료 | 4 : 픽업완료 | 5 : 주문취소 ]");
 		System.out.print("▶ ");
 		int stateCode = Integer.parseInt(sc.nextLine());
@@ -610,7 +610,7 @@ public class MenuView {
 	 * 종료 메소드
 	 * */
 	public static void exit() {
-		System.out.println("\nCafe-In에 방문해주셔서 감사합니다.\n다음에 또 이용해주세요.");
+		System.out.println("다음에 또 이용해주세요.");
 		System.exit(0);
 	}
 }
