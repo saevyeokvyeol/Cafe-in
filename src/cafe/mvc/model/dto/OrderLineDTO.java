@@ -6,6 +6,8 @@ public class OrderLineDTO {
 		   private String prodCode;
 		   private int qty;
 		   private int priceQty;
+		   
+		   private ProductDTO product;
 
 		public OrderLineDTO() {}
 		  public OrderLineDTO(int orderLineCode, int orderNum, String prodCode, int qty, int priceQty) {
@@ -45,6 +47,12 @@ public class OrderLineDTO {
 		}
 		public void setPriceQty(int priceQty) {
 			this.priceQty = priceQty;
+		}
+		public ProductDTO getProduct() {
+			return product;
+		}
+		public void setProduct(ProductDTO product) {
+			this.product = product;
 		}
 		  
 }

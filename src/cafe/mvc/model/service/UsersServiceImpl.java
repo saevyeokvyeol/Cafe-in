@@ -94,11 +94,11 @@ public class UsersServiceImpl implements UsersService{
 	 * */
 	@Override
 	public UsersDTO selectByUserTel(String userTel) throws SQLException, NotFoundException {
-		UsersDTO usersDTO = usersDAO.selectByUserTel(userTel);
+		UsersDTO users = usersDAO.selectByUserTel(userTel);
 		
-		if(usersDTO == null) {
+		if(users == null) {
 			throw new NotFoundException("회원 정보를 찾을 수 없습니다.");
 		}
-		return usersDTO;
+		return users;
 	}
 }

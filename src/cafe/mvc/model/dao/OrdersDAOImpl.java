@@ -19,7 +19,7 @@ import cafe.mvc.util.DbUtil;
 public class OrdersDAOImpl implements OrdersDAO {
 	// DbUtil에서 proFile 가져오기
 	private Properties proFile = DbUtil.getProFile();
-	ProductDAO productDao = new ProductDAOImpl();
+	private ProductDAO productDao = new ProductDAOImpl();
 
 	/**
 	 * 주문하기
@@ -36,7 +36,7 @@ public class OrdersDAOImpl implements OrdersDAO {
 	 * 만약 재고가 모자라서 못 사면 몇 개 남았다고 알려주기
 	 * */
 	@Override
-	public int orderInsert(OrdersDTO ordersDTO) throws SQLException {
+	public int orderInsert(OrdersDTO orders) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		String sql = proFile.getProperty("order.orderInsert");
@@ -48,10 +48,10 @@ public class OrdersDAOImpl implements OrdersDAO {
 			con = DbUtil.getConnection();
 			con.setAutoCommit(false); // 자동 커밋 해제
 			
-			String userTel = ordersDTO.getUserTel();
-			String payMethod = ordersDTO.getPayMethod();
-			int payPoint = ordersDTO.getPayPoint();
-			int totalPrice = this.getToTalPrice(ordersDTO);
+			String userTel = orders.getUserTel();
+			String payMethod = orders.getPayMethod();
+			int payPoint = orders.getPayPoint();
+			int totalPrice = this.getToTalPrice(con, orders);
 			
 			ps = con.prepareStatement(sql);
 			
@@ -70,7 +70,7 @@ public class OrdersDAOImpl implements OrdersDAO {
 			}
 			ps.setInt(3, payPoint);
 			ps.setInt(4, totalPrice);
-			ps.setInt(5, ordersDTO.getTakeOut());
+			ps.setInt(5, orders.getTakeOut());
 			
 			result = ps.executeUpdate();
 			
@@ -107,7 +107,7 @@ public class OrdersDAOImpl implements OrdersDAO {
 			}
 			
 			 // orderLineInsert를 통해 주문 상세 insert 
-			int lineResult[] = orderLineInsert(con, ordersDTO);
+			int lineResult[] = orderLineInsert(con, orders);
 			for(int i : lineResult) {
 				if(i != 1) { // 결과 array에서 1행이 등록된 정상적인 결과가 아니라면
 					con.rollback();
@@ -115,7 +115,7 @@ public class OrdersDAOImpl implements OrdersDAO {
 				}
 			}
 			
-			for(OrderLineDTO orderLineDTO : ordersDTO.getOrderLineList()) {
+			for(OrderLineDTO orderLineDTO : orders.getOrderLineList()) {
 				if(orderLineDTO.getProdCode().substring(0, 1).equals("D")) {
 					int stockResult = decreaseStockUpdate(con, orderLineDTO);
 					if(stockResult == 0) {
@@ -213,9 +213,13 @@ public class OrdersDAOImpl implements OrdersDAO {
 		int result = 0;
 		
 		try {
-			ProductDTO productDTO = productDao.productSelectByProdCode(orderLineDTO.getProdCode());
-			if(productDTO.getProdCode().substring(0, 1).equals("D") && productDTO.getStock().getProdStock() < orderLineDTO.getQty()) {
-				throw new SQLException("재고량이 부족해 결제를 실패했습니다.");
+			ProductDTO product = productDao.productSelectByProdCode(orderLineDTO.getProdCode());
+			
+			String prodCode = product.getProdCode();
+			int prodStock = product.getStock().getProdStock();
+			
+			if(prodCode.substring(0, 1).equals("D") && prodStock < orderLineDTO.getQty()) {
+				throw new SQLException("재고량이 부족해 결제를 실패했습니다.\n" + prodCode + " 상품의 남은 수량은 " + prodStock +"개 입니다.");
 			}
 			
 			ps = con.prepareStatement(sql);
@@ -233,8 +237,8 @@ public class OrdersDAOImpl implements OrdersDAO {
 	/**
 	 * 상품 총 구매 금액 구하기
 	 * */
-	public int getToTalPrice(OrdersDTO ordersDTO) throws SQLException{
-		List<OrderLineDTO> orderLineList = ordersDTO.getOrderLineList();
+	public int getToTalPrice(Connection con, OrdersDTO orders) throws SQLException{
+		List<OrderLineDTO> orderLineList = orders.getOrderLineList();
 		int total = 0;
 		for(OrderLineDTO orderline : orderLineList) {
 			ProductDTO productDTO = productDao.productSelectByProdCode(orderline.getProdCode());
@@ -300,17 +304,18 @@ public class OrdersDAOImpl implements OrdersDAO {
 			ps= con.prepareStatement(sql);
 			ps.setString(1, UserTel);
 			rs = ps.executeQuery();
-			//selectByUserTelOrderLine(con,orders.getOrderNum());
 			
 			while(rs.next()) {
-				// int orderNum, String userTel, int stateCode, String payMethod, int payPoint, int totalPrice, String orderDate, int takeOut
-				OrdersDTO ordersDTO = new OrdersDTO( rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getString(7), rs.getInt(8) );
-				//orderList.add(orders);
-				/////////////////
-				List<OrderLineDTO> orderLineList = selectByUserTelOrderLine(con,ordersDTO.getOrderNum());
-				ordersDTO.setOrderLineList(orderLineList);
+				OrdersDTO orders = new OrdersDTO( rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getString(7), rs.getInt(8) );
+
+				List<OrderLineDTO> orderLineList = orderLineselectByOrderNum(con, orders.getOrderNum());
+				for(OrderLineDTO orderLine : orderLineList) {
+					ProductDTO product = productDao.productSelectByProdCode(orderLine.getProdCode());
+					orderLine.setProduct(product);
+				}
 				
-				orderList.add(ordersDTO);
+				orders.setOrderLineList(orderLineList);
+				orderList.add(orders);
 			}
 			
 		}finally {
@@ -323,7 +328,7 @@ public class OrdersDAOImpl implements OrdersDAO {
 	/**
 	 * 주문상세
 	 * */
-	public List<OrderLineDTO> selectByUserTelOrderLine(Connection con, int orderNum)throws SQLException{
+	public List<OrderLineDTO> orderLineselectByOrderNum(Connection con, int orderNum)throws SQLException{
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<OrderLineDTO> list = new ArrayList<OrderLineDTO>();
@@ -332,10 +337,9 @@ public class OrdersDAOImpl implements OrdersDAO {
 		
 
 		try {
-			con=DbUtil.getConnection();
 			ps= con.prepareStatement(sql);
 			ps.setInt(1, orderNum);
-			rs=ps.executeQuery();
+			rs = ps.executeQuery();
 			
 			while(rs.next()) {
 				OrderLineDTO orderLineDTO = new OrderLineDTO(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getInt(5));
@@ -369,9 +373,13 @@ public class OrdersDAOImpl implements OrdersDAO {
 
 				OrdersDTO orders = new OrdersDTO( rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getString(7), rs.getInt(8));
 
-				List<OrderLineDTO> orderLineList = selectByUserTelOrderLine(con, orders.getOrderNum());
-				orders.setOrderLineList(orderLineList);
+				List<OrderLineDTO> orderLineList = orderLineselectByOrderNum(con, orders.getOrderNum());
+				for(OrderLineDTO orderLine : orderLineList) {
+					ProductDTO product = productDao.productSelectByProdCode(orderLine.getProdCode());
+					orderLine.setProduct(product);
+				}
 				
+				orders.setOrderLineList(orderLineList);
 				list.add(orders);
 
 			}

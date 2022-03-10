@@ -43,12 +43,10 @@ public interface ProductService {
 	 * 전체상품 메뉴보기(커피/티/스무디/디저트 순서로 나옴)
 	 */
 	List<ProductDTO> productSelectAll() throws SQLException, NotFoundException;
-
-
+	
 	/**
-	 * 검색한 상품 메뉴보기
-	 */
+	 * 상품 코드로 상품 검색
+	 * */
 	ProductDTO productSelectByProdCode(String prodCode) throws SQLException, NotFoundException;
-
 
 }
