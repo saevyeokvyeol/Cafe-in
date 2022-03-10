@@ -130,7 +130,7 @@ public class OrdersDAOImpl implements OrdersDAO {
 			
 			con.commit(); // 모든 것이 정상적으로 완료되면 커밋
 		} finally {
-			con.commit(); // 중간에 끊겼다면 rollback한 상태로 커밋
+			con.rollback();
 			DbUtil.close(con, ps);
 		}
 		return result;

@@ -50,7 +50,7 @@ public class MenuView2 {
 					System.out.println("메뉴를 잘못 선택하셨습니다.");
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				FailView.errorMessage(e.getMessage());
 
 			}
 		}
@@ -88,7 +88,7 @@ public class MenuView2 {
 						System.out.println("메뉴를 잘못 선택하셨습니다.");
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				FailView.errorMessage(e.getMessage());
 			}
 		}
 	}
@@ -133,7 +133,7 @@ public class MenuView2 {
 						System.out.println("메뉴를 잘못 선택하셨습니다.");
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				FailView.errorMessage(e.getMessage());
 			}
 		}
 	}
@@ -159,7 +159,7 @@ public class MenuView2 {
 						System.out.println("메뉴를 잘못 선택하셨습니다.");
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				FailView.errorMessage(e.getMessage());
 			}
 		}
 	}
@@ -193,7 +193,7 @@ public class MenuView2 {
 					System.out.println("메뉴를 잘못 선택하셨습니다.");
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				FailView.errorMessage(e.getMessage());
 			}
 		}
 	}
@@ -228,7 +228,7 @@ public class MenuView2 {
 					System.out.println("메뉴를 잘못 선택하셨습니다.");
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				FailView.errorMessage(e.getMessage());
 			}
 		}
 	}
@@ -257,7 +257,7 @@ public class MenuView2 {
 					System.out.println("메뉴를 잘못 선택하셨습니다.");
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				FailView.errorMessage(e.getMessage());
 			}
 		}
 	}
@@ -292,7 +292,7 @@ public class MenuView2 {
 					System.out.println("메뉴를 잘못 선택하셨습니다.");
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				FailView.errorMessage(e.getMessage());
 			}
 		}
 	}
@@ -327,7 +327,7 @@ public class MenuView2 {
 					System.out.println("메뉴를 잘못 선택하셨습니다.");
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				FailView.errorMessage(e.getMessage());
 			}
 		}
 	}
@@ -430,6 +430,13 @@ public class MenuView2 {
 		SessionSet ss = SessionSet.getInstance();
 		Session session = ss.get(userTel);
 		
+		Map<ProductDTO, Integer> cart = (Map<ProductDTO, Integer>) session.getAttributes("cart");
+		
+		if(cart == null || cart.isEmpty()) {
+			System.out.println("장바구니에 담긴 상품이 없어 결제할 수 없습니다.");
+			return;
+		}
+		
 		int payPoint = 0;
 		
 		if(!userTel.equals(guestId)) {
@@ -450,7 +457,6 @@ public class MenuView2 {
 		int takeout = Integer.parseInt(sc.nextLine());
 		
 		List<OrderLineDTO> list = new ArrayList<OrderLineDTO>();
-		Map<ProductDTO, Integer> cart = (Map<ProductDTO, Integer>) session.getAttributes("cart");
 		
 		for(ProductDTO productDTO : cart.keySet()) {
 			list.add(new OrderLineDTO(0, 0, productDTO.getProdCode(), cart.get(productDTO), 0));
