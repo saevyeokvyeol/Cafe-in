@@ -52,6 +52,7 @@ public class OrdersDAOImpl implements OrdersDAO {
 			String payMethod = orders.getPayMethod();
 			int payPoint = orders.getPayPoint();
 			int totalPrice = this.getToTalPrice(con, orders);
+
 			
 			if(payPoint > totalPrice) {
 				throw new SQLException("적립금을 결제 금액 이상 사용할 수 없습니다.");
@@ -376,7 +377,7 @@ public class OrdersDAOImpl implements OrdersDAO {
 		ResultSet rs = null;
 		List<OrdersDTO> list = new ArrayList<>();
 		
-		String sql = "select*from orders where state_code not in(4,5)";
+		String sql = proFile.getProperty("order.selectOnoingOrder");
 		
 		try {
 			con = DbUtil.getConnection();

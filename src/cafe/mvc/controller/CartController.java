@@ -152,7 +152,7 @@ public class CartController {
 			}
 			
 			cart.clear();
-			SuccessView.printMessage("장바구니에 담긴 상품을 모두 삭제했습니다.");
+			
 		} catch (Exception e) {
 			FailView.errorMessage(e.getMessage());
 		}

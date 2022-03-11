@@ -23,6 +23,7 @@ public class OrdersController {
 	public static void orderInsert(OrdersDTO orders) {
 		try {
 			ordersService.orderInsert(orders);
+			CartController.deleteCartAll(orders.getUserTel());
 			SuccessView.printMessage("주문이 완료되었습니다. 잠시만 기다려주세요.");
 		} catch (Exception e) {
 			FailView.errorMessage(e.getMessage());

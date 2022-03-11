@@ -321,6 +321,7 @@ public class MenuView {
 					break;
 				case 4 :
 					CartController.deleteCartAll(userTel);
+					SuccessView.printMessage("장바구니에 담긴 상품을 모두 삭제했습니다.");
 					break;
 				case 9 : 
 					return;
